@@ -1,0 +1,53 @@
+{
+  "name": "vscode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/extension.js",
+  "scripts": {
+    "esbuild:base": "node scripts/esbuild.js",
+    "esbuild:watch": "pnpm run esbuild:base --sourcemap --watch"
+  },
+  "keywords": [
+    "AI",
+    "AI-Code"
+  ],
+  "author": "Swell",
+  "publisher": "Swell",
+  "license": "ISC",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codeAid",
+          "title": "CodeAid",
+          "icon": "media/codeAidSingleLogo.svg"
+        }
+      ]
+    },
+    "views": {
+      "codeAid": [
+        {
+          "type": "webview",
+          "id": "codeAid.codeAidGUIView",
+          "name": "",
+          "visibility": "visible"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.4.1",
+    "chalk": "^4.1.2",
+    "esbuild": "^0.23.1",
+    "eslint": "^9.9.0",
+    "lodash": "^4.17.21",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "vscode": ">=1.92.0",
+    "node": ">=20.11.0"
+  },
+  "dependencies": {
+    "@types/vscode": "^1.92.0"
+  }
+}

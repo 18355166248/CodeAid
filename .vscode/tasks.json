@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // Compile and bundle the extension
+    {
+      "label": "vscode-extension:build",
+      "dependsOn": ["vscode-extension:esbuild"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "vscode-extension:esbuild",
+      "type": "npm",
+      "script": "esbuild:watch",
+      "path": "extensions/vscode",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".",
+            "endsPattern": "."
+          }
+        }
+      ]
+    }
+  ]
+}
