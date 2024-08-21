@@ -1,3 +1,3 @@
 interface Window {
-  localUrl?: string;
+  vscMediaUrl?: string;
 }

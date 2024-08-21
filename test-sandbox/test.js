@@ -5,9 +5,9 @@ class calculator {
 
   add(number) {
     this.result += number;
-    return this;1
+    return this;
   }
-1
+
   subtract(number) {
     this.result -= number;
     return this;

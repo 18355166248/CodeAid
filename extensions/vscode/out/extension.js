@@ -79,7 +79,8 @@ var init_CodeAidGUIWebviewViewProvider = __esm({
         const extensionUri = getExtensionUri();
         const nonce = getNonce();
         const isInDevelopmentMode = context?.extensionMode === import_vscode2.default.ExtensionMode.Development;
-        const localUrl = isInDevelopmentMode ? "http://localhost:5173" : void 0;
+        const localUrl = isInDevelopmentMode ? "http://localhost:5173" : "";
+        const vscMediaUrl = isInDevelopmentMode ? "http://localhost:5173" : panel.webview.asWebviewUri(import_vscode2.default.Uri.joinPath(extensionUri, "gui")).toString();
         let scriptUri;
         let styleMainUri;
         if (isInDevelopmentMode) {
@@ -130,7 +131,7 @@ var init_CodeAidGUIWebviewViewProvider = __esm({
       <body>
         <div id="root"></div>
         <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
-        <script>window.localUrl = "${localUrl}"</script>
+        <script>window.vscMediaUrl = "${vscMediaUrl}"</script>
       </body>
     </html>
     `;

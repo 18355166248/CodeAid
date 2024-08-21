@@ -7,27 +7,27 @@ function App() {
   return (
     <>
       <div>
-        {window.localUrl ? (
-          <>
-            <a href="https://vitejs.dev" target="_blank">
+        {window.vscMediaUrl ? (
+          <div className="flex justify-around">
+            <a href="https://www.ximalaya.com" target="_blank">
               <img
-                src={`${window.localUrl}/img/vite.svg`}
+                src={`${window.vscMediaUrl}/img/vite.svg`}
                 className="logo"
                 alt="Vite logo"
               />
             </a>
-            <a href="https://vitejs.dev" target="_blank">
+            <a href="https://www.ximalaya.com" target="_blank">
               <img
-                src={`${window.localUrl}/img/react.svg`}
+                src={`${window.vscMediaUrl}/img/react.svg`}
                 className="logo"
                 alt="Vite logo"
               />
             </a>
-          </>
+          </div>
         ) : null}
       </div>
       <h1>Vite + React</h1>
-      <div className="card font-light">
+      <div className="card text-yellow-500">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>

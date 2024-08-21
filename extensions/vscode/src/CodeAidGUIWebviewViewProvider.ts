@@ -28,7 +28,13 @@ export class CodeAidGUIWebviewViewProvider
     const isInDevelopmentMode =
       context?.extensionMode === vscode.ExtensionMode.Development;
 
-    const localUrl = isInDevelopmentMode ? "http://localhost:5173" : undefined;
+    const localUrl = isInDevelopmentMode ? "http://localhost:5173" : "";
+    // 本地联动需要使用本地端口，否则无法访问
+    const vscMediaUrl = isInDevelopmentMode
+      ? "http://localhost:5173"
+      : panel.webview
+          .asWebviewUri(vscode.Uri.joinPath(extensionUri, "gui"))
+          .toString();
 
     let scriptUri: string;
     let styleMainUri: string;
@@ -94,7 +100,7 @@ export class CodeAidGUIWebviewViewProvider
       <body>
         <div id="root"></div>
         <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
-        <script>window.localUrl = "${localUrl}"</script>
+        <script>window.vscMediaUrl = "${vscMediaUrl}"</script>
       </body>
     </html>
     `;
