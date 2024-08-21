@@ -28,11 +28,13 @@ export class CodeAidGUIWebviewViewProvider
     const isInDevelopmentMode =
       context?.extensionMode === vscode.ExtensionMode.Development;
 
+    const localUrl = isInDevelopmentMode ? "http://localhost:5173" : undefined;
+
     let scriptUri: string;
     let styleMainUri: string;
     if (isInDevelopmentMode) {
-      scriptUri = "http://localhost:5173/src/main.tsx";
-      styleMainUri = "http://localhost:5173/src/index.css";
+      scriptUri = `${localUrl}/src/main.tsx`;
+      styleMainUri = `${localUrl}/src/index.css`;
     } else {
       scriptUri = panel.webview
         .asWebviewUri(vscode.Uri.joinPath(extensionUri, "gui/assets/index.js"))
@@ -42,17 +44,34 @@ export class CodeAidGUIWebviewViewProvider
         .toString();
     }
 
+    panel.webview.options = {
+      // 允许在Webview中运行JavaScript代码。
+      enableScripts: true,
+      // 这个选项设置了Webview可以访问的本地资源根目录，从而限制Webview可以加载的本地文件
+      localResourceRoots: [vscode.Uri.joinPath(extensionUri, "gui")],
+      // 这个选项允许使用VS Code命令URI，例如vscode://my.extension/someCommand，从而能够在Webview内容中调用VS Code命令。
+      enableCommandUris: true,
+      // 这个选项用于定义Webview与VS Code扩展宿主之间的端口映射关系。
+      portMapping: [
+        {
+          webviewPort: 65433,
+          extensionHostPort: 65433,
+        },
+      ],
+    };
+
     return `
     <!DOCTYPE html>
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CodeAid</title>
+        <link href="${styleMainUri}" rel="stylesheet">
 
         ${
           isInDevelopmentMode
             ? `  <script type="module">
-          import RefreshRuntime from "/@react-refresh"
+          import RefreshRuntime from "${localUrl}/@react-refresh"
           RefreshRuntime.injectIntoGlobalHook(window)
           window.$RefreshReg$ = () => {}
           window.$RefreshSig$ = () => (type) => type
@@ -61,12 +80,21 @@ export class CodeAidGUIWebviewViewProvider
             : ""
         }
 
-        <script type="module" src="/@vite/client"></script>
+        ${
+          isInDevelopmentMode
+            ? `
+              <script type="module" src="${localUrl}/@vite/client"></script>
+              `
+            : ""
+        }
+
+
       </head>
 
       <body>
         <div id="root"></div>
-            <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
+        <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
+        <script>window.localUrl = "${localUrl}"</script>
       </body>
     </html>
     `;

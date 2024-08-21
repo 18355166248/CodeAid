@@ -4,7 +4,7 @@
     // Compile and bundle the extension
     {
       "label": "vscode-extension:build",
-      "dependsOn": ["vscode-extension:esbuild"],
+      "dependsOn": ["vscode-extension:esbuild", "gui:dev"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -15,6 +15,35 @@
       "type": "npm",
       "script": "esbuild:watch",
       "path": "extensions/vscode",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "> (.*?):([0-9]+):([0-9]+): (warning|error): (.+)$",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+              "severity": 4,
+              "message": 5
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ">",
+            "endsPattern": ">"
+          }
+        }
+      ]
+    },
+    {
+      "label": "gui:dev",
+      "type": "shell",
+      "command": "npm",
+      "options": {
+        "cwd": "${workspaceFolder}/gui"
+      },
+      "args": ["run", "dev"],
       "isBackground": true,
       "problemMatcher": [
         {
