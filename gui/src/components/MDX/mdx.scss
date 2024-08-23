@@ -1,0 +1,144 @@
+/* --- code --- */
+.markdown-body ul.contains-task-list {
+  padding-left: 0;
+}
+
+.markdown-body ul.contains-task-list li.task-list-item {
+  list-style-type: none;
+}
+.code__tools {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+.markdown-body .code__tools + code {
+  padding-top: 0;
+}
+
+.code__circle {
+  display: inline-block;
+  align-items: center;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  padding: 1px;
+  border-radius: 50%;
+}
+
+.qrcode-block {
+  border: 1px solid #efefef;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.qrcode-block img {
+  display: block;
+}
+.qrcode-box {
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  color: #718096;
+}
+
+.qrcode-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  word-break: break-all;
+  font-size: 14px;
+  font-weight: 600;
+  width: calc(100% - 96px);
+  color: #718096;
+}
+
+.qrcode-url {
+  font-weight: normal;
+  font-family: ptima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+    "PingFang SC", Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.qrcode-block .qrcode-img img {
+  border: 0;
+}
+.qrcode-img {
+  width: 90px;
+  height: 90px;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+.markdown-body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei",
+    Arial, sans-serif;
+}
+
+/*表格*/
+.markdown-body table {
+  display: table;
+  text-align: left;
+  width: auto;
+}
+
+/* 表格最小列宽4个汉字 */
+.markdown-body table tr th:nth-of-type(n),
+.markdown-body table tr td:nth-of-type(n) {
+  min-width: 85px;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid #ccc;
+}
+.markdown-body figcaption {
+  text-align: center;
+  font-size: 14px;
+}
+
+.markdown-body .footnote-ref {
+  font-size: 75%;
+  vertical-align: 4px;
+  padding-left: 4px;
+  font-weight: bold;
+}
+
+.markdown-body .footnote-item {
+  display: flex;
+  font-size: 14px;
+}
+
+.markdown-body .footnote-num {
+  display: inline;
+  width: 10%; /*神奇，50px就不可以*/
+  background: none;
+  font-size: 80%;
+  opacity: 0.6;
+  line-height: 26px;
+  font-family: ptima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+    "PingFang SC", Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.markdown-body .footnote-item .footnote-content {
+  display: inline;
+  font-size: 14px;
+  width: 90%;
+  padding: 0px;
+  margin: 0;
+  line-height: 26px;
+  word-break: break-all;
+}
+
+.markdown-body code {
+  max-width: unset !important;
+}
+
+.markdown-body pre[class*="language-"] {
+  padding: 0;
+  border: none;
+}
+pre {
+  overflow-x: auto;
+}
+
+.markdown-body .katex-html {
+  visibility: hidden;
+}

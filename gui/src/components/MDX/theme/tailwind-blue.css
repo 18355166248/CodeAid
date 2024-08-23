@@ -1,0 +1,271 @@
+/*默认样式，最佳实践*/
+
+/*全局属性*/
+.markdown-body {
+  color: rgb(30 41 59);
+  line-height: 1.6;
+  word-spacing: 0px;
+  letter-spacing: 0px;
+  word-break: break-word;
+  word-wrap: break-word;
+  text-align: left;
+  font-size: 16px;
+}
+
+/*段落*/
+.markdown-body p {
+  font-size: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 26px;
+  color: rgb(30 41 59);
+}
+
+/*标题*/
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  padding: 0px;
+  font-weight: bold;
+  color: rgb(17 24 39);
+}
+.markdown-body h1 {
+  font-size: 24px;
+}
+.markdown-body h2 {
+  font-size: 22px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgb(236 236 236 / 50%);
+}
+.markdown-body h3 {
+  font-size: 20px;
+}
+.markdown-body h4 {
+  font-size: 18px;
+}
+.markdown-body h5 {
+  font-size: 16px;
+}
+.markdown-body h6 {
+  font-size: 16px;
+}
+
+/*列表*/
+.markdown-body ul,
+.markdown-body ol {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-left: 25px;
+  color: rgb(30 41 59);
+}
+.markdown-body ul {
+  list-style-type: disc;
+}
+.markdown-body ul ul {
+  list-style-type: square;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body li section {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  line-height: 26px;
+  text-align: left;
+  color: rgb(30 41 59);
+  font-weight: 500;
+}
+
+/*引用*/
+.markdown-body blockquote {
+  background-color: rgb(15 164 233 / 8%);
+  border-left-width: 4px;
+  border-left-color: #0fa4e9;
+  border-left-style: solid;
+  quotes: "\201C" "\201D" "\2018" "\2019";
+  margin: 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 8px 8px 8px 12px;
+}
+
+.markdown-body blockquote h2,
+.markdown-body blockquote h3,
+.markdown-body blockquote h4,
+.markdown-body blockquote strong {
+  color: rgb(30 41 59);
+}
+.markdown-body blockquote p {
+  margin: 0px;
+  color: rgb(30 41 59);
+  line-height: 26px;
+}
+
+/*链接*/
+.markdown-body a,
+.markdown-body .link {
+  padding: 2px 4px;
+  text-decoration: none;
+  color: rgb(14 165 233);
+  word-wrap: break-word;
+  font-weight: 600;
+  border-bottom: 1px solid rgb(14 165 233);
+}
+
+/*加粗*/
+.markdown-body strong {
+  font-weight: bold;
+  color: rgb(17 24 39);
+}
+
+/*斜体*/
+.markdown-body em {
+  font-style: italic;
+  color: rgb(17 24 39);
+}
+
+/*加粗斜体*/
+.markdown-body em strong {
+  font-weight: bold;
+  color: rgb(17 24 39);
+}
+
+/*删除线*/
+.markdown-body del {
+  font-style: italic;
+  color: rgb(30 41 59);
+}
+
+/*分隔线*/
+.markdown-body hr {
+  height: 1px;
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-top: 1px solid rgb(236 236 236 / 50%);
+}
+
+/*行内代码*/
+.markdown-body p code,
+.markdown-body li code {
+  font-size: 14px;
+  word-break: break-word;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 0 2px;
+  color: rgb(14 165 233);
+  background-color: rgb(15 164 233 / 8%);
+  font-family:
+    Operator Mono,
+    Consolas,
+    Monaco,
+    Menlo,
+    monospace;
+}
+
+.markdown-body pre {
+  font-family:
+    Operator Mono,
+    Consolas,
+    Monaco,
+    Menlo,
+    monospace;
+  overflow: auto;
+  position: relative;
+  line-height: 1.75;
+}
+
+.markdown-body pre > code {
+  min-width: 100%;
+  font-size: 12px;
+  word-break: normal;
+  display: block;
+  flex: none;
+  padding: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/*图片*/
+.markdown-body img {
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px;
+}
+.qrcode-block img {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/*图片*/
+.markdown-body figure {
+  margin: 0;
+  padding: 0 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*图片描述文字*/
+.markdown-body figcaption {
+  margin-top: 5px;
+  text-align: center;
+  color: rgb(100, 116, 139);
+  font-size: 14px;
+}
+
+/*表格*/
+.markdown-body table {
+  width: auto;
+  table-layout: auto;
+  text-align: left;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-spacing: 0;
+  border: 1px solid rgb(236 236 236 / 50%);
+  border-collapse: collapse;
+}
+.markdown-body head {
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(236 236 236 / 50%);
+  color: #334155;
+}
+
+.markdown-body table tr {
+  border: 0;
+}
+
+.markdown-body table tr th,
+.markdown-body table tr td {
+  border: 0;
+  border-bottom: 1px solid rgb(236 236 236 / 50%);
+  font-size: 16px;
+  padding: 10px;
+  text-align: left;
+}
+
+.markdown-body table tr th {
+  color: rgb(17 24 39);
+  font-weight: bold;
+}
+
+.markdown-body sub,
+sup {
+  line-height: 0;
+}
+
+.markdown-body .contains-task-list {
+  padding-left: 0;
+}
+.markdown-body .task-list-item {
+  list-style: none;
+}
