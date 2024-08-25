@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
     "antd": "^5.20.2",
+    "axios": "^1.7.5",
     "classnames": "^2.5.1",
     "lodash-es": "^4.17.21",
     "prism-themes": "^1.9.0",
@@ -25,7 +26,8 @@
     "remark-directive": "^3.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

@@ -7,7 +7,7 @@ import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
 import { defaultComponents } from "./DefaultComponents";
 import "prism-themes/themes/prism-xonokai.min.css";
-import "./theme/tailwind-blue.dark.css";
+import "./theme/tailwind-blue.css";
 
 const MarkdownRenderer = (props: Options) => {
   return (
@@ -22,27 +22,6 @@ const MarkdownRenderer = (props: Options) => {
       ]}
       components={defaultComponents}
       {...props}
-      // components={{
-      //   code({ className, children, ...props }) {
-      //     console.log("🚀 ~ code ~ className:", className);
-      //     const match = /language-(\w+)/.exec(className || "");
-      //     return match ? (
-      //       <SyntaxHighlighter
-      //         language={match[1]}
-      //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //         // @ts-expect-error
-      //         style={darcula}
-      //         {...props}
-      //       >
-      //         {String(children).replace(/\n$/, "")}
-      //       </SyntaxHighlighter>
-      //     ) : (
-      //       <code className={className} {...props}>
-      //         {children}
-      //       </code>
-      //     );
-      //   },
-      // }}
     ></ReactMarkdown>
   );
 };
