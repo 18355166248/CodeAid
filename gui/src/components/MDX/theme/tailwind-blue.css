@@ -2,6 +2,9 @@
 
 /*全局属性*/
 .markdown-body {
+  --base-font-size: 16px; /* 基础字体大小 */
+  --scale-factor: 0.875; /* 缩放因子，默认为1 */
+
   color: rgb(30 41 59);
   line-height: 1.6;
   word-spacing: 0px;
@@ -9,12 +12,12 @@
   word-break: break-word;
   word-wrap: break-word;
   text-align: left;
-  font-size: 16px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor));
 }
 
 /*段落*/
 .markdown-body p {
-  font-size: 16px;
+  font-size: var(--base-font-size) * var(--scale-factor);
   margin-top: 16px;
   margin-bottom: 16px;
   line-height: 26px;
@@ -35,24 +38,24 @@
   color: rgb(17 24 39);
 }
 .markdown-body h1 {
-  font-size: 24px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 1.5);
 }
 .markdown-body h2 {
-  font-size: 22px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 1.375);
   padding-bottom: 4px;
   border-bottom: 1px solid rgb(236 236 236 / 50%);
 }
 .markdown-body h3 {
-  font-size: 20px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 1.25);
 }
 .markdown-body h4 {
-  font-size: 18px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 1.125);
 }
 .markdown-body h5 {
-  font-size: 16px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor));
 }
 .markdown-body h6 {
-  font-size: 16px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 0.875);
 }
 
 /*列表*/
@@ -89,7 +92,7 @@
   border-left-width: 4px;
   border-left-color: #0fa4e9;
   border-left-style: solid;
-  quotes: "\201C" "\201D" "\2018" "\2019";
+  quotes: "\201C""\201D""\2018""\2019";
   margin: 0;
   margin-top: 16px;
   margin-bottom: 16px;
@@ -156,28 +159,18 @@
 /*行内代码*/
 .markdown-body p code,
 .markdown-body li code {
-  font-size: 14px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 0.875);
   word-break: break-word;
   padding: 2px 4px;
   border-radius: 4px;
   margin: 0 2px;
   color: rgb(14 165 233);
   background-color: rgb(15 164 233 / 8%);
-  font-family:
-    Operator Mono,
-    Consolas,
-    Monaco,
-    Menlo,
-    monospace;
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
 }
 
 .markdown-body pre {
-  font-family:
-    Operator Mono,
-    Consolas,
-    Monaco,
-    Menlo,
-    monospace;
+  font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
   overflow: auto;
   position: relative;
   line-height: 1.75;
@@ -185,7 +178,7 @@
 
 .markdown-body pre > code {
   min-width: 100%;
-  font-size: 12px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor) * 0.75);
   word-break: normal;
   display: block;
   flex: none;
@@ -218,7 +211,7 @@
   margin-top: 5px;
   text-align: center;
   color: rgb(100, 116, 139);
-  font-size: 14px;
+  font-size: calc(var(--base-font-size) * 0.875);
 }
 
 /*表格*/
@@ -248,7 +241,7 @@
 .markdown-body table tr td {
   border: 0;
   border-bottom: 1px solid rgb(236 236 236 / 50%);
-  font-size: 16px;
+  font-size: calc(var(--base-font-size) * var(--scale-factor));
   padding: 10px;
   text-align: left;
 }

@@ -1,30 +1,32 @@
-import { Input } from "antd";
+import { Button, Input } from "antd";
 import "./index.scss";
 import { useChatStore } from "../../index.store";
 import classNames from "classnames";
-import { chatGenerate } from "../../../../services/chat";
-import { ChatStreamResponse } from "../../../../services/types";
+import { chatServices, ChatServiceKey } from "../../../../services/chat";
+import { KeyboardEvent } from "react";
+import { ChatModelsEnum } from "../../../../constant/chat.const";
+import { chatResponseFormatUtilList } from "../../utils/chat.utils";
+import { abort } from "process";
 
 const Footer = () => {
-  const { model, inputValue, messages, setState, requestIng } = useChatStore();
+  const { model, inputValue, messages, setState, requestIng, abort } =
+    useChatStore();
 
   function sendMessage() {
     if (requestIng) return;
 
     const value = inputValue.replace(/^\s+|\n+$/g, "");
+
+    setState((state) => {
+      state.inputValue = "";
+    });
+
     if (!value) {
-      setState((state) => {
-        state.inputValue = "";
-      });
       return;
     }
     const msgs = messages.concat([
       { role: "user", content: value, show: true, isUser: true },
-      {
-        role: "user",
-        content: "",
-        show: true,
-      },
+      { role: "user", content: "", show: true },
     ]);
 
     setState((state) => {
@@ -32,10 +34,17 @@ const Footer = () => {
       state.requestIng = true;
     });
 
-    chatGenerate({
+    const methodName = ChatModelsEnum[model].serviceMethod as ChatServiceKey;
+    const methodType = ChatModelsEnum[model].type;
+    const chatMethod = chatServices[methodName];
+
+    chatMethod({
       model,
       messages: msgs,
-    }).then(async (res) => {
+    }).then(async ({ res, abort }) => {
+      setState((state) => {
+        state.abort = abort;
+      });
       const reader = res?.body?.getReader();
       while (reader) {
         const { done, value } = await reader.read();
@@ -43,27 +52,44 @@ const Footer = () => {
         const v = decoder.decode(value, {
           stream: true,
         });
-        const parseV = JSON.parse(v) as ChatStreamResponse;
+
+        if (done || !v) {
+          reset();
+          break;
+        }
+
+        const { str } = chatResponseFormatUtilList[methodType](v);
         setState((state) => {
           const messageCopy = state.messages;
-          messageCopy[messageCopy.length - 1].content += parseV.message.content;
+          messageCopy[messageCopy.length - 1].content += str;
 
           state.messages = messageCopy;
         });
-
-        if (done) {
-          setState((state) => {
-            state.requestIng = false;
-          });
-          break;
-        }
       }
     });
   }
 
+  function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
+    // 在按下回车键且没有按下shift键的情况下，阻止默认行为 不要换行
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // 阻止默认的回车换行行为
+    }
+  }
+  function handlerAbort() {
+    abort?.();
+    reset();
+  }
+
+  function reset() {
+    setState((state) => {
+      state.requestIng = false;
+      state.abort = null;
+    });
+  }
+
   return (
-    <div className="w-full footer fixed bottom-6 left-0 flex justify-center px-6">
-      <div className="content bg-white rounded-lg overflow-hidden p-4">
+    <div className="w-full footer fixed bottom-0 left-0 flex justify-center px-6 backdrop-blur-sm">
+      <div className="content bg-white rounded-lg overflow-hidden px-4 pt-4 pb-2 my-4 ">
         <Input.TextArea
           value={inputValue}
           onChange={(e) => {
@@ -76,6 +102,7 @@ const Footer = () => {
           placeholder="请输入聊天内容"
           autoSize={{ minRows: 1, maxRows: 4 }}
           onPressEnter={sendMessage}
+          onKeyDown={handleKeyDown}
         />
         <div className="flex justify-between">
           <span></span>
@@ -96,6 +123,13 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {abort ? (
+        <div className="abort absolute -top-10 flex justify-center">
+          <Button onClick={handlerAbort} danger>
+            停止生成
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 };

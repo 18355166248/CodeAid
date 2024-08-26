@@ -16,6 +16,7 @@ type State = {
   inputValue: string;
   messages: MessageItem[];
   chatList: unknown[];
+  abort: (() => void) | null; // 停止生成
 };
 
 type Action = {
@@ -26,7 +27,7 @@ type Action = {
 
 export const initialState: State = {
   requestIng: false,
-  model: "llama3.1:latest",
+  model: "llama3.1:latest", // azure_openai_gpt_4o llama3.1:latest
   inputValue: "",
   messages: [
     {
@@ -36,6 +37,7 @@ export const initialState: State = {
     },
   ],
   chatList: [],
+  abort: null,
 };
 
 export const useChatStore = create<State & Action>()(

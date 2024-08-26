@@ -12,7 +12,7 @@ import "./theme/tailwind-blue.css";
 const MarkdownRenderer = (props: Options) => {
   return (
     <ReactMarkdown
-      className="markdown-body px-4"
+      className="markdown-body px-4 my-4"
       rehypePlugins={[rehypeKatex, rehypePrism]}
       remarkPlugins={[
         remarkGfm,
