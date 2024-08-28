@@ -111,6 +111,7 @@ var init_CodeAidGUIWebviewViewProvider = __esm({
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CodeAid</title>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4663234_rbzc0ccc1de.css">
         <link href="${styleMainUri}" rel="stylesheet">
 
         ${isInDevelopmentMode ? `  <script type="module">

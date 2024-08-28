@@ -6,7 +6,6 @@ import { chatServices, ChatServiceKey } from "../../../../services/chat";
 import { KeyboardEvent } from "react";
 import { ChatModelsEnum } from "../../../../constant/chat.const";
 import { chatResponseFormatUtilList } from "../../utils/chat.utils";
-import { abort } from "process";
 
 const Footer = () => {
   const { model, inputValue, messages, setState, requestIng, abort } =

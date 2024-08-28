@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createMemoryRouter } from "react-router-dom";
 import Root from "./Root";
 import { lazy } from "react";
 
@@ -16,7 +16,7 @@ const Chat = lazy(
   () => import(/* webpackChunkName: "BusinessManage" */ "./Chat"),
 );
 
-export const router = createBrowserRouter([
+export const router = createMemoryRouter([
   {
     path: "/",
     element: <Root />,
