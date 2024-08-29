@@ -3,7 +3,7 @@
 /*全局属性*/
 .markdown-body {
   --base-font-size: 16px; /* 基础字体大小 */
-  --scale-factor: 0.875; /* 缩放因子，默认为1 */
+  --scale-factor: 0.8125; /* 缩放因子，默认为1 */
 
   color: rgb(30 41 59);
   line-height: 1.6;

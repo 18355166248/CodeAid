@@ -6,47 +6,30 @@ function Content() {
   const { getChatMessageList } = useChatStore();
 
   return (
-    <div className="pt-10 pb-24 text-sm">
+    <div className="pt-10 pb-24">
       {getChatMessageList().map((message, index) => {
         return (
           <div className="mb-6 text-black" key={index}>
-            <div
-              className={classNames("flex", {
-                "justify-end": message.isUser,
-                "items-center": message.isUser,
-              })}
-            >
-              {/* 机器人图标 */}
-              <span
-                className={classNames({
-                  "bg-slate-50 w-14 h-14 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-2xl":
-                    !message.isUser,
-                  "iconfont icon-jiqiren text-green-500 border-2 border-green-500":
-                    !message.isUser,
-                })}
-              ></span>
+            {/* 机器人图标 */}
+            {!message.isUser ? (
+              <span className="bg-slate-50 w-8 h-8 mb-1 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-lg iconfont icon-jiqiren text-green-500 border-2 border-green-500"></span>
+            ) : null}
 
-              {/* 问答内容 */}
-              {message.isUser ? (
-                <span className="bg-slate-50 rounded-lg px-4 mx-3 flex items-center h-10">
-                  {message.content}
-                </span>
-              ) : (
-                <span className="bg-slate-50 rounded-lg mx-3 ">
-                  <MarkdownRenderer>{message.content}</MarkdownRenderer>
-                </span>
-              )}
+            {/* 用户图标 */}
+            {message.isUser ? (
+              <span className="bg-slate-50 w-8 h-8 mb-1 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-lg iconfont icon-yonghu text-indigo-500 border-2 border-indigo-500"></span>
+            ) : null}
 
-              {/* 用户图标 */}
-              <span
-                className={classNames({
-                  "bg-slate-50 w-14 h-14 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-2xl":
-                    message.isUser,
-                  "iconfont icon-yonghu text-indigo-500 border-2 border-indigo-500":
-                    message.isUser,
-                })}
-              ></span>
-            </div>
+            {/* 问答内容 */}
+            {message.isUser ? (
+              <div className="bg-slate-50 rounded-lg px-4 flex items-center h-10">
+                {message.content}
+              </div>
+            ) : (
+              <div className="bg-slate-50 rounded-lg">
+                <MarkdownRenderer>{message.content}</MarkdownRenderer>
+              </div>
+            )}
           </div>
         );
       })}

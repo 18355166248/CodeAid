@@ -88,7 +88,7 @@ const Footer = () => {
 
   return (
     <div className="w-full footer fixed bottom-0 left-0 flex justify-center px-6 backdrop-blur-sm">
-      <div className="content bg-white rounded-lg overflow-hidden px-4 pt-4 pb-2 my-4 ">
+      <div className="content bg-white rounded-lg overflow-hidden py-2 my-4 ">
         <Input.TextArea
           value={inputValue}
           onChange={(e) => {
@@ -103,7 +103,7 @@ const Footer = () => {
           onPressEnter={sendMessage}
           onKeyDown={handleKeyDown}
         />
-        <div className="flex justify-between">
+        <div className="flex justify-between px-2">
           <span></span>
           <div>
             <div

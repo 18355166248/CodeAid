@@ -7,7 +7,7 @@ import {
 
 export function chatOllamaGenerate(data: ChatOllamaGenerateDto["request"]) {
   return getStream({
-    url: "/api/chat",
+    url: import.meta.env.VITE_LOCAL_URL + "/api/chat",
     data,
     method: "POST",
     headers: {
