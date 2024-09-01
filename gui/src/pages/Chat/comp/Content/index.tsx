@@ -1,9 +1,19 @@
-import classNames from "classnames";
 import { useChatStore } from "../../index.store";
 import MarkdownRenderer from "../../../../components/MDX/MarkdownRenderer";
+import { useEffect } from "react";
 
 function Content() {
   const { getChatMessageList } = useChatStore();
+
+  useEffect(() => {
+    const messageHandler = (event: Event) => {
+      console.log("event", event);
+    };
+    window.addEventListener("message", messageHandler);
+    return () => {
+      window.removeEventListener("message", messageHandler);
+    };
+  }, []);
 
   return (
     <div className="pt-10 pb-24">

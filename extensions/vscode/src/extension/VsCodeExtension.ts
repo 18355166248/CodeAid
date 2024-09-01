@@ -1,10 +1,15 @@
-import vscode from "vscode";
-import { CodeAidGUIWebviewViewProvider } from "../CodeAidGUIWebviewViewProvider";
+import vscode, { commands, languages, workspace } from "vscode";
+import { CodeAidGUIWebviewViewProvider } from "../Provider/CodeAidGUIWebviewViewProvider";
+import CodelensProvider from "../Provider/CodelensProvider ";
+import { CodeLensNames } from "../constants/codeLens.const";
+import { getNodeText } from "../utils/getNodeText";
+import { registerCommands } from "../commands";
 
 export class VscodeExtension {
   private sidebar;
 
   constructor(context: vscode.ExtensionContext) {
+    // 左侧视图
     this.sidebar = new CodeAidGUIWebviewViewProvider(context);
 
     // Sidebar
@@ -21,5 +26,37 @@ export class VscodeExtension {
         },
       ),
     );
+
+    // 函数辅助按钮
+    context.subscriptions.push(
+      vscode.languages.registerCodeLensProvider(
+        [
+          { language: "typescriptreact", scheme: "file" },
+          { language: "javascriptreact", scheme: "file" },
+          { language: "typescript", scheme: "file" },
+          { language: "javascript", scheme: "file" },
+        ],
+        new CodelensProvider(),
+      ),
+    );
+
+    // 函数辅助按钮的点击事件绑定
+    CodeLensNames.forEach((v) => {
+      context.subscriptions.push(
+        commands.registerCommand(v.command, (uri, node) => {
+          const editor = vscode.window.activeTextEditor;
+          if (!editor) return;
+
+          const code = getNodeText(editor.document, node);
+
+          vscode.commands.executeCommand("codeAid.focusInput");
+
+          this.sidebar.sendMainUserSelect(v.command, code);
+        }),
+      );
+    });
+
+    // commands
+    registerCommands({ context });
   }
 }
