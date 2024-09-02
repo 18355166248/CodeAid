@@ -7,7 +7,22 @@ import { ConfigProvider } from "antd";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConfigProvider componentSize="small">
+    <ConfigProvider
+      componentSize="small"
+      theme={{
+        token: {
+          colorTextPlaceholder: "var(--vscode-editor-text-color)",
+        },
+        components: {
+          Input: {
+            inputFontSize: 11,
+            /* 这里是你的组件 token */
+            activeBg: "transparent",
+            hoverBg: "transparent",
+          },
+        },
+      }}
+    >
       <App />
     </ConfigProvider>
   </StrictMode>,

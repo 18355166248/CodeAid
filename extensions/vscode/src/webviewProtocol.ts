@@ -27,11 +27,15 @@ export class VscodeWebviewProtocol {
           resolve(undefined);
           return;
         } else {
-          await new Promise((res) => setTimeout(res, i >= 5 ? 1000 : 500));
+          await new Promise((resolve1) =>
+            setTimeout(resolve1, i >= 5 ? 1000 : 500),
+          );
           i++;
         }
       }
 
+      // TODO 不加不能触发 暂时先不删log
+      console.log("data", data);
       this.send(messageType, data, messageId);
     });
   }

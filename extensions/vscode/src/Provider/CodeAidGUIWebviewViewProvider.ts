@@ -13,6 +13,9 @@ export class CodeAidGUIWebviewViewProvider
     this.webviewProtocol = new VscodeWebviewProtocol();
   }
 
+  get webview() {
+    return this._webview;
+  }
   resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
@@ -24,6 +27,9 @@ export class CodeAidGUIWebviewViewProvider
       this.extensionContext,
       webviewView,
     );
+
+    // 同步参数给到 webviewProtocol
+    this.webviewProtocol._webview = webviewView.webview;
   }
 
   getSidebarContent(
@@ -115,6 +121,7 @@ export class CodeAidGUIWebviewViewProvider
     `;
   }
 
+  // 发送消息
   sendMainUserSelect(messageType: string, input: string) {
     this.webviewProtocol.request(messageType, input);
   }

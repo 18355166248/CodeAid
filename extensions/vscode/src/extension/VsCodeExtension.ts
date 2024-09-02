@@ -4,6 +4,7 @@ import CodelensProvider from "../Provider/CodelensProvider ";
 import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
+import { loopGet } from "../utils/loopGet";
 
 export class VscodeExtension {
   private sidebar;
@@ -43,7 +44,7 @@ export class VscodeExtension {
     // 函数辅助按钮的点击事件绑定
     CodeLensNames.forEach((v) => {
       context.subscriptions.push(
-        commands.registerCommand(v.command, (uri, node) => {
+        commands.registerCommand(v.command, async (uri, node) => {
           const editor = vscode.window.activeTextEditor;
           if (!editor) return;
 
@@ -51,7 +52,9 @@ export class VscodeExtension {
 
           vscode.commands.executeCommand("codeAid.focusInput");
 
+          // loopGet(this.sidebar, "webview", () => {
           this.sidebar.sendMainUserSelect(v.command, code);
+          // });
         }),
       );
     });

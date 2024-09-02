@@ -2,10 +2,9 @@
 
 /*全局属性*/
 .markdown-body {
-  --base-font-size: 16px; /* 基础字体大小 */
-  --scale-factor: 0.8125; /* 缩放因子，默认为1 */
+  --theme-color: #fff;
 
-  color: rgb(30 41 59);
+  color: var(--theme-color);
   line-height: 1.6;
   word-spacing: 0px;
   letter-spacing: 0px;
@@ -21,7 +20,7 @@
   margin-top: 16px;
   margin-bottom: 16px;
   line-height: 26px;
-  color: rgb(30 41 59);
+  color: var(--theme-color);
 }
 
 /*标题*/
@@ -35,7 +34,7 @@
   margin-bottom: 15px;
   padding: 0px;
   font-weight: bold;
-  color: rgb(17 24 39);
+  color: var(--theme-color);
 }
 .markdown-body h1 {
   font-size: calc(var(--base-font-size) * var(--scale-factor) * 1.5);
@@ -64,7 +63,7 @@
   margin-top: 8px;
   margin-bottom: 8px;
   padding-left: 25px;
-  color: rgb(30 41 59);
+  color: var(--theme-color);
 }
 .markdown-body ul {
   list-style-type: disc;
@@ -82,7 +81,7 @@
   margin-bottom: 5px;
   line-height: 26px;
   text-align: left;
-  color: rgb(30 41 59);
+  color: var(--theme-color);
   font-weight: 500;
 }
 
@@ -103,11 +102,11 @@
 .markdown-body blockquote h3,
 .markdown-body blockquote h4,
 .markdown-body blockquote strong {
-  color: rgb(30 41 59);
+  color: var(--theme-color);
 }
 .markdown-body blockquote p {
   margin: 0px;
-  color: rgb(30 41 59);
+  color: var(--theme-color);
   line-height: 26px;
 }
 
@@ -125,25 +124,25 @@
 /*加粗*/
 .markdown-body strong {
   font-weight: bold;
-  color: rgb(17 24 39);
+  color: var(--theme-color);
 }
 
 /*斜体*/
 .markdown-body em {
   font-style: italic;
-  color: rgb(17 24 39);
+  color: var(--theme-color);
 }
 
 /*加粗斜体*/
 .markdown-body em strong {
   font-weight: bold;
-  color: rgb(17 24 39);
+  color: var(--theme-color);
 }
 
 /*删除线*/
 .markdown-body del {
   font-style: italic;
-  color: rgb(30 41 59);
+  color: var(--theme-color);
 }
 
 /*分隔线*/
@@ -247,7 +246,7 @@
 }
 
 .markdown-body table tr th {
-  color: rgb(17 24 39);
+  color: var(--theme-color);
   font-weight: bold;
 }
 

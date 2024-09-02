@@ -27,7 +27,7 @@ type Action = {
 
 export const initialState: State = {
   requestIng: false,
-  model: "llama3.1:latest", // azure_openai_gpt_4o llama3.1:latest
+  model: "azure_openai_gpt_4o", // azure_openai_gpt_4o llama3.1:latest
   inputValue: "",
   messages: [
     {

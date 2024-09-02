@@ -7,12 +7,12 @@ import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
 import { defaultComponents } from "./DefaultComponents";
 import "prism-themes/themes/prism-xonokai.min.css";
-import "./theme/tailwind-blue.css";
+import "./theme/tailwind-blue.dark.css";
 
 const MarkdownRenderer = (props: Options) => {
   return (
     <ReactMarkdown
-      className="markdown-body px-4 mb-4 overflow-hidden"
+      className="markdown-body mb-4 overflow-hidden"
       rehypePlugins={[rehypeKatex, rehypePrism]}
       remarkPlugins={[
         remarkGfm,

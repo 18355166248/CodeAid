@@ -10,7 +10,17 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 13px;
+
+  font-size: calc(var(--base-font-size) * var(--scale-factor));
+  color: var(--vscode-editor-text-color);
+
+  /* 变量 */
+  --vscode-editor-text-color: #abb2bf;
+  --vscode-input-background: #1d1f23;
+
+  --base-font-size: 16px; /* 基础字体大小 */
+  --base-margin-size: 8px; /* 基础字体大小 */
+  --scale-factor: 0.8125; /* 缩放因子，默认为1 */
 }
 
 body {
