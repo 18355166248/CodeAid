@@ -34,8 +34,10 @@ export class VscodeWebviewProtocol {
         }
       }
 
-      // TODO 不加不能触发 暂时先不删log
-      console.log("data", data);
+      // 假如说i不是0表示这个时候webview刚创建, 页面初始化需要时间, 延时
+      if (i > 0) {
+        await new Promise((resolve1) => setTimeout(resolve1, 1000));
+      }
       this.send(messageType, data, messageId);
     });
   }

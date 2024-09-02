@@ -2,6 +2,7 @@ import { ChatModelsEnum } from "../../../constant/chat.const";
 import { useChatStore } from "../index.store";
 import { chatResponseFormatUtilList } from "../utils/chat.utils";
 import { ChatServiceKey, chatServices } from "../../../services/chat";
+import useLatest from "../../../hooks/useLatest";
 
 const status = {
   requestIng: false,
@@ -9,6 +10,7 @@ const status = {
 
 export const useSendMsg = () => {
   const { model, inputValue, messages, setState, abort } = useChatStore();
+  const messageRef = useLatest(messages);
 
   function sendMessage(askString?: string) {
     if (status.requestIng) return;
@@ -24,7 +26,7 @@ export const useSendMsg = () => {
     if (!value) {
       return;
     }
-    const msgs = messages.concat([
+    const msgs = messageRef.current.concat([
       { role: "user", content: value, show: true, isUser: true },
       { role: "user", content: "", show: true },
     ]);

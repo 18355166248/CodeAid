@@ -27,9 +27,6 @@ export class CodeAidGUIWebviewViewProvider
       this.extensionContext,
       webviewView,
     );
-
-    // 同步参数给到 webviewProtocol
-    this.webviewProtocol._webview = webviewView.webview;
   }
 
   getSidebarContent(
@@ -79,6 +76,9 @@ export class CodeAidGUIWebviewViewProvider
         },
       ],
     };
+
+    // 同步参数给到 webviewProtocol
+    this.webviewProtocol._webview = panel.webview;
 
     return `
     <!DOCTYPE html>

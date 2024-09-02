@@ -2,22 +2,32 @@ import { useChatStore } from "../../index.store";
 import MarkdownRenderer from "../../../../components/MDX/MarkdownRenderer";
 import { useEffect } from "react";
 import { useSendMsg } from "../../hooks/useSendMsg";
+import { message } from "antd";
 
 function Content() {
   const { getChatMessageList } = useChatStore();
   const { sendMessage } = useSendMsg();
+
   useEffect(() => {
     const messageHandler = (event: MessageEvent) => {
       if (event.data.messageType === "extension.addComment") {
-        console.log("event", event.data);
         sendMessage(
-          `给下面这段代码加上中文的文档注释，包括函数参数： \n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
+          `给下面这段代码加上中文的文档注释，包括函数参数：\n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
         );
+      } else if (event.data.messageType === "extension.generateTest") {
+        // 生成单测
+        sendMessage(
+          `请为下面的函数生成单测：\n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
+        );
+      } else if (event.data.messageType === "extension.explainCode") {
+        // 代码解释
+        sendMessage(
+          `请解释如下代码：\n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
+        );
+      } else {
+        message.error("消息类型错误");
       }
     };
-
-    // mok
-    // messageHandler(MockChatContent as MessageEvent);
 
     window.addEventListener("message", messageHandler);
     return () => {
