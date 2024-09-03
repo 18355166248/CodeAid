@@ -17,15 +17,20 @@ export default class FunctionCodeLensProvider
         new vscode.Position(line, 0),
         new vscode.Position(line, 0),
       );
+      const EnableCodelens = vscode.workspace.getConfiguration(
+        "codeAid.EnableCodelens",
+      );
 
       CodeLensNames.map((v) => {
-        codeLenses.push(
-          new vscode.CodeLens(range, {
-            title: v.title,
-            command: v.command,
-            arguments: [document.uri, item.node, item.name],
-          }),
-        );
+        if (EnableCodelens[v.command] === true) {
+          codeLenses.push(
+            new vscode.CodeLens(range, {
+              title: v.title,
+              command: v.command,
+              arguments: [document.uri, item.node, item.name],
+            }),
+          );
+        }
       });
     });
 

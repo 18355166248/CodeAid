@@ -36,6 +36,36 @@
           "visibility": "visible"
         }
       ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "CodeAid",
+      "properties": {
+        "codeAid.EnableCodelens": {
+          "type": "object",
+          "properties": {
+            "extension.addComment": {
+              "type": "boolean",
+              "description": "是否开启生成函数注释的行间展示"
+            },
+            "extension.generateTest": {
+              "type": "boolean",
+              "description": "是否开启生成单测用例的行间展示"
+            },
+            "extension.explainCode": {
+              "type": "boolean",
+              "description": "是否开启代码解释的行间展示"
+            }
+          },
+          "default": {
+            "extension.addComment": true,
+            "extension.generateTest": true,
+            "extension.explainCode": true
+          },
+          "additionalProperties": false,
+          "markdownDescription": "配置函数注释、生成单测、代码解释的行间展示"
+        }
+      }
     }
   },
   "devDependencies": {

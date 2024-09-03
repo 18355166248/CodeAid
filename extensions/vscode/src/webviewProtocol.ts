@@ -21,7 +21,7 @@ export class VscodeWebviewProtocol {
   request(messageType: string, data: any) {
     const messageId = uuid();
     return new Promise(async (resolve) => {
-      let i = 0;
+      let i = 0; 
       while (!this.webview) {
         if (i > 10) {
           resolve(undefined);
