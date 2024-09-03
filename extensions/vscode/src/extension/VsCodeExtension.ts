@@ -4,7 +4,6 @@ import CodelensProvider from "../Provider/CodelensProvider ";
 import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
-import { loopGet } from "../utils/loopGet";
 
 export class VscodeExtension {
   private sidebar;
@@ -50,11 +49,11 @@ export class VscodeExtension {
 
           const code = getNodeText(editor.document, node);
 
+          // 触发 codeAid 左侧菜单视图选中加载显示
           vscode.commands.executeCommand("codeAid.focusInput");
 
-          // loopGet(this.sidebar, "webview", () => {
+          // 延时发送消息给到左侧菜单视图的webview
           this.sidebar.sendMainUserSelect(v.command, code);
-          // });
         }),
       );
     });

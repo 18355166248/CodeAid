@@ -7,6 +7,7 @@ import rehypeKatex from "rehype-katex";
 import rehypePrism from "rehype-prism-plus";
 import { defaultComponents } from "./DefaultComponents";
 import "prism-themes/themes/prism-xonokai.min.css";
+import "./mdx.scss";
 import "./theme/tailwind-blue.dark.css";
 
 const MarkdownRenderer = (props: Options) => {
