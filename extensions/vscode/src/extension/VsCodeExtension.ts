@@ -59,6 +59,6 @@ export class VscodeExtension {
     });
 
     // commands
-    registerCommands({ context });
+    registerCommands({ context, sidebar: this.sidebar });
   }
 }

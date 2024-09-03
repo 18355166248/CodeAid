@@ -66,7 +66,38 @@
           "markdownDescription": "配置函数注释、生成单测、代码解释的行间展示"
         }
       }
-    }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "codeAid.openSetting",
+          "group": "navigation@1",
+          "when": "view == codeAid.codeAidGUIView"
+        },
+        {
+          "command": "codeAid.cleatChat",
+          "group": "navigation@1",
+          "when": "view == codeAid.codeAidGUIView"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codeAid.openSetting",
+        "category": "CodeAid",
+        "title": "打开设置",
+        "icon": "$(settings-gear)",
+        "group": "CodeAid"
+      },
+      {
+        "command": "codeAid.cleatChat",
+        "category": "CodeAid",
+        "title": "清除聊天",
+        "icon": "$(clear-all)",
+        "group": "CodeAid",
+        "enablement": "myExtension.disabledClearChat"
+      }
+    ]
   },
   "devDependencies": {
     "@types/node": "^22.4.1",

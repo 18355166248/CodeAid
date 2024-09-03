@@ -122,7 +122,7 @@ export class CodeAidGUIWebviewViewProvider
   }
 
   // 发送消息
-  sendMainUserSelect(messageType: string, input: string) {
+  sendMainUserSelect(messageType: string, input?: string) {
     this.webviewProtocol.request(messageType, input);
   }
 }
