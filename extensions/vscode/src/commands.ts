@@ -17,7 +17,7 @@ const commandsMap = ({ context, sidebar }: RegisterCommandsProps) => {
       );
     },
     "codeAid.cleatChat": () => {
-      sidebar.sendMainUserSelect("cleatChat");
+      sidebar.sendMainUserSelect("codeAid.cleatChat");
     },
   };
 };

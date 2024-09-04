@@ -2,10 +2,11 @@ import { useChatStore } from "../../index.store";
 import MarkdownRenderer from "../../../../components/MDX/MarkdownRenderer";
 import { useEffect } from "react";
 import { useSendMsg } from "../../hooks/useSendMsg";
-import { message } from "antd";
+import { message, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 function Content() {
-  const { getChatMessageList } = useChatStore();
+  const { getChatMessageList, messages, clearMessageList } = useChatStore();
   const { sendMessage } = useSendMsg();
 
   useEffect(() => {
@@ -24,6 +25,17 @@ function Content() {
         sendMessage(
           `请解释如下代码：\n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
         );
+      } else if (event.data.messageType === "codeAid.cleatChat") {
+        Modal.confirm({
+          title: "会话清空后无法恢复!",
+          icon: <ExclamationCircleOutlined />,
+          content: "确定要清空会话吗?",
+          okText: "确认",
+          onOk: () => {
+            clearMessageList();
+          },
+          cancelText: "取消",
+        });
       } else {
         message.error("消息类型错误");
       }
@@ -34,6 +46,16 @@ function Content() {
       window.removeEventListener("message", messageHandler);
     };
   }, []);
+
+  useEffect(() => {
+    window.vscode.postMessage(
+      {
+        messageType: "chatMessageListLength",
+        data: messages.length,
+      },
+      "*",
+    );
+  }, [messages.length]);
 
   return (
     <div className="pt-10 pb-24">

@@ -15,28 +15,28 @@ type State = {
   model: keyof typeof ChatModelsEnum;
   inputValue: string;
   messages: MessageItem[];
-  chatList: unknown[];
   abort: (() => void) | null; // 停止生成
 };
 
 type Action = {
-  reset(): void;
   getChatMessageList: () => MessageItem[];
+  clearMessageList: () => void;
   setState: (cb: (state: State) => void) => void;
 };
+
+const defaultMessages = [
+  {
+    role: "user",
+    content:
+      "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案",
+  },
+];
 
 export const initialState: State = {
   requestIng: false,
   model: "azure_openai_gpt_4o", // azure_openai_gpt_4o llama3.1:latest
   inputValue: "",
-  messages: [
-    {
-      role: "user",
-      content:
-        "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案",
-    },
-  ],
-  chatList: [],
+  messages: [...defaultMessages],
   abort: null,
 };
 
@@ -46,8 +46,10 @@ export const useChatStore = create<State & Action>()(
     getChatMessageList: () => {
       return get().messages.slice(1);
     },
-    reset: () => {
-      // set({});
+    clearMessageList: () => {
+      set({
+        messages: [...defaultMessages],
+      });
     },
     setState: (cb: (state: State) => void) => {
       set(cb);

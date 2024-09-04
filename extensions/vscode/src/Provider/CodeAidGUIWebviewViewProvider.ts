@@ -27,6 +27,21 @@ export class CodeAidGUIWebviewViewProvider
       this.extensionContext,
       webviewView,
     );
+
+    webviewView.webview.onDidReceiveMessage((e) => {
+      switch (e.messageType) {
+        case "chatMessageListLength":
+          // 初始化上下文值为禁用状态
+          vscode.commands.executeCommand(
+            "setContext",
+            "myExtension.disabledClearChat",
+            e.data > 1,
+          );
+          return;
+        default:
+          vscode.window.showErrorMessage("错误的消息类型");
+      }
+    });
   }
 
   getSidebarContent(
@@ -85,6 +100,9 @@ export class CodeAidGUIWebviewViewProvider
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>window.vscode = acquireVsCodeApi();</script>
+
         <title>CodeAid</title>
         <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4663234_rbzc0ccc1de.css">
         <link href="${styleMainUri}" rel="stylesheet">
@@ -108,8 +126,6 @@ export class CodeAidGUIWebviewViewProvider
               `
             : ""
         }
-
-
       </head>
 
       <body>
