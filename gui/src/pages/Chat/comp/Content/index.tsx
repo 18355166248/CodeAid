@@ -2,12 +2,13 @@ import { useChatStore } from "../../index.store";
 import MarkdownRenderer from "../../../../components/MDX/MarkdownRenderer";
 import { useEffect } from "react";
 import { useSendMsg } from "../../hooks/useSendMsg";
-import { message, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { App } from "antd";
 
 function Content() {
   const { getChatMessageList, messages, clearMessageList } = useChatStore();
   const { sendMessage } = useSendMsg();
+  const { modal, message } = App.useApp();
 
   useEffect(() => {
     const messageHandler = (event: MessageEvent) => {
@@ -26,7 +27,7 @@ function Content() {
           `请解释如下代码：\n \`\`\`js \n ${event.data.data}  \n \`\`\` `,
         );
       } else if (event.data.messageType === "codeAid.cleatChat") {
-        Modal.confirm({
+        modal.confirm({
           title: "会话清空后无法恢复!",
           icon: <ExclamationCircleOutlined />,
           content: "确定要清空会话吗?",
