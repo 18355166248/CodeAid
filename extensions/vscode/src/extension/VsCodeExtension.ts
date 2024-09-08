@@ -4,11 +4,14 @@ import CodelensProvider from "../Provider/CodelensProvider ";
 import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
+import { CompletionProvider } from "../autocomplete/completionProvider";
 
 export class VscodeExtension {
   private sidebar;
+  private _disposableList: vscode.Disposable[];
 
   constructor(context: vscode.ExtensionContext) {
+    this._disposableList = [];
     // 左侧视图
     this.sidebar = new CodeAidGUIWebviewViewProvider(context);
 
@@ -60,5 +63,17 @@ export class VscodeExtension {
 
     // commands
     registerCommands({ context, sidebar: this.sidebar });
+
+    // 代码补全
+    context.subscriptions.push(
+      vscode.languages.registerCompletionItemProvider(
+        "typescript",
+        new CompletionProvider(),
+      ),
+    );
+  }
+
+  dispose() {
+    this._disposableList.forEach((item) => item.dispose());
   }
 }

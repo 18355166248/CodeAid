@@ -1,4 +1,4 @@
-function Test({ num }: { num: number }) {
+function Test ({ num }: { num: number }) {
   return <div>div</div>;
 }
 
