@@ -9,7 +9,7 @@
     "strict": true /* enable all strict type-checking options */,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "resolveJsonModule": true /* Enable importing .json files */,
-    "types": ["mocha"]
+    "types": []
   },
   "include": ["src/**/*", "../../core/**/*.ts", "../../core/**/*.d.ts"],
   "exclude": []

@@ -4,7 +4,7 @@ import CodelensProvider from "../Provider/CodelensProvider ";
 import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
-import { CompletionProvider } from "../autocomplete/completionProvider";
+import { InlineCompletionProvider } from "../autocomplete/inlineCompletionProvider";
 
 export class VscodeExtension {
   private sidebar;
@@ -66,9 +66,10 @@ export class VscodeExtension {
 
     // 代码补全
     context.subscriptions.push(
-      vscode.languages.registerCompletionItemProvider(
-        "typescript",
-        new CompletionProvider(),
+      vscode.languages.registerInlineCompletionItemProvider(
+        { pattern: "**/*.{js,ts,jsx,tsx}" }, // 根据需要调整文件类型
+        // ["typescript", "javascript", "typescriptreact", "javascriptreact"],
+        new InlineCompletionProvider(),
       ),
     );
   }
