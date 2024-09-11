@@ -1,5 +1,4 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
-import { generateCompletions } from "../utils/generateCompletions";
 
 export class InlineCompletionProvider
   implements vscode.InlineCompletionItemProvider
@@ -13,24 +12,16 @@ export class InlineCompletionProvider
     token: vscode.CancellationToken,
     // @ts-ignore
   ): ProviderResult<InlineCompletionItem[]> {
-    const textBeforeCursor = document.getText(
-      new vscode.Range(position.with(undefined, 0), position),
+    const selectedCompletionInfo = context.selectedCompletionInfo;
+    const startPos = selectedCompletionInfo?.range.start ?? position;
+    const completionRange = new vscode.Range(
+      startPos,
+      startPos.translate(0, 10),
     );
-    console.log("🚀 ~ textBeforeCursor:", textBeforeCursor);
-    // const completionItems = [];
-    // const completionItem = new vscode.InlineCompletionItem("HelloWorld");
-    // console.log(
-    //   "🚀 ~ InlineCompletionProvider ~ completionItem:",
-    //   completionItem,
-    // );
-    // completionItem.insertText = "Hello, World!";
-    // completionItems.push(completionItem);
-
-    // 根据文本和上下文生成补全项
-    const completions = generateCompletions(textBeforeCursor);
-
-    return completions.map(
-      (completion) => new vscode.InlineCompletionItem(completion),
+    const completionItem = new vscode.InlineCompletionItem(
+      "1234567890",
+      completionRange,
     );
+    return [completionItem];
   }
 }
