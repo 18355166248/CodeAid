@@ -10,8 +10,17 @@ export class CompletionProvider {
     private readonly getLlm: () => Promise<LLMOptions | undefined>,
   ) {}
 
-  public async provideInlineCompletionItems(input: AutocompleteInput) {
-    const llm = await this.getLlm();
-    if (!llm) return;
+  public async provideInlineCompletionItems(
+    input: AutocompleteInput,
+    token: AbortSignal,
+  ) {
+    try {
+      const config = await this.configHandler.loadConfig();
+      const options = config.tabAutocompleteOptions;
+      if (options?.disabled) return undefined;
+
+      const llm = await this.getLlm();
+      if (!llm) return undefined;
+    } catch (error) {}
   }
 }

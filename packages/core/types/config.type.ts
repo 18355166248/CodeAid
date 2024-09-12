@@ -1,3 +1,5 @@
+import { TabAutocompleteOptions } from "./completion.type";
+
 type ModelProvider = "ollama";
 
 export interface LLMOptions {
@@ -8,4 +10,5 @@ export interface LLMOptions {
 
 export interface CodeAidConfig {
   tabAutocompleteModels?: LLMOptions[];
+  tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
 }

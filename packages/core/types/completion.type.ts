@@ -5,3 +5,7 @@ export interface AutocompleteInput {
   filepath: string;
   pos: Position;
 }
+
+export interface TabAutocompleteOptions {
+  disabled: boolean;
+}

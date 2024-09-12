@@ -7,7 +7,8 @@ import { registerCommands } from "../commands";
 import { InlineCompletionProvider } from "../autocomplete/inlineCompletionProvider";
 import { Core } from "core/core";
 import { VscodeIde } from "../ide";
-import { ConfigHandler } from 'core/config/ConfigHandler';
+import { ConfigHandler } from "core/config/ConfigHandler";
+import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
 
 export class VscodeExtension {
   private sidebar;
@@ -15,11 +16,16 @@ export class VscodeExtension {
   private core: Core;
   private ide: VscodeIde;
   private configProvider: ConfigHandler;
+  private autoCompleteModel: TabAutoCompleteModel;
 
   constructor(context: vscode.ExtensionContext) {
     this.ide = new VscodeIde();
 
     this.core = new Core(this.ide);
+
+    this.configProvider = this.core.configHandler;
+
+    this.autoCompleteModel = new TabAutoCompleteModel(this.configProvider);
 
     this._disposableList = [];
     // 左侧视图
@@ -79,7 +85,11 @@ export class VscodeExtension {
       vscode.languages.registerInlineCompletionItemProvider(
         { pattern: "**/*.{js,ts,jsx,tsx}" }, // 根据需要调整文件类型
         // ["typescript", "javascript", "typescriptreact", "javascriptreact"],
-        new InlineCompletionProvider(),
+        new InlineCompletionProvider(
+          this.configProvider,
+          this.ide,
+          this.autoCompleteModel,
+        ),
       ),
     );
   }

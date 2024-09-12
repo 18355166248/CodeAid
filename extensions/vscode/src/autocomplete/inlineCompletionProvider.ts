@@ -1,14 +1,25 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
-import { AutocompleteInput } from "core";
+import { AutocompleteInput, IDE, LLMOptions } from "core";
 import { v4 as uuidv4 } from "uuid";
-import { CompletionProvider } from 'core/autoComplete/completionProvider';
+import { CompletionProvider } from "core/autoComplete/completionProvider";
+import { ConfigHandler } from "core/config/ConfigHandler";
+import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
 
-export class InlineCompletionProvider implements vscode.InlineCompletionItemProvider {
+export class InlineCompletionProvider
+  implements vscode.InlineCompletionItemProvider
+{
   private completionProvider: CompletionProvider;
+
   constructor(
-    
+    private configHandler: ConfigHandler,
+    private ide: IDE,
+    private tabAutocompleteModel: TabAutoCompleteModel,
   ) {
-    this.completionProvider = new CompletionProvider();
+    this.completionProvider = new CompletionProvider(
+      configHandler,
+      ide,
+      this.tabAutocompleteModel.get.bind(this.tabAutocompleteModel),
+    );
   }
 
   public async provideInlineCompletionItems(
@@ -36,6 +47,11 @@ export class InlineCompletionProvider implements vscode.InlineCompletionItemProv
         filepath: document.uri.fsPath,
         pos: position,
       };
+
+      const outcome = await this.completionProvider.provideInlineCompletionItems(
+        input,
+        signal,
+      );
 
       const completionItem = new vscode.InlineCompletionItem(
         "1234567890",
