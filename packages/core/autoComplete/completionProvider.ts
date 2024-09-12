@@ -1,5 +1,8 @@
 import { ConfigHandler } from "../config/ConfigHandler";
-import { AutocompleteInput } from "../types/completion.type";
+import {
+  AutocompleteInput,
+  TabAutocompleteOptions,
+} from "../types/completion.type";
 import { LLMOptions } from "../types/config.type";
 import { IDE } from "../types/ide.type";
 
@@ -21,6 +24,17 @@ export class CompletionProvider {
 
       const llm = await this.getLlm();
       if (!llm) return undefined;
+
+      this.getTabCompletion(input, llm, token, options);
     } catch (error) {}
+  }
+
+  async getTabCompletion(
+    input: AutocompleteInput,
+    llm: LLMOptions,
+    token: AbortSignal,
+    options?: Partial<TabAutocompleteOptions>,
+  ) {
+    const { filepath, pos } = input;
   }
 }
