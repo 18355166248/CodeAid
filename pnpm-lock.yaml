@@ -126,12 +126,15 @@ importers:
       '@types/vscode':
         specifier: ^1.92.0
         version: 1.93.0
+      core:
+        specifier: workspace:*
+        version: link:../../packages/core
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
     devDependencies:
       '@types/node':
-        specifier: ^22.4.1
+        specifier: ^22.5.4
         version: 22.5.4
       '@types/uuid':
         specifier: ^10.0.0
@@ -151,6 +154,13 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
+
+  packages/core:
+    dependencies:
+      '@types/node':
+        specifier: ^22.5.4
+        version: 22.5.4
+      os: {specifier: ^0.1.2, version: 0.1.2}
 
 packages:
 
@@ -1362,7 +1372,6 @@ packages:
     resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==, tarball: https://registry.npmmirror.com/@types/node/-/node-22.5.4.tgz}
     dependencies:
       undici-types: 6.19.8
-    dev: true
 
   /@types/prismjs@1.26.4:
     resolution: {integrity: sha512-rlAnzkW2sZOjbqZ743IHUhFcvzaGbqijwOu8QZnZCjfQzBqFE3s4lOTJEsxikImav9uzz/42I+O7YUs1mWgMlg==, tarball: https://registry.npmmirror.com/@types/prismjs/-/prismjs-1.26.4.tgz}
@@ -3404,6 +3413,10 @@ packages:
       word-wrap: 1.2.5
     dev: true
 
+  /os@0.1.2:
+    resolution: {integrity: sha512-ZoXJkvAnljwvc56MbvhtKVWmSkzV712k42Is2mA0+0KTSRakq5XXuXpjZjgAt9ctzl51ojhQWakQQpmOvXWfjQ==, tarball: https://registry.npmmirror.com/os/-/os-0.1.2.tgz}
+    dev: false
+
   /p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==, tarball: https://registry.npmmirror.com/p-limit/-/p-limit-3.1.0.tgz}
     engines: {node: '>=10'}
@@ -4905,7 +4918,6 @@ packages:
 
   /undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==, tarball: https://registry.npmmirror.com/undici-types/-/undici-types-6.19.8.tgz}
-    dev: true
 
   /unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==, tarball: https://registry.npmmirror.com/unified/-/unified-11.0.5.tgz}

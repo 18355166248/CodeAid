@@ -5,12 +5,20 @@ import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
 import { InlineCompletionProvider } from "../autocomplete/inlineCompletionProvider";
+import { Core } from "core/core";
+import { VscodeIde } from "../ide";
 
 export class VscodeExtension {
   private sidebar;
   private _disposableList: vscode.Disposable[];
+  private core: Core;
+  private ide: VscodeIde;
 
   constructor(context: vscode.ExtensionContext) {
+    this.ide = new VscodeIde();
+
+    this.core = new Core(this.ide);
+
     this._disposableList = [];
     // 左侧视图
     this.sidebar = new CodeAidGUIWebviewViewProvider(context);

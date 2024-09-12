@@ -1,4 +1,6 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
+import { AutocompleteInput } from "core";
+import { v4 as uuidv4 } from "uuid";
 
 export class InlineCompletionProvider
   implements vscode.InlineCompletionItemProvider
@@ -12,16 +14,29 @@ export class InlineCompletionProvider
     token: vscode.CancellationToken,
     // @ts-ignore
   ): ProviderResult<InlineCompletionItem[]> {
-    const selectedCompletionInfo = context.selectedCompletionInfo;
-    const startPos = selectedCompletionInfo?.range.start ?? position;
-    const completionRange = new vscode.Range(
-      startPos,
-      startPos.translate(0, 10),
-    );
-    const completionItem = new vscode.InlineCompletionItem(
-      "1234567890",
-      completionRange,
-    );
-    return [completionItem];
+    try {
+      const selectedCompletionInfo = context.selectedCompletionInfo;
+      const startPos = selectedCompletionInfo?.range.start ?? position;
+      const completionRange = new vscode.Range(
+        startPos,
+        startPos.translate(0, 10),
+      );
+
+      const abortController = new AbortController();
+      const signal = abortController.signal;
+      // 取消请求
+      token.onCancellationRequested(() => abortController.abort());
+
+      const input: AutocompleteInput = {
+        completionId: uuidv4(),
+        filepath: document.uri.fsPath,
+        pos: position,
+      };
+      const completionItem = new vscode.InlineCompletionItem(
+        "1234567890",
+        completionRange,
+      );
+      return [completionItem];
+    } catch (error) {}
   }
 }
