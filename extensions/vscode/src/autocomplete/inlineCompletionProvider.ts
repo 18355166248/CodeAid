@@ -1,11 +1,15 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
 import { AutocompleteInput } from "core";
 import { v4 as uuidv4 } from "uuid";
+import { CompletionProvider } from 'core/autoComplete/completionProvider';
 
-export class InlineCompletionProvider
-  implements vscode.InlineCompletionItemProvider
-{
-  constructor() {}
+export class InlineCompletionProvider implements vscode.InlineCompletionItemProvider {
+  private completionProvider: CompletionProvider;
+  constructor(
+    
+  ) {
+    this.completionProvider = new CompletionProvider();
+  }
 
   public async provideInlineCompletionItems(
     document: vscode.TextDocument,
@@ -32,6 +36,7 @@ export class InlineCompletionProvider
         filepath: document.uri.fsPath,
         pos: position,
       };
+
       const completionItem = new vscode.InlineCompletionItem(
         "1234567890",
         completionRange,

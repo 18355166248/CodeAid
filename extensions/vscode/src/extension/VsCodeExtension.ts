@@ -7,12 +7,14 @@ import { registerCommands } from "../commands";
 import { InlineCompletionProvider } from "../autocomplete/inlineCompletionProvider";
 import { Core } from "core/core";
 import { VscodeIde } from "../ide";
+import { ConfigHandler } from 'core/config/ConfigHandler';
 
 export class VscodeExtension {
   private sidebar;
   private _disposableList: vscode.Disposable[];
   private core: Core;
   private ide: VscodeIde;
+  private configProvider: ConfigHandler;
 
   constructor(context: vscode.ExtensionContext) {
     this.ide = new VscodeIde();
