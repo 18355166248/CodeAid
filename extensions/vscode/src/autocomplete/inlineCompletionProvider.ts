@@ -1,5 +1,5 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
-import { AutocompleteInput, IDE, LLMOptions } from "core";
+import { AutocompleteInput, IDE } from "core";
 import { v4 as uuidv4 } from "uuid";
 import { CompletionProvider } from "core/autoComplete/completionProvider";
 import { ConfigHandler } from "core/config/ConfigHandler";
@@ -48,10 +48,11 @@ export class InlineCompletionProvider
         pos: position,
       };
 
-      const outcome = await this.completionProvider.provideInlineCompletionItems(
-        input,
-        signal,
-      );
+      const outcome =
+        await this.completionProvider.provideInlineCompletionItems(
+          input,
+          signal,
+        );
 
       const completionItem = new vscode.InlineCompletionItem(
         "1234567890",

@@ -18,7 +18,7 @@ export default class LocalProfileLoader {
 
 async function loadSerializedConfig(ideType: IdeType) {
   const configPath = getConfigJsonPath(ideType);
-  let content = fs.readFileSync(configPath, "utf8");
+  const content = fs.readFileSync(configPath, "utf8");
   const config = JSON.parse(content) as unknown as CodeAidConfig;
   return config;
 }

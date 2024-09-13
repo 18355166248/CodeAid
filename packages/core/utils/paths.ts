@@ -28,3 +28,9 @@ export function getConfigJsonPath(idePath: IdeType = "vscode") {
   }
   return p;
 }
+
+const SEP_REGEX = /[\\/]/;
+
+export function getBasename(filepath: string): string {
+  return filepath.split(SEP_REGEX).pop() ?? "";
+}

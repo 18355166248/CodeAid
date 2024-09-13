@@ -6,7 +6,7 @@ import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
 import { InlineCompletionProvider } from "../autocomplete/inlineCompletionProvider";
 import { Core } from "core/core";
-import { VscodeIde } from "../ide";
+import { VscodeIde } from "../ide/VscodeIde";
 import { ConfigHandler } from "core/config/ConfigHandler";
 import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
 

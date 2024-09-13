@@ -1,8 +1,8 @@
-import { LLMOptions } from "core";
+import { CLLM } from "core";
 import { ConfigHandler } from "core/config/ConfigHandler";
 
 export class TabAutoCompleteModel {
-  private __llm?: LLMOptions;
+  private __llm?: CLLM;
   private configHandler: ConfigHandler;
 
   constructor(configHandler: ConfigHandler) {

@@ -8,7 +8,11 @@ export interface LLMOptions {
   provider: ModelProvider;
 }
 
+export interface CLLM extends LLMOptions {
+  streamComplete(prompt: string): AsyncGenerator<string>;
+}
+
 export interface CodeAidConfig {
-  tabAutocompleteModels?: LLMOptions[];
+  tabAutocompleteModels?: CLLM[];
   tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
 }
