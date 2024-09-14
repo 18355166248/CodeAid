@@ -83,11 +83,13 @@ export class CompletionProvider {
 
     const compiledTemplate = Handlebars.compile(template);
     prompt = compiledTemplate({
-      fullPrefix,
-      fullSuffix,
+      prefix: fullPrefix,
+      suffix: fullSuffix,
       filename,
       reponame,
       language: lang.name,
     });
+
+    llm.streamComplete(prompt).next();
   }
 }
