@@ -97,7 +97,16 @@
         "group": "CodeAid",
         "enablement": "myExtension.disabledClearChat"
       }
-    ]
+    ],
+    "icons": {
+      "code-aid": {
+        "description": "Ubuntu icon",
+        "default": {
+          "fontPath": "media/iconfont.woff2",
+          "fontCharacter": "\\e607"
+        }
+      }
+    }
   },
   "devDependencies": {
     "@types/node": "^22.5.4",

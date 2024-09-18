@@ -89,6 +89,7 @@ export class VscodeExtension {
           this.configProvider,
           this.ide,
           this.autoCompleteModel,
+          context,
         ),
       ),
     );
