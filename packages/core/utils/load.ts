@@ -23,6 +23,6 @@ async function intermediateToFinalConfig(config?: SerializedCodeAidConfig) {
 export async function loadFullConfigNode(
   overrideConfigJson?: SerializedCodeAidConfig,
 ): Promise<CodeAidConfig> {
-  const finalConfig = await intermediateToFinalConfig(overrideConfigJson);
+  const finalConfig =await intermediateToFinalConfig(overrideConfigJson);
   return finalConfig;
 }

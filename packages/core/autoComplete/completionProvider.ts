@@ -5,6 +5,7 @@ import {
 } from "../types/completion.type";
 import { CLLM } from "../types/config.type";
 import { IDE } from "../types/ide.type";
+import { GeneratorReuseManager } from "../utils/GeneratorReuseManager";
 import { getBasename } from "../utils/paths";
 import { getRangeInString } from "../utils/ranges";
 import { languageForFilePath } from "./constructPrompt";
@@ -12,12 +13,20 @@ import { getTemplateForModel } from "./templates";
 import Handlebars from "handlebars";
 
 export class CompletionProvider {
+  generatorReuseManager: GeneratorReuseManager;
   constructor(
     private configHandler: ConfigHandler,
     private ide: IDE,
     private readonly getLlm: () => Promise<CLLM | undefined>,
-  ) {}
+  ) {
+    this.generatorReuseManager = new GeneratorReuseManager(
+      this.onError.bind(this),
+    );
+  }
 
+  onError(e: any) {
+    console.warn("Error generating autocompletion: ", e);
+  }
   public async provideInlineCompletionItems(
     input: AutocompleteInput,
     token: AbortSignal,
@@ -30,7 +39,11 @@ export class CompletionProvider {
       const llm = await this.getLlm();
       if (!llm) return undefined;
 
-      this.getTabCompletion(input, llm, token, options);
+      const outcome = await this.getTabCompletion(input, llm, token, options);
+
+      if (!outcome?.completion) return;
+
+      return outcome;
     } catch (error) {}
   }
 
@@ -40,6 +53,8 @@ export class CompletionProvider {
     token: AbortSignal,
     options?: Partial<TabAutocompleteOptions>,
   ) {
+    const startTime = Date.now();
+
     const { filepath, pos } = input;
     const fileContents = await this.ide.readFile(filepath);
     const fileLines = fileContents.split("\n");
@@ -75,6 +90,9 @@ export class CompletionProvider {
 
     const workspaceDirs = await this.ide.getWorkspaceDirs();
 
+    const prefix = fullPrefix;
+    const suffix = fullSuffix;
+
     let prompt = "";
     const filename = getBasename(filepath);
     const reponame = getBasename(workspaceDirs[0] ?? "myproject");
@@ -83,13 +101,44 @@ export class CompletionProvider {
 
     const compiledTemplate = Handlebars.compile(template);
     prompt = compiledTemplate({
-      prefix: fullPrefix,
-      suffix: fullSuffix,
+      prefix,
+      suffix,
       filename,
       reponame,
       language: lang.name,
     });
 
-    llm.streamComplete(prompt).next();
+    const generator = this.generatorReuseManager.getGenerator(
+      prefix,
+      () => llm.streamComplete(prompt),
+      false,
+    );
+
+    let cancelled = false;
+    const generatorWithCancellation = async function* () {
+      for await (const update of generator) {
+        if (token.aborted) {
+          cancelled = true;
+          return;
+        }
+        yield update;
+      }
+    };
+
+    let completion = "";
+    let charGenerator = generatorWithCancellation();
+    for await (const update of charGenerator) {
+      completion += update;
+    }
+
+    return {
+      time: Date.now() - startTime,
+      completion,
+      prefix,
+      suffix,
+      modelProvider: llm.model,
+      modelName: llm.title,
+      filepath: input.filepath,
+    };
   }
 }

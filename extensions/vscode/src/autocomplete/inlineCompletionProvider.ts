@@ -54,9 +54,10 @@ export class InlineCompletionProvider
           signal,
         );
 
+      if (!outcome?.completion) return;
+
       const completionItem = new vscode.InlineCompletionItem(
-        "1234567890",
-        completionRange,
+        outcome?.completion,
       );
       return [completionItem];
     } catch (error) {}
