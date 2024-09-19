@@ -19,6 +19,9 @@ const commandsMap = ({ context, sidebar }: RegisterCommandsProps) => {
     "codeAid.cleatChat": () => {
       sidebar.sendMainUserSelect("codeAid.cleatChat");
     },
+    "continue.fixCode": () => {
+      // 修复此代码。如果它已经100%正确，只需重写代码即可。
+    },
   };
 };
 export function registerCommands({ context, sidebar }: RegisterCommandsProps) {

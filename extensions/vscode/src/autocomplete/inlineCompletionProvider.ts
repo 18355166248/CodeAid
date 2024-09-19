@@ -4,22 +4,29 @@ import { v4 as uuidv4 } from "uuid";
 import { CompletionProvider } from "core/autoComplete/completionProvider";
 import { ConfigHandler } from "core/config/ConfigHandler";
 import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
+import { StatusBar, StatusBarStatus } from "./statusBar";
 
 export class InlineCompletionProvider
   implements vscode.InlineCompletionItemProvider
 {
   private completionProvider: CompletionProvider;
+  private statusBar: StatusBar;
+  context: vscode.ExtensionContext;
 
   constructor(
     private configHandler: ConfigHandler,
     private ide: IDE,
     private tabAutocompleteModel: TabAutoCompleteModel,
+    context: vscode.ExtensionContext,
   ) {
+    this.context = context;
     this.completionProvider = new CompletionProvider(
       configHandler,
       ide,
       this.tabAutocompleteModel.get.bind(this.tabAutocompleteModel),
     );
+    this.statusBar = new StatusBar();
+    this.context.subscriptions.push(this.statusBar.statusBarItem);
   }
 
   public async provideInlineCompletionItems(
@@ -48,6 +55,7 @@ export class InlineCompletionProvider
         pos: position,
       };
 
+      this.statusBar.toggleLoading(true);
       const outcome =
         await this.completionProvider.provideInlineCompletionItems(
           input,
@@ -60,6 +68,10 @@ export class InlineCompletionProvider
         outcome?.completion,
       );
       return [completionItem];
-    } catch (error) {}
+    } finally {
+      setTimeout(() => {
+        this.statusBar.toggleLoading(undefined, StatusBarStatus.Enabled);
+      }, 1000);
+    }
   }
 }

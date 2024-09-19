@@ -96,8 +96,24 @@
         "icon": "$(clear-all)",
         "group": "CodeAid",
         "enablement": "myExtension.disabledClearChat"
+      },
+      {
+        "command": "codeAid.fixCode",
+        "category": "CodeAid",
+        "title": "修复代码",
+        "icon": "$(lightbulb-autofix)",
+        "group": "CodeAid"
       }
-    ]
+    ],
+    "icons": {
+      "code-aid": {
+        "description": "Ubuntu icon",
+        "default": {
+          "fontPath": "media/iconfont.woff2",
+          "fontCharacter": "\\e607"
+        }
+      }
+    }
   },
   "devDependencies": {
     "@types/node": "^22.5.4",
