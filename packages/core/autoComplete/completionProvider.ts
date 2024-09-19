@@ -5,7 +5,7 @@ import {
 } from "../types/completion.type";
 import { CLLM } from "../types/config.type";
 import { IDE } from "../types/ide.type";
-import { GeneratorReuseManager } from "../utils/GeneratorReuseManager";
+import { GeneratorReuseManager } from "../utils/generatorReuseManager";
 import { getBasename } from "../utils/paths";
 import { getRangeInString } from "../utils/ranges";
 import { languageForFilePath } from "./constructPrompt";
