@@ -67,6 +67,12 @@
         }
       }
     },
+    "submenus": [
+      {
+        "id": "codeAid.continueSubMenu",
+        "label": "CodeAid"
+      }
+    ],
     "menus": {
       "view/title": [
         {
@@ -78,6 +84,19 @@
           "command": "codeAid.cleatChat",
           "group": "navigation@1",
           "when": "view == codeAid.codeAidGUIView"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "codeAid.continueSubMenu",
+          "group": "0_codeAid"
+        }
+      ],
+      "codeAid.continueSubMenu": [
+        {
+          "command": "codeAid.fixCode",
+          "group": "CodeAid",
+          "when": "editorHasSelection"
         }
       ]
     },
