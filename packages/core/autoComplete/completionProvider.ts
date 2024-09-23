@@ -12,6 +12,15 @@ import { languageForFilePath } from "./constructPrompt";
 import { getTemplateForModel } from "./templates";
 import Handlebars from "handlebars";
 
+const DOUBLE_NEWLINE = "\n\n";
+const WINDOWS_DOUBLE_NEWLINE = "\r\n\r\n";
+const SRC_DIRECTORY = "/src/";
+const PYTHON_ENCODING = "#- coding: utf-8";
+const CODE_BLOCK_END = "```";
+
+const multilineStops: string[] = [DOUBLE_NEWLINE, WINDOWS_DOUBLE_NEWLINE];
+const commonStops = [SRC_DIRECTORY, PYTHON_ENCODING, CODE_BLOCK_END];
+
 export class CompletionProvider {
   generatorReuseManager: GeneratorReuseManager;
   constructor(
@@ -99,6 +108,10 @@ export class CompletionProvider {
 
     const { template, completionOptions } = getTemplateForModel(llm.model);
 
+    if (completionOptions && completionOptions.temperature === undefined) {
+      completionOptions.temperature = 0.01;
+    }
+
     const compiledTemplate = Handlebars.compile(template);
     prompt = compiledTemplate({
       prefix,
@@ -108,9 +121,26 @@ export class CompletionProvider {
       language: lang.name,
     });
 
+    const stop = [
+      ...(completionOptions?.stop || []),
+      ...multilineStops,
+      ...commonStops,
+      ...lang.topLevelKeywords.map((word) => `\n${word}`),
+    ];
+
+    // https://github.com/ollama/ollama/blob/main/docs/api.md
     const generator = this.generatorReuseManager.getGenerator(
       prefix,
-      () => llm.streamComplete(prompt),
+      () =>
+        llm.streamComplete(prompt, {
+          raw: true,
+          keep_alive: 60 * 30, // 30 minutes
+          options: {
+            temperature: 0.01,
+            ...completionOptions,
+            stop,
+          },
+        }),
       false,
     );
 

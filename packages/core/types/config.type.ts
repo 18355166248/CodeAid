@@ -6,10 +6,41 @@ export type ModelProvider = "ollama" | "openai";
 export interface LLMOptions {
   model: string;
   title?: string;
+  completionOptions?: CompletionOptions;
 }
 
 export interface CLLM extends LLMOptions {
-  streamComplete(prompt: string): AsyncGenerator<string>;
+  streamComplete(
+    prompt: string,
+    options: CompletionOptions,
+  ): AsyncGenerator<string>;
+}
+
+export interface CompletionOptions extends BaseCompletionOptions {
+  model?: string;
+}
+
+// https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
+export interface BaseCompletionOptions {
+  options?: {
+    temperature?: number;
+    mirostat?: number;
+    mirostat_eta?: number;
+    mirostat_tau?: number;
+    num_ctx?: number;
+    seed?: number;
+    stop?: string[];
+    tfs_z?: number;
+    num_predict?: number;
+    top_k?: number;
+    top_p?: number;
+    min_p?: number;
+  };
+  format?: string;
+  keep_alive?: number;
+  raw?: boolean;
+  stream?: boolean;
+  context?: number[];
 }
 
 // 模型本地json配置

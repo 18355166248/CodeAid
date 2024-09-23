@@ -9,7 +9,7 @@
       "cwd": "${workspaceFolder}/extensions/vscode",
       "args": [
         "${workspaceFolder}/test-sandbox",
-        "${workspaceFolder}/test-sandbox/Test.tsx",
+        "${workspaceFolder}/test-sandbox/test.ts",
         "--extensionDevelopmentPath=${workspaceFolder}/extensions/vscode"
       ],
       "pauseForSourceMap": false,

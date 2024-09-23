@@ -1,5 +1,9 @@
 import { BaseLLM } from "..";
-import { LLMOptions, ModelProvider } from "../../types/config.type";
+import {
+  CompletionOptions,
+  LLMOptions,
+  ModelProvider,
+} from "../../types/config.type";
 import { fetchWithRequestOptions } from "../../utils/fetchWithOptions";
 import { withExponentialBackoff } from "../../utils/withExponentialBackoff";
 import { streamResponse } from "../stream";
@@ -40,20 +44,36 @@ export class Ollama extends BaseLLM {
     );
   }
 
-  protected async *_streamComplete(_prompt: string): AsyncGenerator<string> {
+  private _convertArgs(prompt: string, options: CompletionOptions) {
+    const finalOptions = {
+      prompt,
+      model: this.getModel(),
+      ...options,
+      options: {
+        num_predict:
+          options.options?.num_predict ||
+          this.completionOptions.options?.num_predict,
+        num_ctx: this.contextLength,
+        ...options.options,
+      },
+    };
+
+    return finalOptions;
+  }
+
+  protected async *_streamComplete(
+    _prompt: string,
+    options: CompletionOptions,
+  ): AsyncGenerator<string> {
     const response = await this.fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        prompt: _prompt,
-        temperature: 0.8,
-        model: "deepseek-coder-v2",
-      }),
+      body: JSON.stringify(this._convertArgs(_prompt, options)),
     });
 
-    let buffer ="";
+    let buffer = "";
     for await (const value of streamResponse(response)) {
       // Append the received chunk to the buffer
       buffer += value;
@@ -77,5 +97,9 @@ export class Ollama extends BaseLLM {
         }
       }
     }
+  }
+
+  private getModel(): string {
+    return this.model;
   }
 }
