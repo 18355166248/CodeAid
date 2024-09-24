@@ -9,6 +9,9 @@ import { Core } from "core/core";
 import { VscodeIde } from "../ide/VscodeIde";
 import { ConfigHandler } from "core/config/ConfigHandler";
 import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
+import { InProcessMessenger } from "core/utils/messenger";
+import { FromCoreProtocol, ToCoreProtocol } from "core";
+import { VscodeMessenger } from "./VscodeMessenger";
 
 export class VscodeExtension {
   private sidebar;
@@ -20,12 +23,6 @@ export class VscodeExtension {
 
   constructor(context: vscode.ExtensionContext) {
     this.ide = new VscodeIde();
-
-    this.core = new Core(this.ide);
-
-    this.configProvider = this.core.configHandler;
-
-    this.autoCompleteModel = new TabAutoCompleteModel(this.configProvider);
 
     this._disposableList = [];
     // 左侧视图
@@ -45,6 +42,21 @@ export class VscodeExtension {
         },
       ),
     );
+
+    // 消息队列初始化
+    const inProcessMessenger = new InProcessMessenger<
+      ToCoreProtocol,
+      FromCoreProtocol
+    >();
+
+    new VscodeMessenger(inProcessMessenger, this.sidebar.webviewProtocol);
+
+    // 初始化工具
+    this.core = new Core(this.ide, inProcessMessenger);
+
+    this.configProvider = this.core.configHandler;
+
+    this.autoCompleteModel = new TabAutoCompleteModel(this.configProvider);
 
     // 函数辅助按钮
     context.subscriptions.push(

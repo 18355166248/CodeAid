@@ -1,11 +1,39 @@
 import vscode from "vscode";
 import { v4 as uuid } from "uuid";
+import { FromWebviewProtocol, Message } from 'core';
 
 export class VscodeWebviewProtocol {
   _webview?: vscode.Webview;
+  _webviewListener?: vscode.Disposable;
+
+  listeners = new Map<keyof FromWebviewProtocol, ((message: Message) => any)[]>()
 
   get webview(): vscode.Webview | undefined {
     return this._webview;
+  }
+
+  set webview(value: vscode.Webview) {
+    this._webview = value;
+    // 销毁之前的监听
+    this._webviewListener?.dispose();
+
+    this._webviewListener = this._webview.onDidReceiveMessage(async (e) => {
+      if (!e.messageType || !e.messageId) {
+        throw new Error(`Invalid webview protocol e: ${JSON.stringify(e)}`);
+      }
+
+      const respond = (message: any) =>
+        this.send(e.messageType, message, e.messageId);
+
+      // const handlers = this.
+
+      if (e.messageId) {
+        // 消息id
+        console.log("收到消息", e);
+      } else {
+        console.log("收到通知", e);
+      }
+    });
   }
 
   send(messageType: string, data: any, messageId?: string) {

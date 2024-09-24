@@ -23,6 +23,9 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
+      core:
+        specifier: workspace:*
+        version: link:../packages/core
       immer:
         specifier: ^10.1.1
         version: 10.1.1
@@ -169,6 +172,13 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
       os: {specifier: ^0.1.2, version: 0.1.2}
+      uuid:
+        specifier: ^10.0.0
+        version: 10.0.0
+    devDependencies:
+      '@types/uuid':
+        specifier: ^10.0.0
+        version: 10.0.0
 
 packages:
 

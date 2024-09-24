@@ -43,4 +43,8 @@ export class BaseLLM implements CLLM {
   ): AsyncGenerator<string> {
     throw new Error("Not implemented");
   }
+
+  getModel(): string {
+    return this.model;
+  }
 }

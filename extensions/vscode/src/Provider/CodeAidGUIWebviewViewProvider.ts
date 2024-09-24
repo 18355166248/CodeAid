@@ -93,7 +93,7 @@ export class CodeAidGUIWebviewViewProvider
     };
 
     // 同步参数给到 webviewProtocol
-    this.webviewProtocol._webview = panel.webview;
+    this.webviewProtocol.webview = panel.webview;
 
     return `
     <!DOCTYPE html>

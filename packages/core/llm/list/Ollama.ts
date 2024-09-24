@@ -75,6 +75,7 @@ export class Ollama extends BaseLLM {
 
     let buffer = "";
     for await (const value of streamResponse(response)) {
+      console.log("🚀 ~ Ollama ~ forawait ~ value:", value);
       // Append the received chunk to the buffer
       buffer += value;
       // Split the buffer into individual JSON chunks
@@ -97,9 +98,5 @@ export class Ollama extends BaseLLM {
         }
       }
     }
-  }
-
-  private getModel(): string {
-    return this.model;
   }
 }
