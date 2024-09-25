@@ -39,6 +39,8 @@ export const useSendMsg = () => {
     status.requestIng = true;
 
     llmStreamChat();
+
+    status.requestIng = false;
     return;
 
     const methodName = ChatModelsEnum[model].serviceMethod as ChatServiceKey;

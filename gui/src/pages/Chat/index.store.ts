@@ -54,7 +54,7 @@ export const useChatStore = create<State & Action>()(
       const abortController = new AbortController();
       const cancelToken = abortController.signal;
       const { messages, model } = get();
-     const response = await streamRequest(
+      const response = await streamRequest(
         "llm/streamChat",
         {
           message: messages,

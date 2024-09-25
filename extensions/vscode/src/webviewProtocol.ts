@@ -28,7 +28,32 @@ export class VscodeWebviewProtocol {
       const respond = (message: any) =>
         this.send(e.messageType, message, e.messageId);
 
-      // const handlers = this.
+      const handlers = this.listeners.get(e.messageType) || [];
+
+      for (const handler of handlers) {
+        try {
+          const response = await handler(e);
+          if (
+            response &&
+            typeof response[Symbol.asyncIterator] === "function"
+          ) {
+            let next = await response.next();
+            while (!next.done) {
+              respond(next.value);
+              next = await response.next();
+            }
+            respond({
+              done: true,
+              content: next.value?.content,
+              status: "success",
+            });
+          } else {
+            respond({ done: true, content: response || {}, status: "success" });
+          }
+        } catch (error) {
+          respond({ done: true, error, status: "error" });
+        }
+      }
 
       if (e.messageId) {
         // 消息id
@@ -37,6 +62,18 @@ export class VscodeWebviewProtocol {
         console.log("收到通知", e);
       }
     });
+  }
+
+  on<T extends keyof FromWebviewProtocol>(
+    messageType: T,
+    handler: (
+      message: Message<FromWebviewProtocol[T][0]>,
+    ) => Promise<FromWebviewProtocol[T][1]> | FromWebviewProtocol[T][1],
+  ) {
+    if (!this.listeners.get(messageType)) {
+      this.listeners.set(messageType, []);
+    }
+    this.listeners.get(messageType)?.push(handler);
   }
 
   send(messageType: string, data: any, messageId?: string) {
