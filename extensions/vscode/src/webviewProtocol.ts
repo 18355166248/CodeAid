@@ -1,12 +1,15 @@
 import vscode from "vscode";
 import { v4 as uuid } from "uuid";
-import { FromWebviewProtocol, Message } from 'core';
+import { FromWebviewProtocol, Message } from "core";
 
 export class VscodeWebviewProtocol {
   _webview?: vscode.Webview;
   _webviewListener?: vscode.Disposable;
 
-  listeners = new Map<keyof FromWebviewProtocol, ((message: Message) => any)[]>()
+  listeners = new Map<
+    keyof FromWebviewProtocol,
+    ((message: Message) => any)[]
+  >();
 
   get webview(): vscode.Webview | undefined {
     return this._webview;

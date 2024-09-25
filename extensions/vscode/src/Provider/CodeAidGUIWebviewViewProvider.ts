@@ -38,8 +38,8 @@ export class CodeAidGUIWebviewViewProvider
             e.data > 1,
           );
           return;
-        default:
-          vscode.window.showErrorMessage("错误的消息类型");
+        // default:
+        //   vscode.window.showErrorMessage("错误的消息类型");
       }
     });
   }
