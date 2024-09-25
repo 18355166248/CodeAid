@@ -2,7 +2,7 @@ type ChatModelsType = "llama" | "gpt";
 
 // 模型
 export const ChatModelsEnum = {
-  "llama3.1:latest": {
+  "llama3.1": {
     value: "llama3.1:latest",
     label: "llama3(本地)",
     serviceMethod: "chatOllamaGenerate",
@@ -14,7 +14,7 @@ export const ChatModelsEnum = {
     serviceMethod: "chatOllamaGenerate",
     type: "llama" as ChatModelsType,
   },
-  "deepseek-coder:latest": {
+  "deepseek-coder": {
     value: "deepseek-coder:latest",
     label: "DeepSeekCoder(本地)",
     serviceMethod: "chatOllamaGenerate",

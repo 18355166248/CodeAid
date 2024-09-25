@@ -1,7 +1,9 @@
+import { ChatMessage } from "core";
+
 export interface ChatOllamaGenerateDto {
   request: {
     model: string;
-    messages: { role: string; content: string }[];
+    messages: ChatMessage[];
   };
   response: {
     model: string;
@@ -16,13 +18,13 @@ export interface ChatStreamResponse {
   model: string;
   created_at: string;
   done: boolean;
-  message: { role: string; content: string };
+  message: ChatMessage;
 }
 
 export interface ChatGpt4oMiniGenerateDto {
   request: {
     stream?: boolean;
-    messages: { role: string; content: string }[];
+    messages: ChatMessage[];
   };
   response: GptResponse;
 }
@@ -45,20 +47,15 @@ interface Usage {
 
 interface Choice {
   index: number;
-  message: Message;
+  message: ChatMessage;
   logprobs: null;
   finish_reason: string;
-}
-
-interface Message {
-  role: string;
-  content: string;
 }
 
 export interface ChatYiTianMultiModelsDto {
   request: {
     model: string;
-    messages: Message[];
+    messages: ChatMessage[];
   };
-  response: Message;
+  response: ChatMessage;
 }

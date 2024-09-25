@@ -2,29 +2,25 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import createSelectors from "../../utils/selectors";
 import { ChatModelsEnum } from "../../constant/chat.const";
-
-type MessageItem = {
-  role: string;
-  content: string;
-  show?: boolean;
-  isUser?: boolean;
-};
+import { ChatMessage, PromptLog } from "core";
+import { streamRequest } from "./utils/streamRequest";
 
 type State = {
   requestIng: boolean;
   model: keyof typeof ChatModelsEnum;
   inputValue: string;
-  messages: MessageItem[];
+  messages: ChatMessage[];
   abort: (() => void) | null; // 停止生成
 };
 
 type Action = {
-  getChatMessageList: () => MessageItem[];
+  getChatMessageList: () => ChatMessage[];
   clearMessageList: () => void;
   setState: (cb: (state: State) => void) => void;
+  llmStreamChat: () => AsyncGenerator<ChatMessage, PromptLog>;
 };
 
-const defaultMessages = [
+const defaultMessages: ChatMessage[] = [
   {
     role: "user",
     content:
@@ -34,7 +30,7 @@ const defaultMessages = [
 
 export const initialState: State = {
   requestIng: false,
-  model: "azure_openai_gpt_4o", // azure_openai_gpt_4o llama3.1:latest
+  model: "llama3.1", // azure_openai_gpt_4o llama3.1:latest
   inputValue: "",
   messages: [...defaultMessages],
   abort: null,
@@ -53,6 +49,27 @@ export const useChatStore = create<State & Action>()(
     },
     setState: (cb: (state: State) => void) => {
       set(cb);
+    },
+    llmStreamChat: async () => {
+      const abortController = new AbortController();
+      const cancelToken = abortController.signal;
+      const { messages, model } = get();
+     const response = await streamRequest(
+        "llm/streamChat",
+        {
+          message: messages,
+          completionOptions: {},
+          title: model,
+        },
+        cancelToken,
+      );
+
+      return {
+        modelTitle: get().model,
+        prompt: "",
+        completion: "",
+        completionOptions: {},
+      };
     },
   })),
 );

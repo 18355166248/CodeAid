@@ -9,7 +9,8 @@ const status = {
 };
 
 export const useSendMsg = () => {
-  const { model, inputValue, messages, setState, abort } = useChatStore();
+  const { model, inputValue, messages, setState, abort, llmStreamChat } =
+    useChatStore();
   const messageRef = useLatest(messages);
 
   function sendMessage(askString?: string) {
@@ -27,8 +28,8 @@ export const useSendMsg = () => {
       return;
     }
     const msgs = messageRef.current.concat([
-      { role: "user", content: value, show: true, isUser: true },
-      { role: "user", content: "", show: true },
+      { role: "user", content: value },
+      { role: "user", content: "" },
     ]);
 
     setState((state) => {
@@ -36,6 +37,9 @@ export const useSendMsg = () => {
       state.requestIng = true;
     });
     status.requestIng = true;
+
+    llmStreamChat();
+    return;
 
     const methodName = ChatModelsEnum[model].serviceMethod as ChatServiceKey;
     const methodType = ChatModelsEnum[model].type;

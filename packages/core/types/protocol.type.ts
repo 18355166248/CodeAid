@@ -19,7 +19,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   ];
 };
 
-
+export type ToIdeFromWebviewProtocol = {};
 
 // webview
 export type FromWebviewProtocol = ToCoreFromIdeOrWebviewProtocol;
