@@ -33,11 +33,13 @@ export class VscodeWebviewProtocol {
       for (const handler of handlers) {
         try {
           const response = await handler(e);
+
           if (
             response &&
             typeof response[Symbol.asyncIterator] === "function"
           ) {
             let next = await response.next();
+
             while (!next.done) {
               respond(next.value);
               next = await response.next();

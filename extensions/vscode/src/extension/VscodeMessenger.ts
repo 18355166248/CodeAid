@@ -14,7 +14,7 @@ export class VscodeMessenger {
       ToCoreProtocol,
       FromCoreProtocol
     >,
-    webviewProtocol: VscodeWebviewProtocol,
+    private readonly webviewProtocol: VscodeWebviewProtocol,
   ) {
     WEBVIEW_TO_CORE_PASS_THROUGH.forEach((messageType) => {
       this.onWebView(messageType, async (msg) => {
@@ -33,6 +33,6 @@ export class VscodeMessenger {
       message: Message<FromWebviewProtocol[T][0]>,
     ) => Promise<FromWebviewProtocol[T][1]> | FromWebviewProtocol[T][1],
   ) {
-    this.messenger.on(messageType, handler);
+    this.webviewProtocol.on(messageType, handler);
   }
 }
