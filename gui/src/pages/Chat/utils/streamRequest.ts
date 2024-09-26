@@ -6,6 +6,7 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   data: FromWebviewProtocol[T][0],
   cancelToken: AbortSignal,
 ): FromWebviewProtocol[T][1] {
+  console.log("🚀 ~ messageType:", messageType)
   const messageId = uuidv4();
   post(messageType, data, messageId);
 

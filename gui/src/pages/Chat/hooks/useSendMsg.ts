@@ -13,7 +13,7 @@ export const useSendMsg = () => {
     useChatStore();
   const messageRef = useLatest(messages);
 
-  function sendMessage(askString?: string) {
+  async function sendMessage(askString?: string) {
     if (status.requestIng) return;
 
     const currentValue = askString || inputValue;
@@ -40,6 +40,11 @@ export const useSendMsg = () => {
 
     const gen = llmStreamChat();
     console.log("🚀 ~ sendMessage ~ gen:", gen);
+    let n = await gen.next();
+    while (!n.done) {
+      console.log("🚀 ~ sendMessage ~ n.value:", n.value);
+      n = await gen.next();
+    }
 
     status.requestIng = false;
     return;

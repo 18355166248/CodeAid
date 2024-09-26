@@ -9,7 +9,6 @@ async function* toAsyncIterable(
 export async function* streamResponse(
   response: Response,
 ): AsyncGenerator<string> {
-  console.log("🚀 ~ response:", response);
   if (response.status !== 200) {
     throw new Error(await response.text());
   }

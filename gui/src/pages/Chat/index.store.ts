@@ -50,11 +50,11 @@ export const useChatStore = create<State & Action>()(
     setState: (cb: (state: State) => void) => {
       set(cb);
     },
-    llmStreamChat: async () => {
+    llmStreamChat: async function* () {
       const abortController = new AbortController();
       const cancelToken = abortController.signal;
       const { messages, model } = get();
-      const response = await streamRequest(
+      const response = streamRequest(
         "llm/streamChat",
         {
           messages,
@@ -63,10 +63,17 @@ export const useChatStore = create<State & Action>()(
         },
         cancelToken,
       );
-      console.log("response", response);
+
+      let n = await response.next();
+
+      while (!n.done) {
+        console.log("n.value.content", n.value);
+        yield { role: "assistant", content: n.value.content };
+        n = await response.next();
+      }
 
       return {
-        modelTitle: get().model,
+        modelTitle: get().model as string,
         prompt: "",
         completion: "",
         completionOptions: {},

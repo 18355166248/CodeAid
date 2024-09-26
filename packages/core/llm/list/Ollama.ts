@@ -35,6 +35,7 @@ export class Ollama extends BaseLLM {
 
         return resp;
       } catch (e: any) {
+        console.log("🚀 ~ Ollama ~ fetch customFetch ~ e:", e);
         throw new Error(e.message);
       }
     };
@@ -84,7 +85,6 @@ export class Ollama extends BaseLLM {
 
     let buffer = "";
     for await (const value of streamResponse(response)) {
-      console.log("🚀 ~ Ollama ~ forawait ~ value:", value);
       // Append the received chunk to the buffer
       buffer += value;
       // Split the buffer into individual JSON chunks
@@ -120,7 +120,6 @@ export class Ollama extends BaseLLM {
       },
       body: JSON.stringify(this._convertArgs(messages, completionOptions)),
     });
-    console.log("🚀 ~ Ollama ~ response:", response);
 
     let buffer = "";
     for await (const value of streamResponse(response)) {
