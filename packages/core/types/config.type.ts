@@ -1,3 +1,4 @@
+import { ChatMessage, PromptLog } from "./chat.type";
 import { TabAutocompleteOptions } from "./completion.type";
 
 export type ModelProvider = "ollama" | "openai";
@@ -14,6 +15,11 @@ export interface CLLM extends LLMOptions {
     prompt: string,
     options: CompletionOptions,
   ): AsyncGenerator<string>;
+
+  streamChat(
+    messages: ChatMessage[],
+    completionOptions: CompletionOptions,
+  ): AsyncGenerator<ChatMessage, PromptLog>;
 }
 
 export interface CompletionOptions extends BaseCompletionOptions {
@@ -52,11 +58,13 @@ export interface ModelDescription {
 
 // 序列化json
 export interface SerializedCodeAidConfig {
+  models: ModelDescription[];
   tabAutocompleteModel?: ModelDescription;
 }
 
 // 配置文件
 export interface CodeAidConfig {
+  models: CLLM[];
   tabAutocompleteModels?: CLLM[];
   tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
 }

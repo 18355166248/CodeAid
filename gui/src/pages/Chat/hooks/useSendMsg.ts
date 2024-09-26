@@ -38,7 +38,8 @@ export const useSendMsg = () => {
     });
     status.requestIng = true;
 
-    llmStreamChat();
+    const gen = llmStreamChat();
+    console.log("🚀 ~ sendMessage ~ gen:", gen);
 
     status.requestIng = false;
     return;

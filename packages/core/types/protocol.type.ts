@@ -11,12 +11,13 @@ export type ProtocolGeneratorType<T> = AsyncGenerator<{
 export type ToCoreFromIdeOrWebviewProtocol = {
   "llm/streamChat": [
     {
-      message: ChatMessage[];
+      messages: ChatMessage[];
       completionOptions: CompletionOptions;
       title: string;
     },
     ProtocolGeneratorType<MessageContent>,
   ];
+  test: [string, string];
 };
 
 export type ToIdeFromWebviewProtocol = {};

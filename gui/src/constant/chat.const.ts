@@ -2,7 +2,7 @@ type ChatModelsType = "llama" | "gpt";
 
 // 模型
 export const ChatModelsEnum = {
-  "llama3.1": {
+  "Llama 3": {
     value: "llama3.1:latest",
     label: "llama3(本地)",
     serviceMethod: "chatOllamaGenerate",

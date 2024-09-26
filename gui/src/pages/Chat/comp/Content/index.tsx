@@ -38,7 +38,7 @@ function Content() {
           cancelText: "取消",
         });
       } else {
-        message.error("消息类型错误");
+        // message.error("消息类型错误");
       }
     };
 
@@ -48,15 +48,15 @@ function Content() {
     };
   }, []);
 
-  useEffect(() => {
-    window.vscode.postMessage(
-      {
-        messageType: "chatMessageListLength",
-        data: messages.length,
-      },
-      "*",
-    );
-  }, [messages.length]);
+  // useEffect(() => {
+  //   window.vscode.postMessage(
+  //     {
+  //       messageType: "chatMessageListLength",
+  //       data: messages.length,
+  //     },
+  //     "*",
+  //   );
+  // }, [messages.length]);
 
   return (
     <div className="pt-10 pb-24">

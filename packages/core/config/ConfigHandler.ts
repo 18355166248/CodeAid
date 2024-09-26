@@ -1,4 +1,4 @@
-import { CodeAidConfig } from "../types/config.type";
+import { CLLM, CodeAidConfig } from "../types/config.type";
 import { IDE } from "../types/ide.type";
 import LocalProfileLoader from "./profile/LocalProfileLoader";
 
@@ -32,5 +32,17 @@ export class ConfigHandler {
 
   loadConfig() {
     return this.profiles[0].loadConfig();
+  }
+
+  async llmFromTitle(title?: string): Promise<CLLM> {
+    const config = await this.loadConfig();
+    const model = config.models.find((m) => m.title === title);
+    if (!model) {
+      if (config.models.length > 0) {
+        return config.models[0];
+      }
+      throw new Error(`No model found for title: ${title}`);
+    }
+    return model;
   }
 }

@@ -82,7 +82,6 @@ export class InProcessMessenger<
   ): Promise<ToProtocol[T][1]> {
     const messageId = _messageId || uuidv4();
     const listener = this.myTypeListeners.get(messageType);
-    console.log("🚀 ~ listener:", listener);
     if (!listener) {
       throw new Error(`No listener for message type ${String(messageType)}`);
     }

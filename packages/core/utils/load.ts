@@ -4,6 +4,17 @@ import { CodeAidConfig, SerializedCodeAidConfig } from "../types/config.type";
 
 async function intermediateToFinalConfig(config?: SerializedCodeAidConfig) {
   let tabAutocompleteModels: BaseLLM[] = [];
+  let models: BaseLLM[] = [];
+  if (config?.models) {
+    models = (
+      await Promise.all(
+        config.models.map(async (desc) => {
+          const llm = await llmFromDescription(desc);
+          return llm;
+        }),
+      )
+    ).filter((x) => x !== undefined);
+  }
   if (config?.tabAutocompleteModel) {
     tabAutocompleteModels = (
       await Promise.all(
@@ -16,6 +27,8 @@ async function intermediateToFinalConfig(config?: SerializedCodeAidConfig) {
   }
 
   return {
+    ...config,
+    models,
     tabAutocompleteModels,
   };
 }
@@ -23,6 +36,6 @@ async function intermediateToFinalConfig(config?: SerializedCodeAidConfig) {
 export async function loadFullConfigNode(
   overrideConfigJson?: SerializedCodeAidConfig,
 ): Promise<CodeAidConfig> {
-  const finalConfig =await intermediateToFinalConfig(overrideConfigJson);
+  const finalConfig = await intermediateToFinalConfig(overrideConfigJson);
   return finalConfig;
 }

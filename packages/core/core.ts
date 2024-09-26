@@ -30,7 +30,20 @@ export class Core {
       configHandler: ConfigHandler,
       msg: Message<ToCoreProtocol["llm/streamChat"][0]>,
     ) {
-      console.log(msg);
+      console.log("🚀 ~ Core ~ llmStreamChat msg:", msg);
+      const model = await configHandler.llmFromTitle(msg.data.title);
+      const gen = model.streamChat(
+        msg.data.messages,
+        msg.data.completionOptions,
+      );
+      let next = await gen.next();
+
+      while (!next.done) {
+        yield { done: false, content: next.value.content };
+
+        next = await gen.next();
+      }
+      return { done: true, content: next.value };
     }
   }
 
