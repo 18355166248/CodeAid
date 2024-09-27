@@ -39,11 +39,11 @@ export class VscodeWebviewProtocol {
             typeof response[Symbol.asyncIterator] === "function"
           ) {
             let next = await response.next();
-
             while (!next.done) {
               respond(next.value);
               next = await response.next();
             }
+            console.log("next.value", next.value);
             respond({
               done: true,
               content: next.value?.content,

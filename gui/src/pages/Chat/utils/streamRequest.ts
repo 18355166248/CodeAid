@@ -6,7 +6,7 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   data: FromWebviewProtocol[T][0],
   cancelToken: AbortSignal,
 ): FromWebviewProtocol[T][1] {
-  console.log("🚀 ~ messageType:", messageType)
+  console.log("🚀 ~ messageType:", messageType);
   const messageId = uuidv4();
   post(messageType, data, messageId);
 
@@ -19,13 +19,12 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   function handler(e: { data: Message }) {
     if (e.data.messageId === messageId) {
       const responseData = e.data.data;
-      console.log("🚀 ~ handler ~ responseData:", responseData);
       if (responseData.done) {
         window.removeEventListener("message", handler);
         returnVal = responseData;
         done = true;
       } else {
-        buffer = responseData.content;
+        buffer += responseData.content;
       }
     }
   }
@@ -37,6 +36,7 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
       index = buffer.length;
       yield chunk;
     }
+    await new Promise((resolve) => setTimeout(resolve, 50));
   }
 
   return returnVal;

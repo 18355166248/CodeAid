@@ -2,8 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import createSelectors from "../../utils/selectors";
 import { ChatModelsEnum } from "../../constant/chat.const";
-import { ChatMessage, PromptLog } from "core";
-import { streamRequest } from "./utils/streamRequest";
+import { ChatMessage } from "core";
 
 type State = {
   requestIng: boolean;
@@ -17,14 +16,13 @@ type Action = {
   getChatMessageList: () => ChatMessage[];
   clearMessageList: () => void;
   setState: (cb: (state: State) => void) => void;
-  llmStreamChat: () => AsyncGenerator<ChatMessage, PromptLog>;
 };
 
 const defaultMessages: ChatMessage[] = [
   {
     role: "user",
     content:
-      "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案",
+      "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案, 在我说完这句话后, 等待我的下一个问题即可开始沟通",
   },
 ];
 
@@ -49,35 +47,6 @@ export const useChatStore = create<State & Action>()(
     },
     setState: (cb: (state: State) => void) => {
       set(cb);
-    },
-    llmStreamChat: async function* () {
-      const abortController = new AbortController();
-      const cancelToken = abortController.signal;
-      const { messages, model } = get();
-      const response = streamRequest(
-        "llm/streamChat",
-        {
-          messages,
-          completionOptions: {},
-          title: model,
-        },
-        cancelToken,
-      );
-
-      let n = await response.next();
-
-      while (!n.done) {
-        console.log("n.value.content", n.value);
-        yield { role: "assistant", content: n.value.content };
-        n = await response.next();
-      }
-
-      return {
-        modelTitle: get().model as string,
-        prompt: "",
-        completion: "",
-        completionOptions: {},
-      };
     },
   })),
 );
