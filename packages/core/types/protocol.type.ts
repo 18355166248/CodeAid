@@ -3,22 +3,21 @@ import { CompletionOptions } from "./config.type";
 
 export type IProtocol = Record<string, [any, any]>;
 
-export type ProtocolGeneratorType<T, R> = AsyncGenerator<
-  {
-    done?: boolean;
-    content: T;
-  },
-  R
->;
+export type ProtocolGeneratorType<T> = AsyncGenerator<{
+  done?: boolean;
+  content: T;
+}>;
 
 export type ToCoreFromIdeOrWebviewProtocol = {
+  abort: [undefined, void];
+
   "llm/streamChat": [
     {
       messages: ChatMessage[];
       completionOptions: CompletionOptions;
       title: string;
     },
-    ProtocolGeneratorType<MessageContent, string>,
+    ProtocolGeneratorType<MessageContent>,
   ];
   test: [string, string];
 };

@@ -9,7 +9,7 @@ type State = {
   model: keyof typeof ChatModelsEnum;
   inputValue: string;
   messages: ChatMessage[];
-  abort: (() => void) | null; // 停止生成
+  active: boolean;
 };
 
 type Action = {
@@ -31,7 +31,7 @@ export const initialState: State = {
   model: "Llama 3", // azure_openai_gpt_4o Llama 3
   inputValue: "",
   messages: [...defaultMessages],
-  abort: null,
+  active: false,
 };
 
 export const useChatStore = create<State & Action>()(

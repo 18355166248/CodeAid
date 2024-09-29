@@ -1,6 +1,6 @@
-import Content from "./comp/Content";
-import Footer from "./comp/Footer";
-import Header from "./comp/Header";
+import Content from "./Content";
+import Footer from "./Footer";
+import Header from "./Header";
 
 const Chat = () => {
   return (

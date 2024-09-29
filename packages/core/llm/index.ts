@@ -49,6 +49,7 @@ export class BaseLLM implements CLLM {
   protected async *_streamChat(
     messages: ChatMessage[],
     completionOptions: CompletionOptions = {},
+    cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage> {
     throw new Error("_streamChat Not implemented");
   }
@@ -56,11 +57,16 @@ export class BaseLLM implements CLLM {
   async *streamChat(
     messages: ChatMessage[],
     completionOptions: CompletionOptions = {},
+    cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage, PromptLog> {
     const prompt = this._formatChatMessages(messages);
     let completion = "";
     try {
-      for await (const chunk of this._streamChat(messages, completionOptions)) {
+      for await (const chunk of this._streamChat(
+        messages,
+        completionOptions,
+        cancelToken,
+      )) {
         completion += chunk;
         yield chunk;
       }

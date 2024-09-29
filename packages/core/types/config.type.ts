@@ -19,6 +19,7 @@ export interface CLLM extends LLMOptions {
   streamChat(
     messages: ChatMessage[],
     completionOptions: CompletionOptions,
+    cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage, PromptLog>;
 }
 

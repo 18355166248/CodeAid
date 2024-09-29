@@ -1,12 +1,12 @@
 import { Button, Input } from "antd";
 import "./index.scss";
 import { KeyboardEvent } from "react";
-import { useChatStore } from "../../index.store";
+import { useChatStore } from "../index.store";
 import classNames from "classnames";
-import { useSendMsg } from "../../hooks/useSendMsg";
+import { useSendMsg } from "../hooks/useSendMsg";
 
 const Footer = () => {
-  const { inputValue, setState, requestIng, abort } = useChatStore();
+  const { inputValue, setState, requestIng, active } = useChatStore();
 
   const { sendMessage, handlerAbort } = useSendMsg();
 
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      {abort ? (
+      {active ? (
         <div className="abort absolute -top-10 flex justify-center">
           <Button onClick={handlerAbort} danger>
             停止生成

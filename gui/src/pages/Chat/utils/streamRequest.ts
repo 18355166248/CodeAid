@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { FromWebviewProtocol, Message } from "core";
 import { v4 as uuidv4 } from "uuid";
 
@@ -6,7 +7,6 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   data: FromWebviewProtocol[T][0],
   cancelToken: AbortSignal,
 ): FromWebviewProtocol[T][1] {
-  console.log("🚀 ~ messageType:", messageType);
   const messageId = uuidv4();
   post(messageType, data, messageId);
 
@@ -30,6 +30,11 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   }
   window.addEventListener("message", handler);
 
+  // 监听触发取消信号 通知core端暂停请求
+  cancelToken?.addEventListener("abort", () => {
+    post("abort", undefined, messageId);
+  });
+
   while (!done) {
     if (buffer.length > index) {
       const chunk = buffer.slice(index);
@@ -52,5 +57,9 @@ export function post<T extends keyof FromWebviewProtocol>(
     messageId,
     data,
   };
-  window.vscode.postMessage(msg);
+  if (window.vscode) window.vscode.postMessage(msg);
+  else {
+    message.error("请在 vscode 中打开");
+    throw new Error("请在 vscode 中打开");
+  }
 }

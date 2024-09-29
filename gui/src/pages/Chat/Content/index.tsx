@@ -1,7 +1,7 @@
-import { useChatStore } from "../../index.store";
-import MarkdownRenderer from "../../../../components/MDX/MarkdownRenderer";
+import { useChatStore } from "../index.store";
+import MarkdownRenderer from "../../../components/MDX/MarkdownRenderer";
 import { useEffect } from "react";
-import { useSendMsg } from "../../hooks/useSendMsg";
+import { useSendMsg } from "../hooks/useSendMsg";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { App } from "antd";
 

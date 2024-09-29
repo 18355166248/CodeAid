@@ -112,6 +112,7 @@ export class Ollama extends BaseLLM {
   protected async *_streamChat(
     messages: ChatMessage[],
     completionOptions: CompletionOptions = {},
+    cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage> {
     const response = await this.fetch("http://localhost:11434/api/chat", {
       method: "POST",
@@ -119,6 +120,7 @@ export class Ollama extends BaseLLM {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(this._convertArgs(messages, completionOptions)),
+      signal: cancelToken,
     });
 
     let buffer = "";

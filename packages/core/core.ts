@@ -9,6 +9,8 @@ export class Core {
   configHandler: ConfigHandler;
   completionProvider: CompletionProvider;
 
+  private abortedMessageIds: Set<string> = new Set();
+
   constructor(
     private readonly ide: IDE,
     private readonly messenger: IMessenger<ToCoreProtocol, FromCoreProtocol>,
@@ -24,11 +26,17 @@ export class Core {
 
     const on = this.messenger.on.bind(this.messenger);
 
-    on("llm/streamChat", (msg) => llmStreamChat(this.configHandler, msg));
+    on("abort", (msg) => {
+      this.abortedMessageIds.add(msg.messageId);
+    });
+    on("llm/streamChat", (msg) =>
+      llmStreamChat(this.configHandler, msg, this.abortedMessageIds),
+    );
 
     async function* llmStreamChat(
       configHandler: ConfigHandler,
       msg: Message<ToCoreProtocol["llm/streamChat"][0]>,
+      abortedMessageIds: Set<string>,
     ) {
       const model = await configHandler.llmFromTitle(msg.data.title);
       const gen = model.streamChat(
@@ -38,6 +46,21 @@ export class Core {
       let next = await gen.next();
 
       while (!next.done) {
+        // 判断是否需要暂停请求
+        if (abortedMessageIds.has(msg.messageId)) {
+          abortedMessageIds.delete(msg.messageId);
+          // 结束生成器并允许生成器与 try...finally 块结合使用时执行任何清理任务。
+          next = await gen.return({
+            prompt: "",
+            completion: "",
+            modelTitle: model.title ?? model.model,
+            completionOptions: {
+              ...msg.data.completionOptions,
+              model: model.model,
+            },
+          });
+          break;
+        }
         yield { done: false, content: next.value.content };
 
         next = await gen.next();

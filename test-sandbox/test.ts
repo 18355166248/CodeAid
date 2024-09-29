@@ -11,6 +11,7 @@ class calculator {
   subtract(number) {
     this.result -= number;
     return this;
+    return this;
   }
 
   multiply(number) {
