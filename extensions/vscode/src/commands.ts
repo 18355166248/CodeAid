@@ -2,6 +2,7 @@ import vscode from "vscode";
 import { CodeAidGUIWebviewViewProvider } from "./Provider/CodeAidGUIWebviewViewProvider";
 import { getConfigJsonPath } from "core/utils/paths";
 import { VscodeIde } from "./ide/VscodeIde";
+import { ContextMenuConfig } from "core";
 
 interface RegisterCommandsProps {
   context: vscode.ExtensionContext;
@@ -9,6 +10,11 @@ interface RegisterCommandsProps {
   ide: VscodeIde;
 }
 const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
+  async function streamInlineEdit(
+    prompt: keyof ContextMenuConfig,
+    fallbackPrompt: string,
+  ) {}
+
   return {
     "codeAid.focusInput": () => {
       vscode.commands.executeCommand("codeAid.codeAidGUIView.focus");
@@ -24,6 +30,21 @@ const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
     },
     "codeAid.fixCode": () => {
       // 修复此代码。如果它已经100%正确，只需重写代码即可。
+      streamInlineEdit(
+        "fix",
+        "Fix this code. If it is already 100% correct, just rewrite the code.",
+      );
+    },
+    "codeAid.commentCode": () => {
+      // 代码添加注释
+      streamInlineEdit(
+        "comment",
+        "Write comments for this code. Do not change anything about the code itself.",
+      );
+    },
+    "codeAid.optimizeCode": () => {
+      // 优化代码
+      streamInlineEdit("optimize", "Optimize this code");
     },
     "codeAid.OpenConfigJson": () => {
       ide.openFile(getConfigJsonPath());

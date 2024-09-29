@@ -102,6 +102,16 @@
           "command": "codeAid.fixCode",
           "group": "CodeAid",
           "when": "editorHasSelection"
+        },
+        {
+          "command": "codeAid.commentCode",
+          "group": "CodeAid",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "codeAid.optimizeCode",
+          "group": "CodeAid",
+          "when": "editorHasSelection"
         }
       ]
     },
@@ -125,7 +135,21 @@
         "command": "codeAid.fixCode",
         "category": "CodeAid",
         "title": "修复代码",
-        "icon": "$(lightbulb-autofix)",
+        "icon": "$(lightbulb-antefix)",
+        "group": "CodeAid"
+      },
+      {
+        "command": "codeAid.commentCode",
+        "category": "CodeAid",
+        "title": "添加注释",
+        "icon": "$(lightbulb-antefix)",
+        "group": "CodeAid"
+      },
+      {
+        "command": "codeAid.optimizeCode",
+        "category": "CodeAid",
+        "title": "优化代码",
+        "icon": "$(lightbulb-antefix)",
         "group": "CodeAid"
       },
       {
