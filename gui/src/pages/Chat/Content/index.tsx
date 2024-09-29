@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { useSendMsg } from "../hooks/useSendMsg";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { App } from "antd";
+import { MessageContent } from "core";
 
 function Content() {
   const { getChatMessageList, messages, clearMessageList } = useChatStore();
   const { sendMessage } = useSendMsg();
-  const { modal, message } = App.useApp();
+  const { modal } = App.useApp();
 
   useEffect(() => {
     const messageHandler = (event: MessageEvent) => {
@@ -48,23 +49,38 @@ function Content() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   window.vscode.postMessage(
-  //     {
-  //       messageType: "chatMessageListLength",
-  //       data: messages.length,
-  //     },
-  //     "*",
-  //   );
-  // }, [messages.length]);
+  useEffect(() => {
+    window.vscode.postMessage(
+      {
+        messageType: "chatMessageListLength",
+        data: messages.length,
+      },
+      "*",
+    );
+  }, [messages.length]);
+
+  function getContent(content: MessageContent) {
+    if (typeof content === "string") {
+      return content;
+    }
+
+    return content
+      .map((part) => {
+        return part.text || "";
+      })
+      .filter((text) => text !== "")
+      .join("");
+  }
 
   return (
     <div className="pt-10 pb-24">
       {getChatMessageList().map((message, index) => {
+        const isUser = message.role === "user";
+        const isAssistant = message.role === "assistant";
         return (
           <div className="mb-2 bg-[#888888]/10 px-4 py-5" key={index}>
             {/* 机器人图标 */}
-            {!message.isUser ? (
+            {isAssistant ? (
               <span className="flex">
                 <span className="w-6 h-6 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-sm iconfont icon-jiqiren text-green-500 border-2 border-green-500 mr-2"></span>
                 @CodeAid
@@ -72,7 +88,7 @@ function Content() {
             ) : null}
 
             {/* 用户图标 */}
-            {message.isUser ? (
+            {isUser ? (
               <span className="flex">
                 <span className="w-6 h-6 rounded-full flex justify-center items-center overflow-hidden grow-0 shrink-0 text-sm iconfont icon-yonghu text-indigo-500 border-2 border-indigo-500 mr-2"></span>
                 你
@@ -80,7 +96,7 @@ function Content() {
             ) : null}
 
             {/* 问答内容 */}
-            <MarkdownRenderer>{message.content}</MarkdownRenderer>
+            <MarkdownRenderer>{getContent(message.content)}</MarkdownRenderer>
           </div>
         );
       })}

@@ -28,7 +28,7 @@ export const useSendMsg = () => {
     }
     const msgs = messageRef.current.concat([
       { role: "user", content: value },
-      { role: "user", content: "" },
+      { role: "assistant", content: "" },
     ]);
 
     setState((state) => {

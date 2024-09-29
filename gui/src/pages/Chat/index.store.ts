@@ -22,7 +22,7 @@ const defaultMessages: ChatMessage[] = [
   {
     role: "user",
     content:
-      "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案, 在我说完这句话后, 等待我的下一个问题即可开始沟通",
+      "你是一名开发工程师, 涉及到Java, javascript类的问题, 请全方面给到解决方案, 在我说完这句话后, 请基于我后面的问题开始对话",
   },
 ];
 
