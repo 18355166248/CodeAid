@@ -14,6 +14,13 @@ export const defaultConfig = {
 };
 
 export const defaultJetbrainsConfig = {
+  models: [
+    {
+      title: "Llama 3",
+      provider: "ollama",
+      model: "llama3.1",
+    },
+  ],
   tabAutocompleteModel: {
     title: "deepseek-coder",
     provider: "ollama",

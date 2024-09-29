@@ -1,5 +1,6 @@
 import path from "node:path";
 import vscode from "vscode";
+import { openEditor } from "../utils/vscode";
 
 export class VscodeIdeUtils {
   constructor() {}
@@ -66,5 +67,10 @@ export class VscodeIdeUtils {
     } catch (error) {}
 
     return "";
+  }
+
+  // 打开文件
+  openFile(path: string) {
+    return openEditor(path);
   }
 }

@@ -22,4 +22,8 @@ export class VscodeIde implements IDE {
   async getWorkspaceDirs(): Promise<string[]> {
     return this.ideUtils.getWorkspaceDirectories();
   }
+
+  async openFile(path: string) {
+    this.ideUtils.openFile(path);
+  }
 }

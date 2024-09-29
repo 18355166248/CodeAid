@@ -84,6 +84,11 @@
           "command": "codeAid.cleatChat",
           "group": "navigation@1",
           "when": "view == codeAid.codeAidGUIView"
+        },
+        {
+          "command": "codeAid.OpenConfigJson",
+          "group": "navigation@1",
+          "when": "view == codeAid.codeAidGUIView"
         }
       ],
       "editor/context": [
@@ -121,6 +126,13 @@
         "category": "CodeAid",
         "title": "修复代码",
         "icon": "$(lightbulb-autofix)",
+        "group": "CodeAid"
+      },
+      {
+        "command": "codeAid.OpenConfigJson",
+        "category": "CodeAid",
+        "title": "打开本地 CodeAid 下 config.json",
+        "icon": "$(settings-edit)",
         "group": "CodeAid"
       }
     ],

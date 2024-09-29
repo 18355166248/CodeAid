@@ -90,7 +90,7 @@ export class VscodeExtension {
     });
 
     // commands
-    registerCommands({ context, sidebar: this.sidebar });
+    registerCommands({ context, sidebar: this.sidebar, ide: this.ide });
 
     // 代码补全
     context.subscriptions.push(
