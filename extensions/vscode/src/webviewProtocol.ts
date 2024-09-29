@@ -21,7 +21,7 @@ export class VscodeWebviewProtocol {
     this._webviewListener?.dispose();
 
     this._webviewListener = this._webview.onDidReceiveMessage(async (e) => {
-      if (!e.messageType || !e.messageId) {
+      if (!e.messageType) {
         throw new Error(`Invalid webview protocol e: ${JSON.stringify(e)}`);
       }
 
