@@ -8,7 +8,7 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   cancelToken: AbortSignal,
 ): FromWebviewProtocol[T][1] {
   const messageId = uuidv4();
-  post(messageType, data, messageId);
+  postToIde(messageType, data, messageId);
 
   let buffer = "";
   let done = false;
@@ -32,7 +32,7 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
 
   // 监听触发取消信号 通知core端暂停请求
   cancelToken?.addEventListener("abort", () => {
-    post("abort", undefined, messageId);
+    postToIde("abort", undefined, messageId);
   });
 
   while (!done) {
@@ -45,6 +45,17 @@ export async function* streamRequest<T extends keyof FromWebviewProtocol>(
   }
 
   return returnVal;
+}
+
+export function postToIde<T extends keyof FromWebviewProtocol>(
+  messageType: T,
+  data: FromWebviewProtocol[T][0],
+  messageId: string,
+) {
+  if (typeof window.vscode === 'undefined') {
+    throw new Error("请在 vscode 中打开");
+  }
+  post(messageType, data, messageId);
 }
 
 export function post<T extends keyof FromWebviewProtocol>(

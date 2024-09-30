@@ -13,7 +13,9 @@ const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
   async function streamInlineEdit(
     prompt: keyof ContextMenuConfig,
     fallbackPrompt: string,
-  ) {}
+  ) {
+    sidebar.webviewProtocol.request('')
+  }
 
   return {
     "codeAid.focusInput": () => {

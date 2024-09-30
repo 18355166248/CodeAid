@@ -1,6 +1,6 @@
 import vscode from "vscode";
 import { v4 as uuid } from "uuid";
-import { FromWebviewProtocol, Message } from "core";
+import { FromWebviewProtocol, Message, ToWebviewProtocol } from "core";
 
 export class VscodeWebviewProtocol {
   _webview?: vscode.Webview;
@@ -88,7 +88,10 @@ export class VscodeWebviewProtocol {
     return id;
   }
 
-  request(messageType: string, data?: any) {
+  public request<T extends keyof ToWebviewProtocol>(
+    messageType: T,
+    data?: ToWebviewProtocol[T][0],
+  ) {
     const messageId = uuid();
     return new Promise(async (resolve) => {
       let i = 0;
@@ -109,6 +112,18 @@ export class VscodeWebviewProtocol {
         await new Promise((resolve1) => setTimeout(resolve1, 2000));
       }
       this.send(messageType, data, messageId);
+
+      // 等待消息返回
+      if (this.webview) {
+        const disposable = this.webview.onDidReceiveMessage(
+          (e: Message<ToWebviewProtocol[T][1]>) => {
+            if (e.messageId === messageId) {
+              resolve(e);
+              disposable.dispose();
+            }
+          },
+        );
+      }
     });
   }
 }

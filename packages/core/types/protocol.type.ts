@@ -1,5 +1,6 @@
 import { ChatMessage, MessageContent } from "./chat.type";
 import { CompletionOptions } from "./config.type";
+import { ToWebviewFromIdeProtocol } from "./ideWebview.type";
 
 export type IProtocol = Record<string, [any, any]>;
 
@@ -25,7 +26,10 @@ export type ToCoreFromIdeOrWebviewProtocol = {
 export type ToIdeFromWebviewProtocol = {};
 
 // webview
+// 从webview到Ide或者到core的协议
 export type FromWebviewProtocol = ToCoreFromIdeOrWebviewProtocol;
+// 从webview来的协议
+export type ToWebviewProtocol = ToWebviewFromIdeProtocol;
 
 // core
 export type ToCoreProtocol = ToCoreFromIdeOrWebviewProtocol;
