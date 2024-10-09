@@ -118,7 +118,7 @@ export class VscodeWebviewProtocol {
         const disposable = this.webview.onDidReceiveMessage(
           (e: Message<ToWebviewProtocol[T][1]>) => {
             if (e.messageId === messageId) {
-              resolve(e);
+              resolve(e.data);
               disposable.dispose();
             }
           },

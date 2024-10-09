@@ -14,7 +14,10 @@ const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
     prompt: keyof ContextMenuConfig,
     fallbackPrompt: string,
   ) {
-    sidebar.webviewProtocol.request('')
+    const modelTitle = await sidebar.webviewProtocol.request(
+      "getDefaultModelTitle",
+    );
+    console.log("🚀 ~ commandsMap ~ modelTitle:", modelTitle);
   }
 
   return {
