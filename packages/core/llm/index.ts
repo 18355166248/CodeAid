@@ -1,5 +1,6 @@
 import { ChatMessage, PromptLog, PromptTemplate } from "../types/chat.type";
 import { CLLM, CompletionOptions, LLMOptions } from "../types/config.type";
+import { autodetectPromptTemplate, autodetectTemplateType } from "./autodetect";
 import { DEFAULT_CONTEXT_LENGTH, DEFAULT_MAX_TOKENS } from "./constants";
 import Handlebars from "handlebars";
 
@@ -9,6 +10,7 @@ export class BaseLLM implements CLLM {
   title?: string;
   completionOptions: CompletionOptions;
   contentLength: number;
+  promptTemplates?: Record<string, PromptTemplate>;
 
   constructor(options: LLMOptions) {
     this._llmOptions = options;
@@ -23,6 +25,13 @@ export class BaseLLM implements CLLM {
         num_predict:
           options.completionOptions?.options?.num_predict || DEFAULT_MAX_TOKENS,
       },
+    };
+
+    const templateType = options.template ?? autodetectTemplateType(this.model);
+
+    this.promptTemplates = {
+      ...autodetectPromptTemplate(this.model, templateType),
+      ...options.promptTemplates,
     };
   }
 

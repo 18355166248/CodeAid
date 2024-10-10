@@ -1,4 +1,9 @@
-import { ChatMessage, PromptLog, PromptTemplate } from "./chat.type";
+import {
+  ChatMessage,
+  PromptLog,
+  PromptTemplate,
+  TemplateType,
+} from "./chat.type";
 import { TabAutocompleteOptions } from "./completion.type";
 
 export type ModelProvider = "ollama" | "openai";
@@ -9,6 +14,8 @@ export interface LLMOptions {
   title?: string;
   completionOptions?: CompletionOptions;
   contentLength?: number;
+  promptTemplates?: Record<string, PromptTemplate>;
+  template?: TemplateType;
 }
 
 export interface CLLM extends LLMOptions {

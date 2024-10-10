@@ -1,3 +1,4 @@
+import { gptEditPrompt } from "../llm/templates/edit";
 import { ChatMessage } from "../types/chat.type";
 import { CLLM } from "../types/config.type";
 import { DiffLine } from "../types/diff.type";
@@ -30,6 +31,11 @@ export async function* streamDiffLines(
     input,
     language,
   );
+
+  const completion =
+    typeof prompt === "string"
+      ? llm.streamComplete(prompt, { raw: true })
+      : llm.streamChat(prompt, {});
 }
 
 /**
@@ -52,6 +58,7 @@ function constructPrompt(
   language: string | undefined,
 ): string | ChatMessage[] {
   const template = llm.promptTemplates?.edit ?? gptEditPrompt;
+  // packages/core/llm/index.ts:118
   return llm.renderPromptTemplate(template, [], {
     userInput,
     prefix,
