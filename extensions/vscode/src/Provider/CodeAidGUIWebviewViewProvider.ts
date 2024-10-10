@@ -2,6 +2,7 @@ import vscode from "vscode";
 import { getNonce } from "../utils/base";
 import { getExtensionUri } from "../utils/vscode";
 import { VscodeWebviewProtocol } from "../webviewProtocol";
+import { myExtensionDisabledClearChat } from "../constant/vscode.context";
 
 export class CodeAidGUIWebviewViewProvider
   implements vscode.WebviewViewProvider
@@ -34,7 +35,7 @@ export class CodeAidGUIWebviewViewProvider
           // 初始化上下文值为禁用状态
           vscode.commands.executeCommand(
             "setContext",
-            "myExtension.disabledClearChat",
+            myExtensionDisabledClearChat,
             e.data > 1,
           );
           return;

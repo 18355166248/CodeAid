@@ -1,19 +1,20 @@
-import { ChatMessage, PromptLog } from "../types/chat.type";
+import { ChatMessage, PromptLog, PromptTemplate } from "../types/chat.type";
 import { CLLM, CompletionOptions, LLMOptions } from "../types/config.type";
 import { DEFAULT_CONTEXT_LENGTH, DEFAULT_MAX_TOKENS } from "./constants";
+import Handlebars from "handlebars";
 
 export class BaseLLM implements CLLM {
   private _llmOptions: LLMOptions;
   model: string;
   title?: string;
   completionOptions: CompletionOptions;
-  contextLength: number;
+  contentLength: number;
 
   constructor(options: LLMOptions) {
     this._llmOptions = options;
     this.model = options.model;
     this.title = options.title;
-    this.contextLength =
+    this.contentLength =
       options.completionOptions?.options?.num_ctx || DEFAULT_CONTEXT_LENGTH;
     this.completionOptions = {
       ...options.completionOptions,
@@ -94,5 +95,32 @@ export class BaseLLM implements CLLM {
     }
 
     return formatStr;
+  }
+
+  /**
+   * 渲染提示模板
+   *
+   * @param template 提示模板，可以是字符串或者函数
+   * @param history 历史聊天记录数组
+   * @param otherData 其他数据，类型为键值对
+   * @param canPutWordsInModelsMouth 是否允许将文字放入模型口中（默认为false）
+   * @returns 字符串或聊天消息数组，具体取决于模板类型和执行结果
+   */
+  public renderPromptTemplate(
+    template: PromptTemplate,
+    history: ChatMessage[],
+    otherData: Record<string, string>,
+  ) {
+    if (typeof template === "string") {
+      const data: any = {
+        history: history,
+        ...otherData,
+      };
+
+      const compiledTemplate = Handlebars.compile(template);
+      return compiledTemplate(data);
+    }
+
+    throw new Error("暂不支持数组模板类型");
   }
 }

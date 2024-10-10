@@ -21,3 +21,10 @@ export interface PromptLog {
   prompt: string;
   completion: string;
 }
+
+export type PromptTemplate =
+  | string
+  | ((
+      history: ChatMessage[],
+      otherData: Record<string, string>,
+    ) => string | ChatMessage[]);

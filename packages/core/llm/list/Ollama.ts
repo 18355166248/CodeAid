@@ -57,7 +57,7 @@ export class Ollama extends BaseLLM {
         num_predict:
           options.options?.num_predict ||
           this.completionOptions.options?.num_predict,
-        num_ctx: this.contextLength,
+        num_ctx: this.contentLength,
         ...options.options,
       },
     };

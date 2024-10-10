@@ -5,3 +5,4 @@ export * from "./chat.type";
 export * from "./protocol.type";
 export * from "./messager.type";
 export * from "./contextMenu.type";
+export * from "./diff.type";

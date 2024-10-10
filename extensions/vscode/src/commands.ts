@@ -3,13 +3,21 @@ import { CodeAidGUIWebviewViewProvider } from "./Provider/CodeAidGUIWebviewViewP
 import { getConfigJsonPath } from "core/utils/paths";
 import { VscodeIde } from "./ide/VscodeIde";
 import { ContextMenuConfig } from "core";
+import { myExtensionDisabledClearChat } from "./constant/vscode.context";
+import { VerticalDiffManager } from "./diff/vertical/manager";
 
 interface RegisterCommandsProps {
   context: vscode.ExtensionContext;
   sidebar: CodeAidGUIWebviewViewProvider;
   ide: VscodeIde;
+  verticalDiffManager: VerticalDiffManager;
 }
-const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
+const commandsMap = ({
+  context,
+  sidebar,
+  ide,
+  verticalDiffManager,
+}: RegisterCommandsProps) => {
   async function streamInlineEdit(
     prompt: keyof ContextMenuConfig,
     fallbackPrompt: string,
@@ -17,7 +25,7 @@ const commandsMap = ({ context, sidebar, ide }: RegisterCommandsProps) => {
     const modelTitle = await sidebar.webviewProtocol.request(
       "getDefaultModelTitle",
     );
-    console.log("🚀 ~ commandsMap ~ modelTitle:", modelTitle);
+    await verticalDiffManager.streamEdit(fallbackPrompt, modelTitle);
   }
 
   return {
@@ -60,9 +68,10 @@ export function registerCommands({
   context,
   sidebar,
   ide,
+  verticalDiffManager,
 }: RegisterCommandsProps) {
   for (const [command, callback] of Object.entries(
-    commandsMap({ context, sidebar, ide }),
+    commandsMap({ context, sidebar, ide, verticalDiffManager }),
   )) {
     context.subscriptions.push(
       vscode.commands.registerCommand(command, callback),
@@ -71,7 +80,7 @@ export function registerCommands({
     // 初始化上下文值为禁用状态
     vscode.commands.executeCommand(
       "setContext",
-      "myExtension.disabledClearChat",
+      myExtensionDisabledClearChat,
       false,
     );
   }

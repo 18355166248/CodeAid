@@ -91,7 +91,7 @@ export class VscodeWebviewProtocol {
   public request<T extends keyof ToWebviewProtocol>(
     messageType: T,
     data?: ToWebviewProtocol[T][0],
-  ) {
+  ): Promise<ToWebviewProtocol[T][1]> {
     const messageId = uuid();
     return new Promise(async (resolve) => {
       let i = 0;

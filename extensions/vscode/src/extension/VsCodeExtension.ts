@@ -12,6 +12,7 @@ import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
 import { InProcessMessenger } from "core/utils/messenger";
 import { FromCoreProtocol, ToCoreProtocol } from "core";
 import { VscodeMessenger } from "./VscodeMessenger";
+import { VerticalDiffManager } from "../diff/vertical/manager";
 
 export class VscodeExtension {
   private sidebar;
@@ -20,6 +21,7 @@ export class VscodeExtension {
   private ide: VscodeIde;
   private configProvider: ConfigHandler;
   private autoCompleteModel: TabAutoCompleteModel;
+  private verticalDiffManager: VerticalDiffManager;
 
   constructor(context: vscode.ExtensionContext) {
     this.ide = new VscodeIde();
@@ -89,8 +91,18 @@ export class VscodeExtension {
       );
     });
 
+    // diff 功能初始化
+    this.verticalDiffManager = new VerticalDiffManager(
+      this.configProvider,
+      this.sidebar.webviewProtocol,
+    );
     // commands
-    registerCommands({ context, sidebar: this.sidebar, ide: this.ide });
+    registerCommands({
+      context,
+      sidebar: this.sidebar,
+      ide: this.ide,
+      verticalDiffManager: this.verticalDiffManager,
+    });
 
     // 代码补全
     context.subscriptions.push(

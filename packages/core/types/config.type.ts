@@ -1,4 +1,4 @@
-import { ChatMessage, PromptLog } from "./chat.type";
+import { ChatMessage, PromptLog, PromptTemplate } from "./chat.type";
 import { TabAutocompleteOptions } from "./completion.type";
 
 export type ModelProvider = "ollama" | "openai";
@@ -8,9 +8,11 @@ export interface LLMOptions {
   model: string;
   title?: string;
   completionOptions?: CompletionOptions;
+  contentLength?: number;
 }
 
 export interface CLLM extends LLMOptions {
+  contentLength: number;
   streamComplete(
     prompt: string,
     options: CompletionOptions,
@@ -21,6 +23,12 @@ export interface CLLM extends LLMOptions {
     completionOptions: CompletionOptions,
     cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage, PromptLog>;
+
+  renderPromptTemplate(
+    template: PromptTemplate,
+    history: ChatMessage[],
+    otherData: Record<string, string>,
+  ): string;
 }
 
 export interface CompletionOptions extends BaseCompletionOptions {
