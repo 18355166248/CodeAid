@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^22.5.4",
+    "fastest-levenshtein": "^1.0.16",
     "handlebars": "^4.7.8",
     "js-tiktoken": "^1.0.15",
     "llama-tokenizer-js": "^1.2.2",

@@ -1,3 +1,5 @@
+import { streamDiff } from "../diff/streamDiff";
+import { streamLines } from "../diff/utils";
 import { gptEditPrompt } from "../llm/templates/edit";
 import { ChatMessage } from "../types/chat.type";
 import { CLLM } from "../types/config.type";
@@ -32,10 +34,19 @@ export async function* streamDiffLines(
     language,
   );
 
+  // 获取流式结果
   const completion =
     typeof prompt === "string"
       ? llm.streamComplete(prompt, { raw: true })
       : llm.streamChat(prompt, {});
+
+  const lines = streamLines(completion);
+
+  let diffLines = streamDiff(oldLines, lines);
+
+  for await (const diffLine of diffLines) {
+    yield diffLine;
+  }
 }
 
 /**
@@ -55,7 +66,7 @@ function constructPrompt(
   suffix: string,
   llm: CLLM,
   userInput: string,
-  language: string | undefined,
+  language?: string,
 ): string | ChatMessage[] {
   const template = llm.promptTemplates?.edit ?? gptEditPrompt;
   // packages/core/llm/index.ts:118

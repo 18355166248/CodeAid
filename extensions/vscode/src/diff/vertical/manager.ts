@@ -9,6 +9,8 @@ import {
   codeAidStreamingDiff,
 } from "../../constant/vscode.context";
 import { pruneLinesFromTop } from "core/llm/countTokens";
+import { streamDiffLines } from "core/edit/streamDiffLines";
+import { getLanguageForFile } from "core/utils/getLanguageForFile";
 
 export class VerticalDiffManager {
   // 缓存功能
@@ -73,7 +75,6 @@ export class VerticalDiffManager {
       llm.contentLength / 4,
       llm.model,
     );
-    console.log("🚀 ~ VerticalDiffManager ~ streamEdit ~ prefix:", prefix);
     // 后缀文本
     const suffix = pruneLinesFromTop(
       editor.document.getText(
@@ -85,7 +86,6 @@ export class VerticalDiffManager {
       llm.contentLength / 4,
       llm.model,
     );
-    console.log("🚀 ~ VerticalDiffManager ~ streamEdit ~ suffix:", suffix);
 
     if (editor.selection) {
       editor.selection = new vscode.Selection(
@@ -97,7 +97,16 @@ export class VerticalDiffManager {
     vscode.commands.executeCommand("setContext", codeAidStreamingDiff, true);
 
     try {
-      diffHandler.run();
+      diffHandler.run(
+        streamDiffLines(
+          prefix,
+          rangeContext,
+          suffix,
+          llm,
+          input,
+          getLanguageForFile(filepath),
+        ),
+      );
     } catch (error) {
     } finally {
       vscode.commands.executeCommand("setContext", codeAidStreamingDiff, false);

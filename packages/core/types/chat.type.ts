@@ -30,3 +30,5 @@ export type PromptTemplate =
       history: ChatMessage[],
       otherData: Record<string, string>,
     ) => string | ChatMessage[]);
+
+export type LineStream = AsyncGenerator<string>;
