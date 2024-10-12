@@ -121,6 +121,7 @@ export async function* filterCodeBlockLines(rawLines: LineStream): LineStream {
 
     const changedEndLine = shouldChangeLineAndStop(line);
     if (typeof changedEndLine === "string") {
+      // TODO 不需要返回闭合标签 直接停止即可
       yield changedEndLine;
       return;
     }

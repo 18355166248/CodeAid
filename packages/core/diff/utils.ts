@@ -21,7 +21,6 @@ export async function* streamLines(
   for await (const update of streamCompletion) {
     if (typeof update === "string") {
       buffer += update;
-      console.log("buffer:", buffer);
       const lines = buffer.split("\n");
       buffer = lines.pop() ?? "";
       for (const line of lines) {
