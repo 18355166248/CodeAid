@@ -1,6 +1,15 @@
 import { ChatMessage, PromptLog, PromptTemplate } from "../types/chat.type";
-import { CLLM, CompletionOptions, LLMOptions } from "../types/config.type";
-import { autodetectPromptTemplate, autodetectTemplateType } from "./autodetect";
+import {
+  CLLM,
+  CompletionOptions,
+  LLMOptions,
+  ModelProvider,
+} from "../types/config.type";
+import {
+  autodetectPromptTemplate,
+  autodetectTemplateFunction,
+  autodetectTemplateType,
+} from "./autodetect";
 import { DEFAULT_CONTEXT_LENGTH, DEFAULT_MAX_TOKENS } from "./constants";
 import Handlebars from "handlebars";
 
@@ -11,6 +20,11 @@ export class BaseLLM implements CLLM {
   completionOptions: CompletionOptions;
   contentLength: number;
   promptTemplates?: Record<string, PromptTemplate>;
+
+  static providerName: ModelProvider;
+  get providerName(): ModelProvider {
+    return (this.constructor as typeof BaseLLM).providerName;
+  }
 
   constructor(options: LLMOptions) {
     this._llmOptions = options;
@@ -105,7 +119,23 @@ export class BaseLLM implements CLLM {
 
     return formatStr;
   }
-
+  /**
+   * 判断当前服务是否支持补全功能
+   * @returns 如果支持补全功能则返回true，否则返回false
+   */
+  supportsCompletions(): boolean {
+    if (["deepseek"].includes(this.providerName)) {
+      return false;
+    }
+    return true;
+  }
+  /**
+   * 判断当前provider是否支持预填充功能
+   * @returns 如果当前provider支持预填充功能，则返回true；否则返回false
+   */
+  supportsPrefill(): boolean {
+    return ["ollama"].includes(this.providerName);
+  }
   /**
    * 渲染提示模板
    *
@@ -130,6 +160,24 @@ export class BaseLLM implements CLLM {
       return compiledTemplate(data);
     }
 
-    throw new Error("暂不支持数组模板类型");
+    const rendered = template(history, {
+      ...otherData,
+      supportsCompletions: this.supportsCompletions() ? "true" : "false",
+      supportsPrefill: this.supportsPrefill() ? "true" : "false",
+    });
+
+    if (
+      typeof rendered !== "string" &&
+      rendered[rendered.length - 1].role === "assistant"
+    ) {
+      const templateMessages = autodetectTemplateFunction(
+        this.model,
+        this.providerName,
+        autodetectTemplateType(this.model),
+      );
+      return templateMessages(rendered);
+    }
+
+    return rendered;
   }
 }

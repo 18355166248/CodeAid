@@ -4,6 +4,12 @@ import { gptEditPrompt } from "../llm/templates/edit";
 import { ChatMessage } from "../types/chat.type";
 import { CLLM } from "../types/config.type";
 import { DiffLine } from "../types/diff.type";
+import {
+  filterCodeBlockLines,
+  filterEnglishLinesAtStart,
+  skipLines,
+  stopAtLines,
+} from "./lineStream";
 
 export async function* streamDiffLines(
   prefix: string,
@@ -40,7 +46,11 @@ export async function* streamDiffLines(
       ? llm.streamComplete(prompt, { raw: true })
       : llm.streamChat(prompt, {});
 
-  const lines = streamLines(completion);
+  let lines = streamLines(completion);
+  lines = filterEnglishLinesAtStart(lines);
+  lines = filterCodeBlockLines(lines);
+  lines = stopAtLines(lines, () => {});
+  lines = skipLines(lines);
 
   let diffLines = streamDiff(oldLines, lines);
 

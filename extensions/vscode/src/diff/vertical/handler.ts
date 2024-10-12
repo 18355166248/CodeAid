@@ -79,7 +79,7 @@ export class VerticalDiffHandler implements vscode.Disposable {
 
     while (this._diffLinesQueue.length > 0) {
       const line = this._diffLinesQueue.shift();
-      console.log("line:", line);
+      console.log("diff-> handler queueDiffLine: ", line);
       if (!line) continue;
 
       try {

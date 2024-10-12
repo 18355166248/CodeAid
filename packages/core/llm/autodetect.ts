@@ -1,5 +1,18 @@
 import { TemplateType } from "../types/chat.type";
-import { deepseekEditPrompt, llama3EditPrompt } from "./templates/edit";
+import { ModelProvider } from "../types/config.type";
+import {
+  deepseekTemplateMessages,
+  llama3TemplateMessages,
+} from "./templates/chat";
+import {
+  deepseekEditPrompt,
+  llama3EditPrompt,
+  osModelsEditPrompt,
+} from "./templates/edit";
+
+const USES_OS_MODELS_EDIT_PROMPT: TemplateType[] = ["deepseek", "llama3"];
+
+const PROVIDER_HANDLES_TEMPLATING: ModelProvider[] = ["openai", "ollama"];
 
 /**
  * 自动检测模板类型
@@ -31,21 +44,58 @@ export function autodetectTemplateType(
  */
 export function autodetectPromptTemplate(
   modelName: string,
-  explicitTemplate?: string,
+  explicitTemplate?: TemplateType,
 ) {
   const templateType = explicitTemplate ?? autodetectTemplateType(modelName);
   const templates: Record<string, any> = {};
 
   let editTemplate = null;
 
-  if (templateType === "llama3") {
-    editTemplate = llama3EditPrompt;
-  } else if (templateType === "deepseek") {
-    editTemplate = deepseekEditPrompt;
+  if (templateType && USES_OS_MODELS_EDIT_PROMPT.includes(templateType)) {
+    editTemplate = osModelsEditPrompt;
   }
+  // TODO: 后续需要删除
+  // if (templateType === "llama3") {
+  //   editTemplate = llama3EditPrompt;
+  // } else if (templateType === "deepseek") {
+  //   editTemplate = deepseekEditPrompt;
+  // }
 
   if (editTemplate !== null) {
     templates.edit = editTemplate;
   }
   return templates;
+}
+
+/**
+ * 自动检测模板函数
+ * @param model 模型名称
+ * @param provider 模型提供者
+ * @param explicitTemplate 显式指定的模板类型，可选
+ * @returns 模板消息对象，若未检测到合适的模板则返回 null
+ */
+export function autodetectTemplateFunction(
+  model: string,
+  provider: ModelProvider,
+  explicitTemplate: TemplateType | undefined = undefined,
+) {
+  if (
+    explicitTemplate === undefined &&
+    PROVIDER_HANDLES_TEMPLATING.includes(provider)
+  ) {
+    return null;
+  }
+
+  const templateType = explicitTemplate ?? autodetectTemplateType(model);
+
+  if (templateType) {
+    const mapping: Record<TemplateType, any> = {
+      deepseek: deepseekTemplateMessages,
+      llama3: llama3TemplateMessages,
+    };
+
+    return mapping[templateType];
+  }
+
+  return null;
 }
