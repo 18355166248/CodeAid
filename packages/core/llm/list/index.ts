@@ -1,8 +1,9 @@
 import { BaseLLM } from "..";
 import { ModelDescription } from "../../types/config.type";
 import { Ollama } from "./Ollama";
+import { OpenAI } from "./OpenAI";
 
-const LLMs = [Ollama];
+const LLMs = [Ollama, OpenAI];
 
 export async function llmFromDescription(
   desc: ModelDescription,

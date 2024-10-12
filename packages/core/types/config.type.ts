@@ -6,7 +6,7 @@ import {
 } from "./chat.type";
 import { TabAutocompleteOptions } from "./completion.type";
 
-export type ModelProvider = "ollama" | "openai";
+export type ModelProvider = "ollama" | "openchat";
 
 // 大模型配置
 export interface LLMOptions {

@@ -87,4 +87,19 @@ const llama3TemplateMessages = templateFactory(
   "<|eot_id|>",
 );
 
-export { llama3TemplateMessages, deepseekTemplateMessages };
+/**
+ * OpenChat Template, used by CodeNinja
+ * GPT4 Correct User: Hello<|end_of_turn|>GPT4 Correct Assistant: Hi<|end_of_turn|>GPT4 Correct User: How are you today?<|end_of_turn|>GPT4 Correct Assistant:
+ */
+const openchatTemplateMessages = templateFactory(
+  () => "",
+  "GPT4 Correct User: ",
+  "GPT4 Correct Assistant: ",
+  "<|end_of_turn|>",
+);
+
+export {
+  llama3TemplateMessages,
+  deepseekTemplateMessages,
+  openchatTemplateMessages,
+};

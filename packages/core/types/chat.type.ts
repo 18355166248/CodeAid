@@ -2,7 +2,7 @@ import { CompletionOptions } from "./config.type";
 
 export type ChatMessageRole = "user" | "assistant" | "system";
 
-export type TemplateType = "deepseek" | "llama3";
+export type TemplateType = "deepseek" | "llama3" | "openchat";
 
 export interface MessagePart {
   type: "text" | "imageUrl";

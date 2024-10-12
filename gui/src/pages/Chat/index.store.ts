@@ -28,7 +28,7 @@ const defaultMessages: ChatMessage[] = [
 
 export const initialState: State = {
   requestIng: false,
-  model: "Llama 3", // azure_openai_gpt_4o Llama 3
+  model: 'gpt-4o', // azure_openai_gpt_4o Llama 3
   inputValue: "",
   messages: [...defaultMessages],
   active: false,

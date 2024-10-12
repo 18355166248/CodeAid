@@ -3,16 +3,18 @@ import { ModelProvider } from "../types/config.type";
 import {
   deepseekTemplateMessages,
   llama3TemplateMessages,
+  openchatTemplateMessages,
 } from "./templates/chat";
 import {
   deepseekEditPrompt,
   llama3EditPrompt,
   osModelsEditPrompt,
+  openchatEditPrompt,
 } from "./templates/edit";
 
 const USES_OS_MODELS_EDIT_PROMPT: TemplateType[] = ["deepseek", "llama3"];
 
-const PROVIDER_HANDLES_TEMPLATING: ModelProvider[] = ["openai", "ollama"];
+const PROVIDER_HANDLES_TEMPLATING: ModelProvider[] = ["openchat", "ollama"];
 
 /**
  * 自动检测模板类型
@@ -53,7 +55,10 @@ export function autodetectPromptTemplate(
 
   if (templateType && USES_OS_MODELS_EDIT_PROMPT.includes(templateType)) {
     editTemplate = osModelsEditPrompt;
+  } else if (templateType === "openchat") {
+    editTemplate = openchatEditPrompt;
   }
+
   // TODO: 后续需要删除
   // if (templateType === "llama3") {
   //   editTemplate = llama3EditPrompt;
@@ -92,6 +97,7 @@ export function autodetectTemplateFunction(
     const mapping: Record<TemplateType, any> = {
       deepseek: deepseekTemplateMessages,
       llama3: llama3TemplateMessages,
+      openchat: openchatTemplateMessages,
     };
 
     return mapping[templateType];

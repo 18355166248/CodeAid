@@ -5,6 +5,11 @@ export const defaultConfig = {
       provider: "ollama",
       model: "llama3.1",
     },
+    {
+      title: "gpt-4o",
+      provider: "openchat",
+      model: "gpt-4o",
+    },
   ],
   tabAutocompleteModel: {
     title: "deepseek-coder",

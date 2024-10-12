@@ -5,6 +5,7 @@ import {
   LLMOptions,
   ModelProvider,
 } from "../types/config.type";
+import mergeJson from "../utils/merge";
 import {
   autodetectPromptTemplate,
   autodetectTemplateFunction,
@@ -34,6 +35,7 @@ export class BaseLLM implements CLLM {
       options.completionOptions?.options?.num_ctx || DEFAULT_CONTEXT_LENGTH;
     this.completionOptions = {
       ...options.completionOptions,
+      model: options.model || "gpt-4",
       options: {
         ...options.completionOptions?.options,
         num_predict:
@@ -53,8 +55,13 @@ export class BaseLLM implements CLLM {
     _prompt: string,
     options: CompletionOptions,
   ): AsyncGenerator<string> {
+    const { completionOptions } = this._parseCompletionOptions(options);
+
     let completion = "";
-    for await (const chunk of this._streamComplete(_prompt, options)) {
+    for await (const chunk of this._streamComplete(
+      _prompt,
+      completionOptions,
+    )) {
       completion += chunk;
       yield chunk;
     }
@@ -80,9 +87,11 @@ export class BaseLLM implements CLLM {
 
   async *streamChat(
     messages: ChatMessage[],
-    completionOptions: CompletionOptions = {},
+    options: CompletionOptions = {},
     cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage, PromptLog> {
+    const { completionOptions } = this._parseCompletionOptions(options);
+
     const prompt = this._formatChatMessages(messages);
     let completion = "";
     try {
@@ -179,5 +188,15 @@ export class BaseLLM implements CLLM {
     }
 
     return rendered;
+  }
+  private _parseCompletionOptions(options: CompletionOptions) {
+    const raw = options.raw ?? false;
+
+    const completionOptions: CompletionOptions = mergeJson(
+      this.completionOptions,
+      options,
+    );
+
+    return { completionOptions, raw };
   }
 }

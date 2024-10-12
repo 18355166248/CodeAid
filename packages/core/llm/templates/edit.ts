@@ -112,6 +112,14 @@ ${otherData.prefix}${START_TAG}
   ];
 };
 
+const openchatEditPrompt = `GPT4 Correct User: You are an expert programmer and personal assistant. You are asked to rewrite the following code in order to {{{userInput}}}.
+\`\`\`{{{language}}}
+{{{codeToEdit}}}
+\`\`\`
+Please only respond with code and put it inside of a markdown code block. Do not give any explanation, but your code should perfectly satisfy the user request.<|end_of_turn|>GPT4 Correct Assistant: Sure thing! Here is the rewritten code that you requested:
+\`\`\`{{{language}}}
+`;
+
 const deepseekEditPrompt = `### System Prompt
 You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
 ### Instruction:
@@ -140,4 +148,5 @@ export {
   llama3EditPrompt,
   gptEditPrompt,
   osModelsEditPrompt,
+  openchatEditPrompt,
 };
