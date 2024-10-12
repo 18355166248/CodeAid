@@ -79,7 +79,6 @@ export class VerticalDiffHandler implements vscode.Disposable {
 
     while (this._diffLinesQueue.length > 0) {
       const line = this._diffLinesQueue.shift();
-      console.log("diff-> handler queueDiffLine: ", line);
       if (!line) continue;
 
       try {
@@ -126,10 +125,6 @@ export class VerticalDiffHandler implements vscode.Disposable {
   }
 
   async _handleDiffLine(diffLine: DiffLine) {
-    console.log(
-      "🚀 ~ VerticalDiffHandler ~ _handleDiffLine ~ diffLine:",
-      diffLine,
-    );
     switch (diffLine.type) {
       case "same":
         await this.insertDeletionBuffer();
