@@ -142,6 +142,17 @@ export class VerticalDiffHandler implements vscode.Disposable {
     }
   }
 
+  /**
+   * 异步插入删除缓冲区的内容
+   *
+   * 插入之前删除的文本行到当前光标所在位置的上方。
+   *
+   * 注意事项：
+   * 1. 如果删除缓冲区为空，且当前光标位置在指定范围外且当前块内没有插入任何内容，则直接返回。
+   * 2. 如果删除缓冲区为空，则将当前块内插入行数重置为0并返回。
+   * 3. 在插入文本后，需要更新红色装饰管理器（redDecorationManager）和绿色装饰管理器（greenDecorationManager）的装饰位置。
+   * 4. 更新当前光标位置，并清空删除缓冲区。
+   */
   private async insertDeletionBuffer() {
     // Don't remove trailing whitespace line
     const totalDeletedContent = this.deletionBuffer.join("\n");

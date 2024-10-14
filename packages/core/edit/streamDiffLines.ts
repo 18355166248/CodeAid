@@ -52,6 +52,7 @@ export async function* streamDiffLines(
   lines = stopAtLines(lines, () => {});
   lines = skipLines(lines);
 
+  // 对比新老文本的差异，并进行标注返回
   let diffLines = streamDiff(oldLines, lines);
 
   for await (const diffLine of diffLines) {
