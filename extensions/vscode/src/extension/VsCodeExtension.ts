@@ -1,6 +1,5 @@
-import vscode, { commands, languages, workspace } from "vscode";
+import vscode, { commands } from "vscode";
 import { CodeAidGUIWebviewViewProvider } from "../Provider/CodeAidGUIWebviewViewProvider";
-import CodelensProvider from "../Provider/CodelensProvider ";
 import { CodeLensNames } from "../constants/codeLens.const";
 import { getNodeText } from "../utils/getNodeText";
 import { registerCommands } from "../commands";
@@ -13,6 +12,7 @@ import { InProcessMessenger } from "core/utils/messenger";
 import { FromCoreProtocol, ToCoreProtocol } from "core";
 import { VscodeMessenger } from "./VscodeMessenger";
 import { VerticalDiffManager } from "../diff/vertical/manager";
+import { registerAllCodelens } from "../codeLens/registerAllCodeLens";
 
 export class VscodeExtension {
   private sidebar;
@@ -60,19 +60,6 @@ export class VscodeExtension {
 
     this.autoCompleteModel = new TabAutoCompleteModel(this.configProvider);
 
-    // 函数辅助按钮
-    context.subscriptions.push(
-      vscode.languages.registerCodeLensProvider(
-        [
-          { language: "typescriptreact", scheme: "file" },
-          { language: "javascriptreact", scheme: "file" },
-          { language: "typescript", scheme: "file" },
-          { language: "javascript", scheme: "file" },
-        ],
-        new CodelensProvider(),
-      ),
-    );
-
     // 函数辅助按钮的点击事件绑定
     CodeLensNames.forEach((v) => {
       context.subscriptions.push(
@@ -96,6 +83,9 @@ export class VscodeExtension {
       this.configProvider,
       this.sidebar.webviewProtocol,
     );
+
+    registerAllCodelens(context, this.verticalDiffManager.filepathToCodeLens);
+
     // commands
     registerCommands({
       context,

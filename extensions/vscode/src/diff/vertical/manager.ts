@@ -12,9 +12,18 @@ import { pruneLinesFromTop } from "core/llm/countTokens";
 import { streamDiffLines } from "core/edit/streamDiffLines";
 import { getLanguageForFile } from "core/utils/getLanguageForFile";
 
+export interface VerticalDiffCodeLensProps {
+  start: number;
+  numRed: number;
+  numGreen: number;
+}
+
 export class VerticalDiffManager {
   // 缓存功能
   private filePathToHandler: Map<string, VerticalDiffHandler> = new Map();
+  // 缓存行号 用于代码处理
+  filepathToCodeLens: Map<string, VerticalDiffCodeLensProps[]> = new Map();
+
   constructor(
     private readonly configHandler: ConfigHandler,
     private readonly webviewProtocol: VscodeWebviewProtocol,
@@ -32,7 +41,12 @@ export class VerticalDiffManager {
     }
     const editor = vscode.window.activeTextEditor;
     if (editor && filepath === editor.document.uri.fsPath) {
-      const handler = new VerticalDiffHandler(editor, startLine, endLine);
+      const handler = new VerticalDiffHandler(
+        editor,
+        startLine,
+        endLine,
+        this.filepathToCodeLens,
+      );
       this.filePathToHandler.set(filepath, handler);
       return handler;
     }
@@ -111,5 +125,33 @@ export class VerticalDiffManager {
     } finally {
       vscode.commands.executeCommand("setContext", codeAidStreamingDiff, false);
     }
+  }
+
+  // 同意/拒绝行级diff块
+  async acceptRejectVerticalDiffBlock(
+    accept: boolean,
+    filepath?: string,
+    index?: number,
+  ) {
+    if (!filepath) {
+      const activeEditor = vscode.window.activeTextEditor;
+      if (!activeEditor) {
+        return;
+      }
+      filepath = activeEditor.document.uri.fsPath;
+    }
+    const blocks = this.filepathToCodeLens.get(filepath);
+    const block = blocks?.[index!];
+    if (!blocks || !block) return;
+    const handler = this.filePathToHandler.get(filepath);
+    if (!handler) return;
+
+    await handler.acceptRejectBlock(
+      accept,
+      index!,
+      block.numGreen,
+      block.numRed,
+    );
+
   }
 }

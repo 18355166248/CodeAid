@@ -59,6 +59,14 @@ const commandsMap = ({
       // 优化代码
       streamInlineEdit("optimize", "Optimize this code");
     },
+    // 同意diff
+    "codeAid.acceptVerticalDiffBlock": (filepath?: string, index?: number) => {
+      verticalDiffManager.acceptRejectVerticalDiffBlock(true, filepath, index);
+    },
+    // 拒绝diff
+    "codeAid.rejectVerticalDiffBlock": (filepath?: string, index?: number) => {
+      verticalDiffManager.acceptRejectVerticalDiffBlock(false, filepath, index);
+    },
     "codeAid.OpenConfigJson": () => {
       ide.openFile(getConfigJsonPath());
     },

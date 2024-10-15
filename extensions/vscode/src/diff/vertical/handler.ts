@@ -8,6 +8,7 @@ import {
   indexDecorationType,
   redDecorationType,
 } from "./decorations";
+import { VerticalDiffCodeLensProps } from "./manager";
 
 export class VerticalDiffHandler implements vscode.Disposable {
   private cancelled = false;
@@ -28,6 +29,10 @@ export class VerticalDiffHandler implements vscode.Disposable {
     private readonly editor: vscode.TextEditor,
     private readonly startLine: number,
     private readonly endLine: number,
+    private readonly filepathToCodeLens: Map<
+      string,
+      VerticalDiffCodeLensProps[]
+    >,
   ) {
     this.currentLineIndex = startLine;
 
@@ -55,10 +60,14 @@ export class VerticalDiffHandler implements vscode.Disposable {
   get isCancelled() {
     return this.cancelled;
   }
+  get filepath() {
+    return this.editor?.document.uri.fsPath;
+  }
 
   clear() {
     vscode.commands.executeCommand("setContext", codeAidStreamingDiff, false);
     this.dispose();
+    this.filepathToCodeLens.delete(this.filepath);
     this.cancelled = true;
   }
 
@@ -164,6 +173,16 @@ export class VerticalDiffHandler implements vscode.Disposable {
       return;
     }
 
+    if (this.deletionBuffer.length || this.insertedInCurrentBlock > 0) {
+      const blocks = this.filepathToCodeLens.get(this.filepath) || [];
+      blocks.push({
+        start: this.currentLineIndex - this.insertedInCurrentBlock,
+        numRed: this.deletionBuffer.length,
+        numGreen: this.insertedInCurrentBlock,
+      });
+      this.filepathToCodeLens.set(this.filepath, blocks);
+    }
+
     if (this.deletionBuffer.length === 0) {
       this.insertedInCurrentBlock = 0;
       return;
@@ -256,5 +275,21 @@ export class VerticalDiffHandler implements vscode.Disposable {
     } catch (error) {
       throw error;
     }
+  }
+
+  // 同意/拒绝当前块
+  async acceptRejectBlock(
+    accept: boolean,
+    startLine: number,
+    numGreen: number,
+    numberRed: number,
+  ) {
+    console.log(
+      "🚀 ~ VerticalDiffHandler ~ accept:",
+      accept,
+      startLine,
+      numGreen,
+      numberRed,
+    );
   }
 }
