@@ -282,14 +282,22 @@ export class VerticalDiffHandler implements vscode.Disposable {
     accept: boolean,
     startLine: number,
     numGreen: number,
-    numberRed: number,
+    numRed: number,
   ) {
     console.log(
       "🚀 ~ VerticalDiffHandler ~ accept:",
       accept,
       startLine,
       numGreen,
-      numberRed,
+      numRed,
     );
+    if (numGreen > 0) {
+      // 删除绿色高亮
+      this.greenDecorationManager.deleteRangeStartingAt(startLine + numRed);
+      if (!accept) {
+        // 选择拒绝的话 将绿色的删除
+        await this.deleteLinesAt(startLine + numRed, numGreen);
+      }
+    }
   }
 }
