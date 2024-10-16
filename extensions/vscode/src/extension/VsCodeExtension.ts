@@ -84,7 +84,14 @@ export class VscodeExtension {
       this.sidebar.webviewProtocol,
     );
 
-    registerAllCodelens(context, this.verticalDiffManager.filepathToCodeLens);
+    const { verticalDiffCodeLens } = registerAllCodelens(
+      context,
+      this.verticalDiffManager.filepathToCodeLens,
+    );
+
+    // 设置刷新的方法
+    this.verticalDiffManager.refreshCodeLens =
+      verticalDiffCodeLens.refresh.bind(verticalDiffCodeLens);
 
     // commands
     registerCommands({

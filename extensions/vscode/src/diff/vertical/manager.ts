@@ -19,6 +19,7 @@ export interface VerticalDiffCodeLensProps {
 }
 
 export class VerticalDiffManager {
+  public refreshCodeLens: () => void = () => {};
   // 缓存功能
   private filePathToHandler: Map<string, VerticalDiffHandler> = new Map();
   // 缓存行号 用于代码处理
@@ -46,6 +47,7 @@ export class VerticalDiffManager {
         startLine,
         endLine,
         this.filepathToCodeLens,
+        this.refreshCodeLens,
       );
       this.filePathToHandler.set(filepath, handler);
       return handler;
@@ -148,10 +150,9 @@ export class VerticalDiffManager {
 
     await handler.acceptRejectBlock(
       accept,
-      index!,
+      block.start,
       block.numGreen,
       block.numRed,
     );
-
   }
 }

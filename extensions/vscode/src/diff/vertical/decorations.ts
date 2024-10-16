@@ -98,6 +98,12 @@ export class DecorationTypeRangeManager {
     );
   }
 
+  /**
+   * 在指定行号之后的所有范围下移指定偏移量
+   *
+   * @param afterLine 指定行号
+   * @param offset 下移的偏移量
+   */
   shiftDownAfterLine(afterLine: number, offset: number) {
     for (let i = 0; i < this.ranges.length; i++) {
       if (this.ranges[i].start.line >= afterLine) {
@@ -108,10 +114,6 @@ export class DecorationTypeRangeManager {
   }
 
   deleteRangeStartingAt(line: number) {
-    console.log(
-      "🚀 ~ DecorationTypeRangeManager ~ deleteRangeStartingAt ~ this.ranges:",
-      this.ranges,
-    );
     for (let i = 0; i < this.ranges.length; i++) {
       if (this.ranges[i].start.line === line) {
         return this.ranges.splice(i, 1)[0];

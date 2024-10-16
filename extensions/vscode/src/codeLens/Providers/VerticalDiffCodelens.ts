@@ -2,6 +2,15 @@ import * as vscode from "vscode";
 import { VerticalDiffCodeLensProps } from "../../diff/vertical/manager";
 
 export default class VerticalDiffCodelens implements vscode.CodeLensProvider {
+  private _eventEmitter: vscode.EventEmitter<void> =
+    new vscode.EventEmitter<void>();
+
+  onDidChangeCodeLenses: vscode.Event<void> = this._eventEmitter.event;
+
+  public refresh(): void {
+    this._eventEmitter.fire();
+  }
+
   constructor(
     private readonly filepathToCodeLens: Map<
       string,
@@ -12,10 +21,6 @@ export default class VerticalDiffCodelens implements vscode.CodeLensProvider {
   public provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
     const filepath = document.uri.fsPath;
     const blocks = this.filepathToCodeLens.get(filepath);
-    console.log(
-      "🚀 ~ VerticalDiffCodelens ~ provideCodeLenses ~ blocks:",
-      blocks,
-    );
     if (!blocks) return [];
 
     const codeLenses: vscode.CodeLens[] = [];

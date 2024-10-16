@@ -23,10 +23,10 @@ export function registerAllCodelens(
   );
 
   // diff代码提示合并
+  const verticalDiffCodeLens = new VerticalDiffCodelens(filepathToCodeLens);
   context.subscriptions.push(
-    vscode.languages.registerCodeLensProvider(
-      selector,
-      new VerticalDiffCodelens(filepathToCodeLens),
-    ),
+    vscode.languages.registerCodeLensProvider(selector, verticalDiffCodeLens),
   );
+
+  return { verticalDiffCodeLens };
 }

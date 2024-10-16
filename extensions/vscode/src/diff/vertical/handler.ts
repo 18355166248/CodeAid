@@ -33,6 +33,7 @@ export class VerticalDiffHandler implements vscode.Disposable {
       string,
       VerticalDiffCodeLensProps[]
     >,
+    private readonly refreshCodeLens: () => void,
   ) {
     this.currentLineIndex = startLine;
 
@@ -284,13 +285,6 @@ export class VerticalDiffHandler implements vscode.Disposable {
     numGreen: number,
     numRed: number,
   ) {
-    console.log(
-      "🚀 ~ VerticalDiffHandler ~ accept:",
-      accept,
-      startLine,
-      numGreen,
-      numRed,
-    );
     if (numGreen > 0) {
       // 删除绿色高亮
       this.greenDecorationManager.deleteRangeStartingAt(startLine + numRed);
@@ -299,5 +293,34 @@ export class VerticalDiffHandler implements vscode.Disposable {
         await this.deleteLinesAt(startLine + numRed, numGreen);
       }
     }
+    if (numRed > 0) {
+      // 删除红色高亮
+      this.redDecorationManager.deleteRangeStartingAt(startLine);
+      if (accept) {
+        // 选择接受的话 将红色的删除
+        await this.deleteLinesAt(startLine, numRed);
+      }
+    }
+
+    const offset = -(accept ? numRed : numGreen);
+    // 当前的代码快, 后面的红色绿色高亮下移对应的偏移量
+    this.redDecorationManager.shiftDownAfterLine(startLine, offset);
+    this.greenDecorationManager.shiftDownAfterLine(startLine, offset);
+    // 删除对应的codeLen
+    this.shiftCodeLens(startLine, offset);
+  }
+  shiftCodeLens(line: number, offset: number) {
+    const blocks =
+      this.filepathToCodeLens
+        .get(this.filepath)
+        ?.filter((v) => v.start !== line)
+        .map((v) => {
+          if (v.start > line) {
+            v.start += offset;
+          }
+          return v;
+        }) || [];
+    this.filepathToCodeLens.set(this.filepath, blocks);
+    this.refreshCodeLens();
   }
 }
