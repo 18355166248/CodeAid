@@ -55,7 +55,11 @@ export class VerticalDiffManager {
     return undefined;
   }
 
-  async streamEdit(input: string, modelTitle?: string) {
+  async streamEdit(
+    input: string,
+    modelTitle?: string,
+    onlyOneInsertion?: boolean,
+  ) {
     vscode.commands.executeCommand("setContext", codeAidDiffVisible, true);
 
     let editor = vscode.window.activeTextEditor;
@@ -121,6 +125,7 @@ export class VerticalDiffManager {
           llm,
           input,
           getLanguageForFile(filepath),
+          onlyOneInsertion,
         ),
       );
     } catch (error) {

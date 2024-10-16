@@ -69,6 +69,7 @@ export class VerticalDiffHandler implements vscode.Disposable {
     vscode.commands.executeCommand("setContext", codeAidStreamingDiff, false);
     this.dispose();
     this.filepathToCodeLens.delete(this.filepath);
+    this.clearIndexLineDecorations();
     this.cancelled = true;
   }
 
@@ -220,6 +221,16 @@ export class VerticalDiffHandler implements vscode.Disposable {
     this.updateIndexLineDecorations();
   }
 
+  private clearIndexLineDecorations() {
+    this.editor.setDecorations(belowIndexDecorationType, []);
+    this.editor.setDecorations(indexDecorationType, []);
+  }
+
+  /**
+   * 更新索引行的装饰
+   *
+   * 高亮当前索引行，并轻微高亮索引行与结束行之间的所有行
+   */
   private updateIndexLineDecorations() {
     // Highlight the line at the currentLineIndex
     // And lightly highlight all lines between that and endLine
@@ -273,6 +284,8 @@ export class VerticalDiffHandler implements vscode.Disposable {
         }
         await this.queueDiffLine(diffLine);
       }
+
+      this.clearIndexLineDecorations();
     } catch (error) {
       throw error;
     }

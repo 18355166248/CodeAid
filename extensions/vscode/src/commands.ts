@@ -21,11 +21,16 @@ const commandsMap = ({
   async function streamInlineEdit(
     prompt: keyof ContextMenuConfig,
     fallbackPrompt: string,
+    onlyOneInsertion = false, // 是否只允许插入一个
   ) {
     const modelTitle = await sidebar.webviewProtocol.request(
       "getDefaultModelTitle",
     );
-    await verticalDiffManager.streamEdit(fallbackPrompt, modelTitle);
+    await verticalDiffManager.streamEdit(
+      fallbackPrompt,
+      modelTitle,
+      onlyOneInsertion,
+    );
   }
 
   return {
@@ -49,10 +54,18 @@ const commandsMap = ({
       );
     },
     "codeAid.commentCode": () => {
-      // 代码添加注释
+      // 分析代码添加内部行注释
       streamInlineEdit(
         "comment",
         "Write comments for this code. Do not change anything about the code itself.",
+      );
+    },
+    "codeAid.writeDocstringForCode": async () => {
+      // 给代码添加一个总的注释
+      streamInlineEdit(
+        "docstring",
+        "Write a docstring for this code. Do not change anything about the code itself.",
+        true,
       );
     },
     "codeAid.optimizeCode": () => {

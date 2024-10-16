@@ -104,12 +104,17 @@
           "when": "editorHasSelection"
         },
         {
+          "command": "codeAid.optimizeCode",
+          "group": "CodeAid",
+          "when": "editorHasSelection"
+        },
+        {
           "command": "codeAid.commentCode",
           "group": "CodeAid",
           "when": "editorHasSelection"
         },
         {
-          "command": "codeAid.optimizeCode",
+          "command": "codeAid.writeDocstringForCode",
           "group": "CodeAid",
           "when": "editorHasSelection"
         }
@@ -140,6 +145,13 @@
       },
       {
         "command": "codeAid.commentCode",
+        "category": "CodeAid",
+        "title": "解释代码",
+        "icon": "$(lightbulb-antefix)",
+        "group": "CodeAid"
+      },
+      {
+        "command": "codeAid.writeDocstringForCode",
         "category": "CodeAid",
         "title": "添加注释",
         "icon": "$(lightbulb-antefix)",

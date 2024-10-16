@@ -18,6 +18,7 @@ export async function* streamDiffLines(
   llm: CLLM,
   input: string,
   language?: string,
+  onlyOneInsertion?: boolean,
 ): AsyncGenerator<DiffLine> {
   // 根据 highlighted 文本的长度，决定如何初始化 oldLines。如果 highlighted 为空，则将 prefix 和 suffix 拼接后拆分最后一行作为 oldLines；如果不为空，则直接将 highlighted 按行拆分。同时，移除每行末尾的空白字符。
   let oldLines =
@@ -55,8 +56,15 @@ export async function* streamDiffLines(
   // 对比新老文本的差异，并进行标注返回
   let diffLines = streamDiff(oldLines, lines);
 
+  let seenGreen = false;
   for await (const diffLine of diffLines) {
     yield diffLine;
+    if (diffLine.type === "new") {
+      seenGreen = true;
+    } else if (onlyOneInsertion && seenGreen && diffLine.type === "same") {
+      // 如果只允许一次插入，且已看到绿色文本，则跳出循环
+      break;
+    }
   }
 }
 
