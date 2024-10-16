@@ -56,7 +56,7 @@ function shouldRemoveLineBeforeStart(line: string): boolean {
  */
 function shouldChangeLineAndStop(line: string): string | undefined {
   if (line.trimStart() === "```") {
-    return line;
+    return "";
   }
 
   if (line.includes(CODE_START_BLOCK)) {

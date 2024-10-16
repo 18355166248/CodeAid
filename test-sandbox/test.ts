@@ -15,22 +15,4 @@ class calculator {
     this.result /= number;
     return this;
   }
-
-  getresult() {
-    return this.result;
-  }
-
-  reset() {
-    this.result = 0;
-    return this;
-  }
-}
-
-function delete1(a: number, b: number) {
-  return a - b;
-}
-
-
-function add(a: number, b: number) {
-  return a + b;
 }
