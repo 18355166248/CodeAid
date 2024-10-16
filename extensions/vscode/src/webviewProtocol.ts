@@ -43,7 +43,8 @@ export class VscodeWebviewProtocol {
               respond(next.value);
               next = await response.next();
             }
-            console.log("next.value", next.value);
+            console.log("done next.value", next.value);
+            console.log("e.messageType", e.messageType);
             respond({
               done: true,
               content: next.value?.content,

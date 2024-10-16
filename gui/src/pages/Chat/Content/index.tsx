@@ -39,7 +39,7 @@ function Content() {
           cancelText: "取消",
         });
       } else {
-        // message.error("消息类型错误");
+        console.log("消息类型错误", event.data);
       }
     };
 

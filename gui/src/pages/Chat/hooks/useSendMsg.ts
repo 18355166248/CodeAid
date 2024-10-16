@@ -105,6 +105,7 @@ async function* llmStreamChat({
   );
 
   let next = await response.next();
+  console.log("🚀 ~ next:", next);
 
   while (!next.done) {
     yield { role: "user", content: next.value as unknown as string };
