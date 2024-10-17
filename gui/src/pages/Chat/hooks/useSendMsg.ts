@@ -39,13 +39,14 @@ export const useSendMsg = () => {
 
     const abortController = new AbortController();
     const cancelToken = abortController.signal;
-    const gen = llmStreamChat({ messages, model, cancelToken });
+    const gen = llmStreamChat({ messages: msgs, model, cancelToken });
 
     setState((state) => {
       state.active = true;
     });
 
     let next = await gen.next();
+
     while (!next.done) {
       if (!activeRef.current) {
         // 停止请求
@@ -64,6 +65,11 @@ export const useSendMsg = () => {
       next = await gen.next();
     }
 
+    console.log("🚀 ~ sendMessage ~ next:", next);
+
+    setState((state) => {
+      state.active = false;
+    });
     status.requestIng = false;
   }
 
@@ -94,6 +100,7 @@ async function* llmStreamChat({
   model: string;
   cancelToken: AbortSignal;
 }): AsyncGenerator<ChatMessage, PromptLog> {
+  console.log("🚀 ~ messages:", messages);
   const response = streamRequest(
     "llm/streamChat",
     {
@@ -105,7 +112,6 @@ async function* llmStreamChat({
   );
 
   let next = await response.next();
-  console.log("🚀 ~ next:", next);
 
   while (!next.done) {
     yield { role: "user", content: next.value as unknown as string };
@@ -113,9 +119,9 @@ async function* llmStreamChat({
   }
 
   return {
-    modelTitle: model,
-    prompt: "",
-    completion: "",
-    completionOptions: {},
+    modelTitle: next.value.content?.modelTitle,
+    prompt: next.value.content?.prompt,
+    completion: next.value.content?.completion,
+    completionOptions: next.value.content?.completionOptions,
   };
 }
