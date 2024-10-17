@@ -152,7 +152,7 @@
 }
 
 /*行内代码*/
-.markdown-body p code,
+/* .markdown-body p code,
 .markdown-body li code {
   font-size: calc(var(--base-font-size) * var(--scale-factor) * 0.875);
   word-break: break-word;
@@ -162,7 +162,7 @@
   color: rgb(14 165 233);
   background-color: rgb(15 164 233 / 8%);
   font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
-}
+} */
 
 .markdown-body pre {
   font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;

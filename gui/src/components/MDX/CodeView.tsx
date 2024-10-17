@@ -15,9 +15,18 @@ function CodeView({
         <span className="bg-yellow-500 code__circle"></span>
         <span className="bg-green-500 code__circle"></span>
       </section> */}
+      <div
+        className="flex justify-between px-4 py-2 text-base border-b border-gray-500"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+      >
+        <div></div>
+        <div>
+          <span className="text-gray-400 cursor-pointer mr-2">复制</span>
+          <span className="text-gray-400 cursor-pointer">采纳</span>
+        </div>
+      </div>
 
       {children}
-      <div className="pb-1"></div>
     </pre>
   );
 }
