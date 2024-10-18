@@ -3,6 +3,11 @@ import { getNonce } from "../utils/base";
 import { getExtensionUri } from "../utils/vscode";
 import { VscodeWebviewProtocol } from "../webviewProtocol";
 import { myExtensionDisabledClearChat } from "../constant/vscode.context";
+import {
+  ToWebviewFromIdeOrCoreProtocol,
+  ToWebviewFromIdeProtocol,
+} from "core/types/ideWebview.type";
+import { ToWebviewProtocol } from "core";
 
 export class CodeAidGUIWebviewViewProvider
   implements vscode.WebviewViewProvider
@@ -139,7 +144,7 @@ export class CodeAidGUIWebviewViewProvider
   }
 
   // 发送消息
-  sendMainUserSelect(messageType: string, input?: string) {
+  sendMainUserSelect(messageType: keyof ToWebviewProtocol, input?: string) {
     this.webviewProtocol.request(messageType, input);
   }
 }

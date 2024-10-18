@@ -8,6 +8,7 @@ export function Fallback() {
 
 function App() {
   useSetup();
+
   return <RouterProvider router={router} fallbackElement={<Fallback />} />;
 }
 

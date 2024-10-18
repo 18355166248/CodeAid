@@ -1,5 +1,17 @@
 import * as ts from "typescript";
 
+export interface FunctionsAndComponentsProps {
+  name: string;
+  kind: string;
+  position: FunctionsAndComponentsPosition;
+  node: ts.Node;
+}
+
+export interface FunctionsAndComponentsPosition {
+  start: ts.LineAndCharacter;
+  end: ts.LineAndCharacter;
+}
+
 export function findFunctionsAndComponents(sourceCode: string) {
   const sourceFile = ts.createSourceFile(
     "",
@@ -7,12 +19,7 @@ export function findFunctionsAndComponents(sourceCode: string) {
     ts.ScriptTarget.Latest,
     true,
   );
-  const functionsAndComponents: {
-    name: string;
-    kind: string;
-    position: ts.LineAndCharacter;
-    node: ts.Node;
-  }[] = [];
+  const functionsAndComponents: FunctionsAndComponentsProps[] = [];
 
   function visit(node: ts.Node) {
     if (
@@ -24,7 +31,10 @@ export function findFunctionsAndComponents(sourceCode: string) {
       functionsAndComponents.push({
         name,
         kind: "function",
-        position: sourceFile.getLineAndCharacterOfPosition(node.getStart()),
+        position: {
+          start: sourceFile.getLineAndCharacterOfPosition(node.getStart()),
+          end: sourceFile.getLineAndCharacterOfPosition(node.getEnd()),
+        },
         node,
       });
     } else if (ts.isClassDeclaration(node) && node.name) {
@@ -32,7 +42,10 @@ export function findFunctionsAndComponents(sourceCode: string) {
       functionsAndComponents.push({
         name,
         kind: "component",
-        position: sourceFile.getLineAndCharacterOfPosition(node.getStart()),
+        position: {
+          start: sourceFile.getLineAndCharacterOfPosition(node.getStart()),
+          end: sourceFile.getLineAndCharacterOfPosition(node.getEnd()),
+        },
         node,
       });
     } else if (ts.isVariableStatement(node)) {
@@ -47,9 +60,14 @@ export function findFunctionsAndComponents(sourceCode: string) {
           functionsAndComponents.push({
             name,
             kind: "function",
-            position: sourceFile.getLineAndCharacterOfPosition(
-              declaration.getStart(),
-            ),
+            position: {
+              start: sourceFile.getLineAndCharacterOfPosition(
+                declaration.getStart(),
+              ),
+              end: sourceFile.getLineAndCharacterOfPosition(
+                declaration.getEnd(),
+              ),
+            },
             node,
           });
         }

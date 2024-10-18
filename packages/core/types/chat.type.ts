@@ -32,3 +32,12 @@ export type PromptTemplate =
     ) => string | ChatMessage[]);
 
 export type LineStream = AsyncGenerator<string>;
+
+export interface RangeInFileWithContents {
+  filepath: string;
+  range: {
+    start: { line: number; character: number };
+    end: { line: number; character: number };
+  };
+  contents: string;
+}

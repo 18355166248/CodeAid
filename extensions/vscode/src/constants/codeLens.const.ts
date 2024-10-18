@@ -1,4 +1,9 @@
-export const CodeLensNames = [
+import { ToWebviewProtocol } from "core";
+
+export const CodeLensNames: {
+  title: string;
+  command: keyof ToWebviewProtocol;
+}[] = [
   {
     title: "函数注释",
     command: "extension.addComment",

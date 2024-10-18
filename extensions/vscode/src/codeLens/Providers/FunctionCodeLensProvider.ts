@@ -11,7 +11,7 @@ export default class FunctionCodeLensProvider
     const codeLenses: vscode.CodeLens[] = [];
 
     items.forEach((item) => {
-      const line = item.position.line;
+      const line = item.position.start.line;
 
       const range = new vscode.Range(
         new vscode.Position(line, 0),
@@ -27,7 +27,13 @@ export default class FunctionCodeLensProvider
             new vscode.CodeLens(range, {
               title: v.title,
               command: v.command,
-              arguments: [document.uri, item.node, item.name],
+              arguments: [
+                document.uri,
+                item.node,
+                item.name,
+                item.position,
+                item.kind,
+              ],
             }),
           );
         }

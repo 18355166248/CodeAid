@@ -63,18 +63,27 @@ export class VscodeExtension {
     // 函数辅助按钮的点击事件绑定
     CodeLensNames.forEach((v) => {
       context.subscriptions.push(
-        commands.registerCommand(v.command, async (uri, node) => {
-          const editor = vscode.window.activeTextEditor;
-          if (!editor) return;
+        commands.registerCommand(
+          v.command,
+          async (uri, node, name, position, kind, ext) => {
+            const editor = vscode.window.activeTextEditor;
+            if (!editor) return;
 
-          const code = getNodeText(editor.document, node);
+            const code = getNodeText(editor.document, node);
 
-          // 触发 codeAid 左侧菜单视图选中加载显示
-          vscode.commands.executeCommand("codeAid.focusInput");
+            // 触发 codeAid 左侧菜单视图选中加载显示
+            vscode.commands.executeCommand("codeAid.focusInput");
 
-          // 延时发送消息给到左侧菜单视图的webview
-          this.sidebar.sendMainUserSelect(v.command, code);
-        }),
+            // 延时发送消息给到左侧菜单视图的webview
+            this.sidebar.webviewProtocol.request(v.command, {
+              rangeInFileWithContents: {
+                filepath: uri.fsPath,
+                range: position,
+                contents: code,
+              },
+            });
+          },
+        ),
       );
     });
 
