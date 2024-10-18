@@ -15,6 +15,7 @@ export type MessageContent = string | MessagePart[];
 export interface ChatMessage {
   role: ChatMessageRole;
   content: MessageContent;
+  rangeInFileWithContents?: RangeInFileWithContents;
 }
 
 export interface PromptLog {

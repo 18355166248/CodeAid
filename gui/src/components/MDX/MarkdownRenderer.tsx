@@ -9,8 +9,14 @@ import { defaultComponents } from "./DefaultComponents";
 import "prism-themes/themes/prism-xonokai.min.css";
 import "./mdx.scss";
 import "./theme/tailwind-blue.dark.css";
+import { RangeInFileWithContents } from "core";
+import CodeView from "./CodeView";
 
-const MarkdownRenderer = (props: Options) => {
+const MarkdownRenderer = (
+  props: Options & {
+    rangeInfo?: RangeInFileWithContents;
+  },
+) => {
   return (
     <ReactMarkdown
       className="markdown-body mb-4 overflow-hidden"
@@ -21,7 +27,10 @@ const MarkdownRenderer = (props: Options) => {
         remarkMath,
         remarkDirective,
       ]}
-      components={defaultComponents}
+      components={{
+        ...defaultComponents,
+        pre: (...p) => <CodeView rangeInfo={props.rangeInfo} {...p[0]} />,
+      }}
       {...props}
     ></ReactMarkdown>
   );

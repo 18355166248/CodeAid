@@ -53,7 +53,9 @@ function Content() {
             ) : null}
 
             {/* 问答内容 */}
-            <MarkdownRenderer>{getContent(message.content)}</MarkdownRenderer>
+            <MarkdownRenderer rangeInfo={message.rangeInFileWithContents}>
+              {getContent(message.content)}
+            </MarkdownRenderer>
           </div>
         );
       })}

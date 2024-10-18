@@ -10,12 +10,18 @@ function getMessage(
     rangeInFileWithContents: RangeInFileWithContents;
     prompt?: string;
   },
-  sendMessage: (askString?: string) => Promise<void>,
+  sendMessage: (
+    askString?: string,
+    rangeInFileWithContents?: RangeInFileWithContents,
+  ) => Promise<void>,
   prompt: string,
 ) {
   const { filepath, contents } = data.rangeInFileWithContents;
   const ext = filepath.split(".").pop() ?? "js";
-  sendMessage(`${prompt}：\n \`\`\`${ext} \n ${contents}  \n \`\`\` `);
+  sendMessage(
+    `${prompt}：\n \`\`\`${ext} \n ${contents}  \n \`\`\` `,
+    data.rangeInFileWithContents,
+  );
 }
 
 export function useSetup() {

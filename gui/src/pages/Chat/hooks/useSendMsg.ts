@@ -1,7 +1,7 @@
 import { useChatStore } from "../index.store";
 import useLatest from "../../../hooks/useLatest";
 import { streamRequest } from "../utils/streamRequest";
-import { ChatMessage, PromptLog } from "core";
+import { ChatMessage, PromptLog, RangeInFileWithContents } from "core";
 
 const status = {
   requestIng: false,
@@ -12,7 +12,10 @@ export const useSendMsg = () => {
   const messageRef = useLatest(messages);
   const activeRef = useLatest(active);
 
-  async function sendMessage(askString?: string) {
+  async function sendMessage(
+    askString?: string,
+    rangeInFileWithContents?: RangeInFileWithContents,
+  ) {
     if (status.requestIng) return;
 
     const currentValue = askString || inputValue;
@@ -28,7 +31,7 @@ export const useSendMsg = () => {
     }
     const msgs = messageRef.current.concat([
       { role: "user", content: value },
-      { role: "assistant", content: "" },
+      { role: "assistant", content: "", rangeInFileWithContents },
     ]);
 
     setState((state) => {
