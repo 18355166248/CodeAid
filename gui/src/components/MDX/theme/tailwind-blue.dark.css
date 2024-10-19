@@ -171,7 +171,7 @@
   line-height: 1.75;
 }
 
-.markdown-body pre > code {
+/* .markdown-body pre > code {
   min-width: 100%;
   font-size: calc(var(--base-font-size) * var(--scale-factor) * 0.75);
   word-break: normal;
@@ -179,7 +179,7 @@
   flex: none;
   padding: 12px;
   -webkit-overflow-scrolling: touch;
-}
+} */
 
 /*图片*/
 .markdown-body img {
