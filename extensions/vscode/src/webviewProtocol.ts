@@ -43,8 +43,6 @@ export class VscodeWebviewProtocol {
               respond(next.value);
               next = await response.next();
             }
-            console.log("done next.value", next.value);
-            console.log("e.messageType", e.messageType);
             respond({
               done: true,
               content: next.value?.content,
@@ -58,12 +56,12 @@ export class VscodeWebviewProtocol {
         }
       }
 
-      if (e.messageId) {
-        // 消息id
-        console.log("收到消息", e);
-      } else {
-        console.log("收到通知", e);
-      }
+      // if (e.messageId) {
+      //   // 消息id
+      //   console.log("收到消息", e);
+      // } else {
+      //   console.log("收到通知", e);
+      // }
     });
   }
 

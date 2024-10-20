@@ -83,6 +83,15 @@ const commandsMap = ({
     "codeAid.OpenConfigJson": () => {
       ide.openFile(getConfigJsonPath());
     },
+    "codeAid.InsertCode": () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        const snippet = new vscode.SnippetString(
+          'console.log("Hello!");\nconsole.log("World!")',
+        );
+        editor.insertSnippet(snippet);
+      }
+    },
   };
 };
 export function registerCommands({

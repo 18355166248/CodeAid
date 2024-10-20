@@ -1,4 +1,8 @@
-import { ChatMessage, MessageContent } from "./chat.type";
+import {
+  ChatMessage,
+  MessageContent,
+  RangeInFileWithContents,
+} from "./chat.type";
 import { CompletionOptions } from "./config.type";
 import {
   ToWebviewFromIdeOrCoreProtocol,
@@ -14,7 +18,6 @@ export type ProtocolGeneratorType<T> = AsyncGenerator<{
 
 export type ToCoreFromIdeOrWebviewProtocol = {
   abort: [undefined, void];
-
   "llm/streamChat": [
     {
       messages: ChatMessage[];
@@ -22,6 +25,10 @@ export type ToCoreFromIdeOrWebviewProtocol = {
       title: string;
     },
     ProtocolGeneratorType<MessageContent>,
+  ];
+  "insertCode": [
+    { rangeInFileWithContents: RangeInFileWithContents },
+    void,
   ];
   test: [string, string];
 };

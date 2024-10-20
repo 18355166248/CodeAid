@@ -82,10 +82,11 @@ export function respond<T extends keyof ToWebviewProtocol>(
 export function post<T extends keyof FromWebviewProtocol>(
   messageType: T,
   data: FromWebviewProtocol[T][0],
-  messageId: string,
+  messageId?: string,
 ) {
   if (typeof window.vscode === "undefined") {
     throw new Error("请在 vscode 中打开");
   }
-  _postToIde(messageType, data, messageId);
+  const _messageId = messageId ?? uuidv4();
+  _postToIde(messageType, data, _messageId);
 }

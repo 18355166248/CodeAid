@@ -1,3 +1,5 @@
+import { RangeInFileWithContents } from "./chat.type";
+
 export type IdeType = "vscode" | "jetbrains";
 
 export type IdeInfo = {
@@ -9,4 +11,5 @@ export interface IDE {
   getIdeInfo(): Promise<IdeInfo>;
   readFile(filePath: string): Promise<string>;
   getWorkspaceDirs(): Promise<string[]>;
+  writeFile(info: RangeInFileWithContents): Promise<void>;
 }

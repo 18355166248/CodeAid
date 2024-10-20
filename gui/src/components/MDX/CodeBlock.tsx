@@ -2,6 +2,7 @@ import { message } from "antd";
 import { RangeInFileWithContents } from "core";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { post } from "../../pages/Chat/utils/streamRequest";
 
 const CodeBlock = ({
   language,
@@ -17,7 +18,11 @@ const CodeBlock = ({
     message.success("复制成功");
   };
   const useCode = () => {
-    console.log("use code", rangeInfo);
+    if (rangeInfo) {
+      post("insertCode", {
+        rangeInFileWithContents: { ...rangeInfo, contents: value },
+      });
+    }
   };
 
   return (

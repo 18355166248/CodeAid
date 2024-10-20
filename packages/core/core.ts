@@ -32,6 +32,10 @@ export class Core {
     on("llm/streamChat", (msg) =>
       llmStreamChat(this.configHandler, msg, this.abortedMessageIds),
     );
+    on("insertCode", (msg) => {
+      const { rangeInFileWithContents } = msg.data;
+      this.ide.writeFile(rangeInFileWithContents);
+    });
 
     async function* llmStreamChat(
       configHandler: ConfigHandler,
