@@ -2,3 +2,4 @@ packages:
   - "packages/*"
   - "extensions/**"
   - "GUI/**"
+  - "docs/**"
