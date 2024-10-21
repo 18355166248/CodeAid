@@ -38,7 +38,8 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/18355166248/CodeAid/docs-docusaurus",
+          editUrl:
+            "https://github.com/18355166248/CodeAid/edit/main/docs-docusaurus",
         },
         blog: {
           showReadingTime: true,
@@ -48,7 +49,8 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/18355166248/CodeAid/docs-docusaurus",
+          editUrl:
+            "https://github.com/18355166248/CodeAid/edit/main/docs-docusaurus",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
