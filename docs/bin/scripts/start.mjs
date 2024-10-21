@@ -5,7 +5,7 @@ const _module = jiti(null, {
   "esmResolve": true,
   "interopDefault": true,
   "alias": {
-    "docs": "/Users/xmly/Swell/code/CodeAid/docs"
+    "docs-vite": "/Users/xmly/Swell/code/CodeAid/docs"
   }
 })("/Users/xmly/Swell/code/CodeAid/docs/scripts/start.ts");
 

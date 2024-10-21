@@ -9,3 +9,13 @@
   height: 200px;
   width: 200px;
 }
+.featurePng {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 200px;
+    border-radius: 50px;
+  }
+}

@@ -1,17 +1,18 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
+import clsx from "clsx";
+import Heading from "@theme/Heading";
+import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<"svg">>;
+  Png?: any;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: "AI 驱动的代码补全",
-    Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
+    Png: require("@site/static/img/codeAid1.png").default,
     description: <>根据您的编码风格提供智能代码建议和自动补全。</>,
   },
   {
@@ -26,11 +27,16 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({ title, Svg, Png, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        {Svg ? <Svg className={styles.featureSvg} role="img" /> : null}
+        {Png ? (
+          <div className={styles.featurePng}>
+            <img src={Png} />
+          </div>
+        ) : null}
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
