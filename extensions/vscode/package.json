@@ -1,11 +1,13 @@
 {
   "name": "vscode",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "out/extension.js",
   "scripts": {
     "esbuild:base": "node scripts/esbuild.js",
-    "esbuild:watch": "pnpm run esbuild:base --sourcemap --watch"
+    "esbuild:watch": "pnpm run esbuild:base --sourcemap --watch",
+    "vsce:package": "pnpm vsce package --out ./build patch --no-dependencies",
+    "vsce:publish": "pnpm vsce publish --no-dependencies"
   },
   "keywords": [
     "AI",
