@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/scripts/start.mjs",
-    "docs:dev": "vitepress dev src",
+    "docs:dev": "vitepress dev src --port 5180",
     "docs:build": "vitepress build src",
     "docs:preview": "vitepress preview src",
-    "build:watch": "unbuild --stub"
+    "build:watch": "unbuild --stub",
+    "postinstall": "pnpm run build:watch"
   },
   "bin": {
     "docs": "bin/scripts/start.mjs"

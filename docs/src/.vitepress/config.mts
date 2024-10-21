@@ -4,25 +4,22 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "CodeAid",
   description: "代码助手",
+  head: [["link", { rel: "icon", href: "/codeAidSingleLogo.svg" }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
-    ],
+    nav: [{ text: "指南", link: "/guide/start" }],
 
-    sidebar: [
-      {
-        text: "Examples",
-        items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
-        ],
-      },
-    ],
+    sidebar: {
+      "/guide/": [
+        {
+          text: "指南",
+          items: [{ text: "开始", link: "/guide/start" }],
+        },
+      ],
+    },
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/18355166248/CodeAid" },
     ],
   },
 });
