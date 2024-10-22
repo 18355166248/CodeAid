@@ -1,13 +1,14 @@
 {
   "name": "vscode",
-  "version": "1.0.2",
+  "version": "1.0.12",
   "description": "",
   "main": "out/extension.js",
   "scripts": {
     "esbuild:base": "node scripts/esbuild.js",
     "esbuild:watch": "pnpm run esbuild:base --sourcemap --watch",
-    "vsce:package": "pnpm vsce package --out ./build patch --no-dependencies",
-    "vsce:publish": "pnpm vsce publish --no-dependencies"
+    "unbuild:watch": "unbuild --stub",
+    "package": "node ./bin/scripts/package.mjs",
+    "publish": "node ./bin/scripts/publish.mjs"
   },
   "keywords": [
     "AI",
@@ -15,6 +16,10 @@
   ],
   "author": "Swell",
   "publisher": "Swell",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/18355166248/CodeAid"
+  },
   "license": "ISC",
   "activationEvents": [
     "onStartupFinished"
@@ -191,7 +196,9 @@
     "esbuild": "^0.23.1",
     "eslint": "^9.9.0",
     "lodash": "^4.17.21",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "unbuild": "^2.0.0",
+    "vsce": "^2.15.0"
   },
   "engines": {
     "vscode": ">=1.92.0",

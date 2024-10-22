@@ -144,7 +144,10 @@ export class CodeAidGUIWebviewViewProvider
   }
 
   // 发送消息
-  sendMainUserSelect(messageType: keyof ToWebviewProtocol, input?: string) {
+  sendMainUserSelect(
+    messageType: keyof ToWebviewProtocol,
+    input?: ToWebviewProtocol[keyof ToWebviewProtocol][0],
+  ) {
     this.webviewProtocol.request(messageType, input);
   }
 }
