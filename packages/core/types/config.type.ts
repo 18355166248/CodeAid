@@ -12,6 +12,7 @@ export type ModelProvider = "ollama" | "openchat";
 export interface LLMOptions {
   model: string;
   title?: string;
+  url?: string; // 模型接口地址
   completionOptions?: CompletionOptions;
   contentLength?: number;
   promptTemplates?: Record<string, PromptTemplate>;
@@ -70,6 +71,7 @@ export interface ModelDescription {
   model: string;
   title?: string;
   provider: ModelProvider;
+  url?: string; // 模型接口地址
 }
 
 // 序列化json

@@ -167,6 +167,11 @@ export class OpenAI extends BaseLLM {
     messages: ChatMessage[],
     options: CompletionOptions = {},
   ): AsyncGenerator<ChatMessage> {
+    if (!this.url) {
+      throw new Error(
+        "OpenAI API URL 没有设置, 请打开本地配置文件设置 models下 title是gpt的url",
+      );
+    }
     if (CHAT_ONLY_MODELS.includes(options.model!)) {
       const body = this._convertArgs(options, messages);
       body.messages = body.messages.map((m: any) => ({
@@ -174,14 +179,11 @@ export class OpenAI extends BaseLLM {
         content: m.content === "" ? " " : m.content,
       })) as any;
 
-      const response = await this.fetch(
-        "https://yitian.xmly.work/llm-proxy/multi/models/completions",
-        {
-          method: "POST",
-          headers: this._getHeaders(),
-          body: JSON.stringify(body),
-        },
-      );
+      const response = await this.fetch(this.url ?? "", {
+        method: "POST",
+        headers: this._getHeaders(),
+        body: JSON.stringify(body),
+      });
       if (body.stream === false) {
         const data = await response.json();
         yield data.choices[0].message;

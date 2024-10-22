@@ -18,6 +18,7 @@ export class BaseLLM implements CLLM {
   private _llmOptions: LLMOptions;
   model: string;
   title?: string;
+  url?: string;
   completionOptions: CompletionOptions;
   contentLength: number;
   promptTemplates?: Record<string, PromptTemplate>;
@@ -31,6 +32,7 @@ export class BaseLLM implements CLLM {
     this._llmOptions = options;
     this.model = options.model;
     this.title = options.title;
+    this.url = options.url;
     this.contentLength =
       options.completionOptions?.options?.num_ctx || DEFAULT_CONTEXT_LENGTH;
     this.completionOptions = {
@@ -91,7 +93,6 @@ export class BaseLLM implements CLLM {
     cancelToken?: AbortSignal,
   ): AsyncGenerator<ChatMessage, PromptLog> {
     const { completionOptions } = this._parseCompletionOptions(options);
-
     const prompt = this._formatChatMessages(messages);
     let completion = "";
     try {
@@ -104,7 +105,7 @@ export class BaseLLM implements CLLM {
         yield chunk;
       }
     } catch (error) {
-      console.log("🚀 ~ BaseLLM ~ error:", error);
+      console.log("🚀 ~ BaseLLM ~ streamChat error:", error);
       throw error;
     }
     return {

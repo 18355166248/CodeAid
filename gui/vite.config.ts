@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +10,8 @@ export default defineConfig({
     rollupOptions: {
       // external: ["vscode-webview"],
       output: {
+        // 控制生成一个css 一个js
+        manualChunks: () => "everything.js",
         entryFileNames: `assets/[name].js`,
         chunkFileNames: `assets/[name].js`,
         assetFileNames: `assets/[name].[ext]`,
