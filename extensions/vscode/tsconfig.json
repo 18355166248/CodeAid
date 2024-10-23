@@ -11,6 +11,12 @@
     "resolveJsonModule": true /* Enable importing .json files */,
     "types": ["node"]
   },
-  "include": ["src/**/*", "../../core/**/*.ts", "../../core/**/*.d.ts", "../../packages/core/autoComplete/languages.ts"],
+  "include": [
+    "src/**/*",
+    "../../core/**/*.ts",
+    "../../core/**/*.d.ts",
+    "../../packages/core/autoComplete/languages.ts",
+    "scripts"
+  ],
   "exclude": []
 }

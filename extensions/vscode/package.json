@@ -1,15 +1,14 @@
 {
   "name": "codeaide",
   "displayName": "CodeAide",
-  "version": "1.0.22",
+  "version": "1.0.28",
   "description": "代码助手，AI辅助编程",
   "main": "out/extension.js",
   "scripts": {
     "esbuild:base": "node scripts/esbuild.js",
     "esbuild:watch": "pnpm run esbuild:base --sourcemap --watch",
     "unbuild:watch": "unbuild --stub",
-    "package": "node ./bin/scripts/package.mjs",
-    "publish": "node ./bin/scripts/publish.mjs"
+    "package-publish": "node ./bin/scripts/package-publish.mjs"
   },
   "keywords": [
     "AI",
@@ -217,5 +216,9 @@
     "@types/vscode": "^1.92.0",
     "core": "workspace:*",
     "uuid": "^10.0.0"
-  }
+  },
+  "files": [
+    "out",
+    "LICENSE.txt"
+  ]
 }

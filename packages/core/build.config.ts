@@ -2,7 +2,7 @@ import { defineBuildConfig } from "unbuild";
 
 export default defineBuildConfig({
   // If entries is not provided, will be automatically inferred from package.json
-  entries: ["core.ts"],
+  entries: ["index.ts"],
   clean: true,
   // Change outDir, default is 'dist'
   outDir: "build",

@@ -24,6 +24,6 @@ try {
       console.log("\n");
     },
   );
-} catch (error) {
+} catch (error: any) {
   console.log(chalk.red("Error:", error.message));
 }

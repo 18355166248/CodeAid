@@ -2,9 +2,9 @@
   "name": "core",
   "version": "1.0.0",
   "description": "",
-  "main": "build/core.cjs",
-  "module": "build/core.mjs",
-  "types": "types/index.type.ts",
+  "main": "build/index.cjs",
+  "module": "build/index.mjs",
+  "types": "build/index.d.ts",
   "scripts": {
     "unbuild": "unbuild"
   },
