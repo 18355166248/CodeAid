@@ -4,8 +4,8 @@ import {
   Message,
   ToCoreProtocol,
 } from "core";
-import { InProcessMessenger } from "core/utils/messenger";
-import { WEBVIEW_TO_CORE_PASS_THROUGH } from "core/protocol/passThrough";
+import { InProcessMessenger } from "core/src/utils/messenger";
+import { WEBVIEW_TO_CORE_PASS_THROUGH } from "core/src/protocol/passThrough";
 import { VscodeWebviewProtocol } from "../webviewProtocol";
 
 export class VscodeMessenger {

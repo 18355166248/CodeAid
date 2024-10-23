@@ -1,8 +1,8 @@
 import vscode, { InlineCompletionItem, ProviderResult } from "vscode";
 import { AutocompleteInput, IDE } from "core";
 import { v4 as uuidv4 } from "uuid";
-import { CompletionProvider } from "core/autoComplete/completionProvider";
-import { ConfigHandler } from "core/config/ConfigHandler";
+import { CompletionProvider } from "core/src/autoComplete/completionProvider";
+import { ConfigHandler } from "core/src/config/ConfigHandler";
 import { TabAutoCompleteModel } from "../utils/loadAutoCompletionModels";
 import { StatusBar, StatusBarStatus } from "./statusBar";
 

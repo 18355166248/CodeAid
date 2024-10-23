@@ -3,10 +3,6 @@ import { getNonce } from "../utils/base";
 import { getExtensionUri } from "../utils/vscode";
 import { VscodeWebviewProtocol } from "../webviewProtocol";
 import { myExtensionDisabledClearChat } from "../constant/vscode.context";
-import {
-  ToWebviewFromIdeOrCoreProtocol,
-  ToWebviewFromIdeProtocol,
-} from "core/types/ideWebview.type";
 import { ToWebviewProtocol } from "core";
 
 export class CodeAidGUIWebviewViewProvider

@@ -1,6 +1,6 @@
 import vscode from "vscode";
 import { CodeAidGUIWebviewViewProvider } from "./Provider/CodeAidGUIWebviewViewProvider";
-import { getConfigJsonPath } from "core/utils/paths";
+import { getConfigJsonPath } from "core/src/utils/paths";
 import { VscodeIde } from "./ide/VscodeIde";
 import { ContextMenuConfig } from "core";
 import { myExtensionDisabledClearChat } from "./constant/vscode.context";

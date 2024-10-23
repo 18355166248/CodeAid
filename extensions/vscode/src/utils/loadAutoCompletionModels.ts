@@ -1,5 +1,5 @@
 import { CLLM } from "core";
-import { ConfigHandler } from "core/config/ConfigHandler";
+import { ConfigHandler } from "core/src/config/ConfigHandler";
 
 export class TabAutoCompleteModel {
   private __llm?: CLLM;

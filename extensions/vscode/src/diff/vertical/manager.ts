@@ -1,16 +1,16 @@
 // 垂直diff
 
 import vscode from "vscode";
-import { ConfigHandler } from "core/config/ConfigHandler";
+import { ConfigHandler } from "core/src/config/ConfigHandler";
 import { VscodeWebviewProtocol } from "../../webviewProtocol";
 import { VerticalDiffHandler } from "./handler";
 import {
   codeAidDiffVisible,
   codeAidStreamingDiff,
 } from "../../constant/vscode.context";
-import { pruneLinesFromTop } from "core/llm/countTokens";
-import { streamDiffLines } from "core/edit/streamDiffLines";
-import { getLanguageForFile } from "core/utils/getLanguageForFile";
+import { pruneLinesFromTop } from "core/src/llm/countTokens";
+import { streamDiffLines } from "core/src/edit/streamDiffLines";
+import { getLanguageForFile } from "core/src/utils/getLanguageForFile";
 
 export interface VerticalDiffCodeLensProps {
   start: number;

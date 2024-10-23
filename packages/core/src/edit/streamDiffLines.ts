@@ -88,7 +88,7 @@ function constructPrompt(
   language?: string,
 ): string | ChatMessage[] {
   const template = llm.promptTemplates?.edit ?? gptEditPrompt;
-  // packages/core/llm/index.ts:118
+  // packages/core/src/llm/index.ts:118
   return llm.renderPromptTemplate(template, [], {
     userInput,
     prefix,
