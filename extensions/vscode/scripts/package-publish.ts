@@ -21,7 +21,6 @@ try {
       }
 
       console.log(chalk.green("打包成功"));
-      console.log("\n");
 
       exec(
         "source ~/.nvm/nvm.sh && nvm use 20 && vsce publish --no-dependencies",
@@ -34,7 +33,7 @@ try {
             return;
           }
 
-          console.log(chalk.green("发布成功"));
+          console.log(chalk.green("发布成功🎉🎉🎉"));
           console.log("\n");
         },
       );
