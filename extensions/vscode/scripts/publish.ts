@@ -6,18 +6,20 @@ import chalk from "chalk";
 // { stdio: 'inherit', shell: '/bin/bash' }：指定使用 /bin/bash 作为 shell，并将子进程的标准输入输出继承到父进程中，以便在控制台中显示命令的输出。
 try {
   exec(
-    "source ~/.nvm/nvm.sh && nvm use 20 && pnpm vsce publish --no-dependencies",
+    "source ~/.nvm/nvm.sh && nvm use 20 && vce login && vsce publish --no-dependencies",
     {
       shell: "/bin/bash",
     },
     (error) => {
       if (error) {
-        chalk.red("Error:", error.message);
+        console.log(chalk.red("Error:", error.message));
+        return;
       }
 
-      chalk.green("发布成功");
+      console.log(chalk.green("发布成功"));
+      console.log("\n");
     },
   );
 } catch (error) {
-  chalk.red("Error:", error.message);
+  console.log(chalk.red("Error:", error.message));
 }

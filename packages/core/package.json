@@ -2,10 +2,11 @@
   "name": "core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/core.cjs",
+  "module": "build/core.mjs",
   "types": "types/index.type.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "unbuild": "unbuild"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,10 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^10.0.0"
-  }
+    "@types/uuid": "^10.0.0",
+    "unbuild": "^2.0.0"
+  },
+  "files": [
+    "build"
+  ]
 }

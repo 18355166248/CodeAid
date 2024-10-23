@@ -1,9 +1,9 @@
-import { CompletionProvider } from "./autoComplete/completionProvider";
-import { ConfigHandler } from "./config/ConfigHandler";
-import { IDE } from "./types/ide.type";
-import { Message } from "./types/messager.type";
-import { FromCoreProtocol, ToCoreProtocol } from "./types/protocol.type";
-import { IMessenger } from "./utils/messenger";
+import { CompletionProvider } from "./src/autoComplete/completionProvider";
+import { ConfigHandler } from "./src/config/ConfigHandler";
+import { IDE } from "./src/types/ide.type";
+import { Message } from "./src/types/messager.type";
+import { FromCoreProtocol, ToCoreProtocol } from "./src/types/protocol.type";
+import { IMessenger } from "./src/utils/messenger";
 
 export class Core {
   configHandler: ConfigHandler;

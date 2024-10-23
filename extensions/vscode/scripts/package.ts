@@ -10,18 +10,20 @@ try {
     fs.mkdirSync("build");
   }
   exec(
-    "source ~/.nvm/nvm.sh && nvm use 20 && pnpm vsce package --out ./build patch --no-dependencies",
+    "source ~/.nvm/nvm.sh && nvm use 20 && vsce package --out ./build patch --no-dependencies",
     {
       shell: "/bin/bash",
     },
     (error) => {
       if (error) {
-        chalk.red("Error:", error.message);
+        console.log(chalk.red("Error:", error.message));
+        return;
       }
 
-      chalk.green("打包成功");
+      console.log(chalk.green("打包成功"));
+      console.log("\n");
     },
   );
 } catch (error) {
-  chalk.red("Error:", error.message);
+  console.log(chalk.red("Error:", error.message));
 }

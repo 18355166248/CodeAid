@@ -1,7 +1,8 @@
 {
-  "name": "vscode",
-  "version": "1.0.13",
-  "description": "",
+  "name": "codeaide",
+  "displayName": "CodeAide",
+  "version": "1.0.22",
+  "description": "代码助手，AI辅助编程",
   "main": "out/extension.js",
   "scripts": {
     "esbuild:base": "node scripts/esbuild.js",
@@ -15,11 +16,19 @@
     "AI-Code"
   ],
   "author": "Swell",
-  "publisher": "Swell",
+  "publisher": "Swell-CodeAid",
   "repository": {
     "type": "git",
     "url": "https://github.com/18355166248/CodeAid"
   },
+  "categories": [
+    "AI",
+    "Chat",
+    "Programming Languages",
+    "Education",
+    "Machine Learning",
+    "Snippets"
+  ],
   "license": "ISC",
   "activationEvents": [
     "onStartupFinished"
@@ -190,7 +199,7 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.7.8",
     "@types/uuid": "^10.0.0",
     "chalk": "^4.1.2",
     "esbuild": "^0.23.1",
