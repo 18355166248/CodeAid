@@ -14,7 +14,8 @@
     "docusaurus:serve": "docusaurus serve",
     "docusaurus:write-translations": "docusaurus write-translations",
     "docusaurus:write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "postinstall": "pnpm run build:watch"
   },
   "dependencies": {
     "@docusaurus/core": "3.5.2",

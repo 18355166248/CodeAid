@@ -2,5 +2,5 @@ packages:
   - "packages/*"
   - "extensions/**"
   - "GUI/**"
-  - "docs/**"
-  - "docs-docusaurus/**"
+  - "docs"
+  - "docs-docusaurus"
