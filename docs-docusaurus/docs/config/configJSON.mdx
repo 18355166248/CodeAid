@@ -1,0 +1,36 @@
+# 本地配置
+
+在 vscode 中打开 CodeAide 扩展, 点击右上角的图标进入本地配置文件
+
+import img1 from "./imgs/2024-10-23-17-24-24.png";
+
+<img src={img1} width="400" />
+
+#### 打开的文件格式如下
+
+```json
+{
+  "models": [
+    {
+      "title": "Llama 3",
+      "provider": "ollama",
+      "model": "llama3.1" // 默认是 llama3.1
+    },
+    {
+      "title": "gpt-4o",
+      "provider": "openchat",
+      "model": "gpt-4o"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "deepseek-coder",
+    "provider": "ollama",
+    "model": "deepseek-coder"
+  }
+}
+```
+
+| 参数                 | 说明         |     |
+| -------------------- | ------------ | --- |
+| models               | 模型列表     |     |
+| tabAutocompleteModel | 代码补全模型 |     |
