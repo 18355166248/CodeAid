@@ -2,7 +2,7 @@
   "name": "codeaide",
   "displayName": "CodeAide",
   "icon": "media/logo.png",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "代码助手，AI辅助编程",
   "main": "out/extension.js",
   "scripts": {
