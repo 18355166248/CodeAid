@@ -10,7 +10,7 @@ import styles from "./index.module.css";
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx(styles.heroBanner, "bg-emerald-500")}>
+    <header className="bg-emerald-500 text-center py-20">
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}

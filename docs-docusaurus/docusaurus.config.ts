@@ -19,7 +19,7 @@ const config: Config = {
   organizationName: "Swell", // Usually your GitHub org/user name.
   projectName: "CodeAid", // Usually your repo name.
 
-  onBrokenLinks: "warn",
+  onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
@@ -79,7 +79,6 @@ const config: Config = {
           position: "left",
           label: "指南",
         },
-        // { to: "/config", label: "配置", position: "left" },
         {
           href: "https://github.com/18355166248/CodeAid",
           label: "GitHub",
@@ -108,21 +107,7 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: "更多",
-          items: [
-            {
-              label: "配置",
-              to: "/config",
-            },
-            {
-              label: "GitHub",
-              href: "https://github.com/18355166248/CodeAid",
-            },
-          ],
-        },
       ],
-      // copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

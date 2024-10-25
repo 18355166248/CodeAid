@@ -12,29 +12,7 @@
 - **多 IDE 支持**：无缝集成 VSCode 和 IntelliJ，提供一致的开发体验。
 - **可定制设置**：根据您的开发偏好和工作流程调整插件的行为。
 
-## 安装
-
-### VSCode
-
-1. 打开扩展视图，可以点击窗口侧栏的扩展图标，也可以按 `Ctrl+Shift+X`。
-2. 搜索 `CodeAid`。
-3. 点击安装按钮。
-4. 重启 VSCode 以激活扩展。
-
-### IntelliJ
-
-1. 进入 `File > Settings`（macOS 上为 `IntelliJ IDEA > Preferences`）。
-2. 导航到 `Plugins` 并选择 `Marketplace` 标签。
-3. 搜索 `CodeAid`。
-4. 点击安装按钮并重启 IntelliJ IDEA。
-
-## 使用方法
-
-安装后，通过以下方式激活代码助手：
-
-- 打开命令面板（VSCode: `Ctrl+Shift+P`，IntelliJ: `Ctrl+Shift+A`）并输入 `CodeAid: Activate`。
-- 开始编写代码，代码助手将实时提供建议和错误检测。
-- 使用聊天面板提出问题或获取编码帮助，AI 将响应并帮助您解决问题或解释概念。
+## [在线文档](http://101.43.11.224:11004/)
 
 ## 贡献
 
