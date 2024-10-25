@@ -11,8 +11,9 @@ export const useSendMsg = () => {
   const { model, inputValue, messages, setState, active } = useChatStore();
   const messageRef = useLatest(messages);
   const activeRef = useLatest(active);
+  const modelRef = useLatest(model);
 
-  async function sendMessage(
+  const sendMessage = async function sendMessage(
     askString?: string,
     rangeInFileWithContents?: RangeInFileWithContents,
   ) {
@@ -42,7 +43,11 @@ export const useSendMsg = () => {
 
     const abortController = new AbortController();
     const cancelToken = abortController.signal;
-    const gen = llmStreamChat({ messages: msgs, model, cancelToken });
+    const gen = llmStreamChat({
+      messages: msgs,
+      model: modelRef.current,
+      cancelToken,
+    });
 
     setState((state) => {
       state.active = true;
@@ -74,7 +79,7 @@ export const useSendMsg = () => {
       state.active = false;
     });
     status.requestIng = false;
-  }
+  };
 
   function handlerAbort() {
     reset();
