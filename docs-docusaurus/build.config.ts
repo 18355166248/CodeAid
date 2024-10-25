@@ -2,7 +2,7 @@ import { defineBuildConfig } from "unbuild";
 
 export default defineBuildConfig({
   // If entries is not provided, will be automatically inferred from package.json
-  entries: ["scripts/start.ts"],
+  entries: ["scripts/docusaurus.ts"],
   clean: true,
   // Change outDir, default is 'dist'
   outDir: "bin",
