@@ -79,7 +79,7 @@ const config: Config = {
           position: "left",
           label: "指南",
         },
-        { to: "/config", label: "配置", position: "left" },
+        // { to: "/config", label: "配置", position: "left" },
         {
           href: "https://github.com/18355166248/CodeAid",
           label: "GitHub",

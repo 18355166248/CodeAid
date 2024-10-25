@@ -1,0 +1,44 @@
+# 功能
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Chat" label="对话" default>
+    <div className='mb-2'>
+      通过聊天，您可以轻松地向 LLM 寻求帮助，而无需离开 IDE
+    </div>
+    <video
+      src="/videos/codeAid-chat.mp4"
+      autoplay="true"
+      controls="controls"
+      width="800"
+    >
+    </video>
+  </TabItem>
+
+  <TabItem value="codelens" label="代码辅助">
+    <div className='mb-2'>
+      支持注释生成代码、增强生成代码、生成单元测试、代码生成doc注释、代码解释、生成行间注释等多种强大的智能生成功能，全面满足多样化的研发场景需求，全方位提高研发效率。
+    </div>
+    <video
+      src="/videos/codeAid-addCommends.mp4"
+      autoplay="true"
+      controls="controls"
+      width="800"
+    >
+    </video>
+  </TabItem>
+  <TabItem value="autoComplete" label="自动补全">
+    <div className='mb-2'>
+      自动完成功能会在您键入时提供内联代码建议
+    </div>
+    <video
+      src="/videos/codeAid-AutoComplete.mp4"
+      autoplay="true"
+      controls="controls"
+      width="800"
+    >
+    </video>
+  </TabItem>
+</Tabs>
