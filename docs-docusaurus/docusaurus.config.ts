@@ -114,6 +114,9 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
       additionalLanguages: ["powershell"],
     },
+    colorMode: {
+      defaultMode: "dark",
+    },
   } satisfies Preset.ThemeConfig,
   plugins: [
     async function myPlugin(context, options) {
